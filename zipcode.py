@@ -44,7 +44,7 @@ for age_group in age_groups:
 age_index = 0
 last_good_file = None
 
-while ((datetime.datetime.now() - date).days > 0):
+while ((datetime.datetime.now() - date).days >= 0):
     file = date.strftime("%m-%d") + ".json"
     print(file)
     try:
