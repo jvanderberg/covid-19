@@ -58,7 +58,7 @@ df = pd.merge(df,regions,how='inner', on='county')
 df = df.groupby(by=['date','region']).sum()
 df = df.reset_index()
 df2 = df.pivot(index='date', columns='region')
-df2.to_csv('regions_raw.csv')
+
 df2['deaths'] = df2['deaths'].diff(periods=1)
 df2['count'] = df2['count'].diff(periods=1)
 df2['tested'] = df2['tested'].diff(periods=1)
@@ -67,11 +67,6 @@ df2.dropna(inplace=True)
 # Remove outliers and interpolate
 df2.loc[abs(stats.zscore(df2['deaths']['Illinois'])) > 3] = np.nan
 df2 = df2.interpolate().round()
-# df2['deaths'].to_csv('regional_deaths.csv')
-# df2['count'].to_csv('regional_count.csv')
-# df2['tested'].to_csv('regional_tests.csv')
-# df2['percentage'].to_csv('regional_percentage.csv')
-# df2['deaths_per_million'].to_csv('regional_deaths_per_million.csv')
 
 values = pd.DataFrame(df2)
 
