@@ -89,6 +89,32 @@ plt.gca().xaxis.set_major_locator(mdates.MonthLocator(interval=1))
 plt.savefig('US Positive Cases.png', bbox_inches='tight')
 plt.close()
 
+######################################################################################
+# US Hospitalization
+#######################################################################################
+plt.figure(figsize=(10, 5), dpi=400)
+plt.box(on=None)
+plt.margins(0)
+plt.bar(df.index, df['hospitalizedCurrently'], width=0.75, color='#6688cc', label="Hospitalized")
+plt.plot(df.index, df['hospitalizedCurrently_7day'], color='#EE3333', label="7 Day Average")
+plt.ylabel("Hospitalized")
+plt.ylim(0)
+plt.legend()
+
+current_value = df.tail(1)['hospitalizedCurrently_7day'].round()[0]
+current_date = df.tail(1)['hospitalizedCurrently_7day'].index[0]
+
+plt.title('US Daily Number of Hospitalized - '+'{:%b %-d} - {:,} People Avg / day'.format(current_date,int(current_value)))
+plt.grid(axis='y', linewidth=0.5)
+plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%m/%d')) 
+
+# Change the tick interval
+plt.gca().xaxis.set_major_locator(mdates.MonthLocator(interval=1)) 
+
+plt.savefig('US Hospitalization.png', bbox_inches='tight')
+plt.close()
+
+
 
 ######################################################################################
 # US Positive %
