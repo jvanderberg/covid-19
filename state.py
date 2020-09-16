@@ -4,7 +4,7 @@ import pandas as pd
 import numpy as np
 import requests
 from scipy import stats
-
+min_population = 0
 population = pd.read_csv("population.csv",parse_dates=True)
 population = population.set_index('state')
 population['population'] = population['population'].astype('int32')
@@ -42,6 +42,8 @@ df = df.join(population, on='state')
 worst = worst.reset_index()
 worst = worst.set_index('state')
 df = df.join(worst, on='state')
+df = df[df['population'] > min_population]
+
 first = df[df['worst_date'] < datetime.datetime(2020,7,1)]
 second = df[df['worst_date'] > datetime.datetime(2020,6,30)]
 first_totals = first.groupby('date').sum()
@@ -51,7 +53,6 @@ second_totals = second_totals.rolling(window=7).mean()
 
 first_totals['deaths_per_million'] = 1000000 * first_totals['deathIncrease']/first_totals['population']
 second_totals['deaths_per_million'] = 1000000 * second_totals['deathIncrease']/second_totals['population']
-df = df[df['population'] > 0]
 df['deaths_per_million'] = 1000000 * df['deathIncrease']/df['population']
 stats = ['deathIncrease','positiveIncrease','totalTestResultsIncrease','hospitalizedIncrease', 'deaths_per_million']
 df = df.pivot(index=df.index, columns='state')

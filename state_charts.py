@@ -50,7 +50,7 @@ length = len(items)
 cols = 5
 rows = int(np.ceil(length/cols))
 plt.close()
-plt.figure(1, dpi=200, clear=True)
+plt.figure(1, dpi=400, clear=True)
 f, ax = plt.subplots(rows,cols, sharey=True)
 
 
@@ -66,27 +66,19 @@ for row in range(0,rows):
             ax[row][col].plot(df.index, df['deaths_per_million'][item],linewidth=4, color='#6688cc')
             ax[row][col].set_title(item)
             ax[row][col].grid(axis='y', linewidth=0.5)
-            ax[row][col].set_ylim(0,35)
-            # ax[row][col].spines["top"].set_visible(False)
-            # ax[row][col].spines["right"].set_visible(False)
-            # ax[row][col].spines["left"].set_visible(False)
-            # ax[row][col].spines["bottom"].set_visible(False)
+            ax[row][col].set_ylim(0,40)
             ax[row][col].tick_params(axis='x', labelsize=20)
             ax[row][col].tick_params(axis='y', labelsize=20)
 
             ax[row][col].xaxis.set_major_formatter(mdates.DateFormatter('%m/%d')) 
             ax[row][col].xaxis.set_major_locator(mdates.MonthLocator(interval=1)) 
-        # else:
-            # ax[row][col].spines["top"].set_visible(False)
-            # ax[row][col].spines["right"].set_visible(False)
-            # ax[row][col].spines["left"].set_visible(False)
-            # ax[row][col].spines["bottom"].set_visible(False)
  
 print('Setting height...')
-f.set_figheight(5* rows)
+f.set_figheight(8* rows)
 f.set_figwidth(8*cols)
 print('Setting layout...')
-f.tight_layout(pad=4, w_pad=1, h_pad=2)
+f.tight_layout(pad=8, w_pad=1, h_pad=2)
+f.suptitle('Deaths Per Million by State - 14 Day Average - Sorted by Date of Peak', fontsize=40)
 # Format the date into months & days
 print('Formatting axes...')
 #plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%m/%d')) 
