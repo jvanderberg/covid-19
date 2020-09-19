@@ -22,10 +22,10 @@ p1 = plt.bar(df.index, df['count'], width, color='#6688cc', label="Daily Positiv
 plt.plot(df.index, df['count_14day'], color='#EE3333', label="14 Day Average")
 plt.ylabel("Daily Positives")
 plt.legend(loc='best')
-current_value = df.tail(1)['count_14day'].round()[0]
+current_value = df.tail(1)['count_14day'][0]
 current_date = df.tail(1)['count_14day'].index[0]
 
-plt.title('Oak Park Daily Positive cases - '+'{:%b %-d} - {:,} cases per day'.format(current_date,int(current_value)))
+plt.title('Oak Park Daily Positive cases - '+'{:%b %-d} - {:0.1f} cases per day'.format(current_date,current_value))
 plt.grid(axis='y', linewidth=0.5)
 plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%m/%d')) 
 
