@@ -6,6 +6,12 @@ import requests
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 import matplotlib.ticker as mtick
+import matplotlib
+
+matplotlib.rcParams['text.color'] = '#555555'
+matplotlib.rcParams['axes.labelcolor'] = '#555555'
+matplotlib.rcParams['xtick.color'] = '#555555'
+matplotlib.rcParams['ytick.color'] = '#555555'
 
 df = pd.read_csv('regional_all.csv', header=[0,1], index_col=0)
 df.index = pd.to_datetime(df.index)
@@ -28,7 +34,7 @@ plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%m/%d'))
 # Change the tick interval
 plt.gca().xaxis.set_major_locator(mdates.MonthLocator(interval=1)) 
 plt.box(False)
-plt.legend()
+plt.legend().get_frame().set_linewidth(0.0)
 plt.margins(0)
 plt.savefig('IL Deaths.png', bbox_inches='tight')
 
@@ -43,7 +49,7 @@ plt.margins(0)
 p1 = plt.bar(df.index, df['count']['Illinois'], width, color='#6688cc', label="Daily Positives")
 plt.plot(df.index, df['count_7day']['Illinois'], color='#EE3333', label="7 Day Average")
 plt.ylabel("Daily Positives")
-plt.legend(loc=9).set_zorder(10)
+plt.legend(loc=9).get_frame().set_linewidth(0.0)
 
 ax2 = plt.twinx()
 ax2.plot(df.index, df['percentage_7day']['Illinois'], color='#cca80a', label="% Positive", linewidth=3)
@@ -56,6 +62,7 @@ ax2.spines["top"].set_visible(False)
 ax2.spines["right"].set_visible(False)
 ax2.spines["left"].set_visible(False)
 ax2.legend(loc='best').set_zorder(10)
+ax2.legend().get_frame().set_linewidth(0.0)
 current_value = df.tail(1)['count_7day']['Illinois'].round()[0]
 current_date = df.tail(1)['count_7day']['Illinois'].index[0]
 current_value_percentage = df.tail(1)['percentage_7day']['Illinois'][0]
@@ -90,7 +97,7 @@ plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%m/%d'))
 # Change the tick interval
 plt.gca().xaxis.set_major_locator(mdates.MonthLocator(interval=1)) 
 plt.box(False)
-plt.legend()
+plt.legend().get_frame().set_linewidth(0.0)
 plt.margins(0)
 plt.savefig('IL Testing.png', bbox_inches='tight')
 
@@ -178,3 +185,46 @@ plt.box(False)
 
 #plt.margins(0)
 plt.savefig('Region Deaths per Million.png', dpi=400)
+
+#######################################################################################
+# State Hospitalization
+#######################################################################################
+
+df = pd.read_csv('state_hospitalization.csv', index_col=1, parse_dates=True)
+
+plt.figure(figsize=(10, 5), dpi=400)
+plt.box(on=None)
+plt.margins(0)
+plt.plot(df.index, df['VentilatorInUseCOVID_7day'], color='#6688cc', label="Ventilator", linewidth=3)
+plt.plot(df.index, df['ICUInUseBedsCOVID_7day'], color='#EE3333', label="ICU", linewidth=3)
+plt.ylabel("Vents/ICU Beds")
+plt.ylim(0)
+plt.legend(loc=9).get_frame().set_linewidth(0.0)
+
+ax2 = plt.twinx()
+ax2.plot(df.index, df['TotalInUseBedsCOVID_7day'], color='#cca80a', label="Non ICU Bed", linewidth=3)
+ax2.set_ylim(0)
+ax2.set_ylabel("Non ICU Beds")
+ax2.margins(0)
+
+ax2.spines["top"].set_visible(False)
+ax2.spines["right"].set_visible(False)
+ax2.spines["left"].set_visible(False)
+ax2.legend(loc='best').set_zorder(10)
+ax2.legend().get_frame().set_linewidth(0.0)
+vent_value = df.tail(1)['VentilatorInUseCOVID_7day'].values[0]
+vent_pct = vent_value / df.tail(1)['VentilatorCapacity_7day'].values[0]
+icu_value = df.tail(1)['ICUInUseBedsCOVID_7day'].values[0]
+icu_pct = icu_value / df.tail(1)['ICUBeds_7day'].values[0]
+bed_value = df.tail(1)['TotalInUseBedsCOVID_7day'].values[0]
+bed_pct = bed_value / df.tail(1)['TotalBeds_14day'].values[0]
+current_date= df.tail(1)['VentilatorInUseCOVID_7day'].index[0]
+plt.title('Illinois COVID Hospitalization - '+'{:%b %-d} - {:,} ICU Beds ({:0.1f}%) - {:,} Ventilators ({:0.1f}%) - {:,} Non-ICU Beds ({:0.1f}%)  '.format(current_date,int(icu_value), 100* icu_pct, int(vent_value), 100*vent_pct, int(bed_value), 100*bed_pct))
+plt.grid(axis='y', linewidth=0.5)
+plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%m/%d')) 
+
+# Change the tick interval
+plt.gca().xaxis.set_major_locator(mdates.MonthLocator(interval=1)) 
+
+plt.savefig('IL Hospitalization.png', bbox_inches='tight')
+plt.close()

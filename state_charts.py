@@ -8,6 +8,11 @@ import matplotlib.dates as mdates
 import matplotlib.ticker as mtick
 import matplotlib
 
+matplotlib.rcParams['text.color'] = '#555555'
+matplotlib.rcParams['axes.labelcolor'] = '#555555'
+matplotlib.rcParams['xtick.color'] = '#555555'
+matplotlib.rcParams['ytick.color'] = '#555555'
+
 df = pd.read_csv('state_first_second_wave.csv', index_col=0, parse_dates=True)
 
 #######################################################################################

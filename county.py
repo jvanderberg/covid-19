@@ -84,3 +84,48 @@ df2['deaths_per_million_14day'] = 1000000 * df2['deaths_14day'] / df2['populatio
 
 df2.to_csv('regional_all.csv')
 
+##############################################################################
+# Calculate hospitalization stats
+##############################################################################
+r = requests.get("https://www.dph.illinois.gov/sitefiles/COVIDHospitalRegions.json?nocache=1")
+hospitalization_json= r.text
+
+data = json.loads(hospitalization_json)
+history = data['HospitalUtilizationResults']
+
+cols = [ 'TotalBeds','TotalOpenBeds','TotalInUseBedsNonCOVID','TotalInUseBedsCOVID','ICUBeds','ICUOpenBeds', 'ICUInUseBedsNonCOVID','ICUInUseBedsCOVID','VentilatorCapacity','VentilatorAvailable','VentilatorInUseNonCOVID','VentilatorInUseCOVID']
+table = {}
+table['date'] = []
+for column in cols:
+    table[column] = []
+    table[column+'_change'] = []
+    table[column+'_change_7day'] = []
+    table[column+'_change_14day'] = []
+    table[column+'_7day'] = []
+    table[column+'_14day'] = []
+
+for day in history:
+    table['date'].append(day['reportDate'])
+    for column in cols:
+        
+        table[column].append(day[column])
+        table[column+'_change'].append(0)
+        table[column+'_change_7day'].append(0)
+        table[column+'_change_14day'].append(0)
+        table[column+'_7day'].append(0)
+        table[column+'_14day'].append(0)
+
+df = pd.DataFrame(table)
+df['date'] = pd.to_datetime(df['date'])
+
+for column in cols:
+    df[column+'_change'] = df[column].diff(periods=1)
+
+
+for column in cols:
+    df[column+'_7day'] = df[column].rolling(window=7).mean()
+    df[column+'_14day'] = df[column].rolling(window=14).mean()
+    df[column+'_change_7day'] = df[column+'_change'].rolling(window=7).mean()
+    df[column+'_change_14day'] = df[column+'_change'].rolling(window=14).mean()
+
+df.to_csv('state_hospitalization.csv')
