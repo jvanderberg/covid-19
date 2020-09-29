@@ -37,7 +37,7 @@ plt.gca().xaxis.set_major_locator(mdates.MonthLocator(interval=1))
 plt.savefig('US Death Waves.png', bbox_inches='tight')
 plt.close()
 
-df = pd.read_csv('state_daily.csv', header=[0,1], index_col=0)
+df = pd.read_csv('state_daily_14day_centered.csv', header=[0,1], index_col=0)
 
 #######################################################################################
 # Deaths Per Million First Wave vs Second
@@ -56,7 +56,7 @@ cols = 5
 rows = int(np.ceil(length/cols))
 plt.close()
 plt.figure(1, dpi=400, clear=True)
-f, ax = plt.subplots(rows,cols, sharey=True)
+f, ax = plt.subplots(rows,cols, sharey=True, sharex=True)
 
 
 plt.rc('font', size=22)          # controls default text sizes

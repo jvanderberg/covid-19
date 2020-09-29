@@ -14,11 +14,10 @@ df = df.join(population, on='state')
 df = df.pivot(index=df.index, columns='state')
 rolling = df.rolling(window=14, center=True).mean()
 
-export = df.join(rolling, rsuffix="_14day")
+export = df.join(rolling, rsuffix="_14day_centered")
 export.to_csv('state_daily.csv')
-
 # Get deaths only
-df = pd.DataFrame(export['deathIncrease_14day'])
+df = pd.DataFrame(export['deathIncrease_14day_centered'])
 states = []
 maxxes = []
 day = []
@@ -33,7 +32,7 @@ for state in df.columns:
 worst = pd.DataFrame({'state':states, 'max': maxxes, 'worst_date': day})
 worst = worst.set_index('worst_date')
 worst = worst.sort_index()
-df.to_csv('state_deaths_daily.csv')
+df.to_csv('state_deaths_daily_14day_centered.csv')
 
 df = pd.read_csv("https://api.covidtracking.com/v1/states/daily.csv",parse_dates=True, index_col='date')
 df = df[['state', 'deathIncrease','positiveIncrease','totalTestResultsIncrease','hospitalizedIncrease']]
@@ -59,7 +58,7 @@ df = df.pivot(index=df.index, columns='state')
 for stat in stats:
     df[stat] = df[stat].rolling(window=14, center=True).mean()
 
-df.to_csv('state_daily.csv')
+df.to_csv('state_daily_14day_centered.csv')
 
 final = first_totals.join(second_totals,lsuffix='first', rsuffix='second')
 
