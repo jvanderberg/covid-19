@@ -29,7 +29,7 @@ table['percentage'] = []
 table['count_14day'] = []
 table['tested_14day'] = []
 table['percentage_14day'] = []
-age_groups = ['Unknown', '<20', '20-39', '30-39', '40-49', '50-59', '60-69', '70-79', '80+']
+age_groups = ['Unknown', '<20', '20-29', '30-39', '40-49', '50-59', '60-69', '70-79', '80+']
 
 for age_group in age_groups:
     table[age_group+' tested'] = []
@@ -44,7 +44,7 @@ for age_group in age_groups:
 age_index = 0
 last_good_file = None
 
-while ((datetime.datetime.now() - date).days > 0):
+while ((datetime.datetime.now() - date).days >= 0):
     file = date.strftime("%m-%d") + ".json"
     print(file)
     try:
@@ -141,8 +141,8 @@ dftotals['percentage_14day'] = dftotals['count_14day'] / dftotals['tested_14day'
 
 for age_group in age_groups:
     dftotals[age_group+' percentage']  = dftotals[age_group+' count'] / dftotals[age_group+' tested']
-    dftotals[age_group+' count_14day'] = dftotals['count'].rolling(window=14).mean()
-    dftotals[age_group+' tested_14day'] = dftotals['tested'].rolling(window=14).mean()
+    dftotals[age_group+' count_14day'] = dftotals[age_group+' count'].rolling(window=14).mean()
+    dftotals[age_group+' tested_14day'] = dftotals[age_group+' tested'].rolling(window=14).mean()
     dftotals[age_group+' percentage_14day']  = dftotals[age_group+' count_14day'] / dftotals[age_group+' tested_14day']
 
 dftotals.to_csv('zip_rollup_all.csv')
