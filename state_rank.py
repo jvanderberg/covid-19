@@ -8,6 +8,12 @@ import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 import matplotlib.ticker as mtick
 import matplotlib
+import matplotlib.patches as mpatches
+import matplotlib.pyplot as plt
+import shapely.geometry as sgeom
+
+import cartopy.crs as ccrs
+import cartopy.io.shapereader as shpreader
 
 matplotlib.rcParams['text.color'] = '#555555'
 matplotlib.rcParams['axes.labelcolor'] = '#555555'
@@ -24,6 +30,7 @@ df = df.join(population, on='state')
 df['percentage'] = 0
 df = df.pivot(index=df.index, columns='state')
 df = df.rolling(window=window).mean()
+
 df['percentage'] = df['positiveIncrease'] / df['totalTestResultsIncrease']
 df['positiveIncrease'] = 1000000* df['positiveIncrease'] / df['population']
 df['deathIncrease'] = 1000000* df['deathIncrease'] / df['population']
@@ -99,12 +106,74 @@ def do_chart(df_sorted, df, stat = 'deathIncrease', name='Death Per Million', pe
     print('Saving...')    
     plt.savefig('State Ranking '+name+'.png')
 
-do_chart(df_sorted = do_sort(df=df, stat='positiveIncrease'),df=df,stat='positiveIncrease', name="Positive Cases Per Million")
+# do_chart(df_sorted = do_sort(df=df, stat='positiveIncrease'),df=df,stat='positiveIncrease', name="Positive Cases Per Million")
 
-do_chart(df_sorted = do_sort(df=df, stat='percentage'),df=df,stat='percentage', name="Positivity Percentage", percentage=True)
-do_chart(df_sorted = do_sort(df=df, stat='deathIncrease'),df=df,stat='deathIncrease', name="Deaths Per Million")
-do_chart(df_sorted = do_sort(df=df, stat='hospitalizedIncrease'),df=df,stat='hospitalizedIncrease', name="Hospitalized per Million")
-
-
+# do_chart(df_sorted = do_sort(df=df, stat='percentage'),df=df,stat='percentage', name="Positivity Percentage", percentage=True)
+# do_chart(df_sorted = do_sort(df=df, stat='deathIncrease'),df=df,stat='deathIncrease', name="Deaths Per Million")
+# do_chart(df_sorted = do_sort(df=df, stat='hospitalizedIncrease'),df=df,stat='hospitalizedIncrease', name="Hospitalized per Million")
 
 
+
+fig = plt.figure(figsize=(10,6), dpi=400)
+ax = fig.add_axes([0, 0, 1, 1], projection=ccrs.LambertConformal())
+
+ax.set_extent([-125, -66.5, 20, 50], ccrs.Geodetic())
+
+shapename = 'admin_1_states_provinces_lakes_shp'
+states_shp = shpreader.natural_earth(resolution='110m',
+                                     category='cultural', name=shapename)
+
+df = pd.read_csv("https://api.covidtracking.com/v1/states/daily.csv",parse_dates=True, index_col='date')
+df = df.sort_index(ascending=True)
+df = df.join(population, on='state')
+df = df[~df['statename'].isnull()]
+df['percentage'] = 0
+df = df.pivot(index=df.index, columns='statename')
+df = df.rolling(window=window).mean()
+
+df['percentage'] = df['positiveIncrease'] / df['totalTestResultsIncrease']
+df['positiveIncrease'] = 1000000* df['positiveIncrease'] / df['population']
+df['deathIncrease'] = 1000000* df['deathIncrease'] / df['population']
+df['hospitalizedIncrease'] = 1000000* df['hospitalizedIncrease'] / df['population']
+df = df.tail(1)
+
+def getmap(df,stat,title):
+    df = df[stat].transpose()
+    df['zscore'] = stats.zscore(df)
+
+
+    ax.background_patch.set_visible(False)
+    ax.outline_patch.set_visible(False)
+
+    ax.set_title(title)
+
+    scheme = 'RdYlGn'
+    cmap=plt.get_cmap(scheme)
+
+    max = df['zscore'].abs().max()
+    norm = plt.Normalize(-max, max)
+    df = df.transpose()
+    #for state in shpreader.Reader(states_shp).geometries():
+    for astate in shpreader.Reader(states_shp).records():
+
+        ### You want to replace the following code with code that sets the
+        ### facecolor as a gradient based on the population density above
+        #facecolor = [0.9375, 0.9375, 0.859375]
+
+        edgecolor = 'black'
+
+        try:
+            # use the name of this state to get pop_density
+            value = df[astate.attributes['name']].iloc[1]
+        except:
+            value = 0
+
+        facecolor = cmap(1-norm(value))
+        # `astate.geometry` is the polygon to plot
+        ax.add_geometries([astate.geometry], ccrs.PlateCarree(),
+                        facecolor=facecolor, edgecolor=edgecolor)
+
+    plt.savefig(title+'.png')
+
+getmap(df,'deathIncrease', 'US Deaths per Million Last '+str(window)+' days')
+getmap(df,'positiveIncrease', 'US Cases per Million Last '+str(window)+' days')

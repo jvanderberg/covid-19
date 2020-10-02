@@ -31,7 +31,7 @@ plt.legend(loc='best')
 plt.legend().get_frame().set_linewidth(0.0)
 current_value = df.tail(1)['count_14day'][0]
 current_date = df.tail(1)['count_14day'].index[0]
-
+plt.ylim(0)
 plt.title('Oak Park Daily Positive cases - '+'{:%b %-d} - {:0.1f} cases per day'.format(current_date,current_value))
 plt.grid(axis='y', linewidth=0.5)
 plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%m/%d')) 
