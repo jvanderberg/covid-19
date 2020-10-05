@@ -34,7 +34,7 @@ plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%m/%d'))
 # Change the tick interval
 plt.gca().xaxis.set_major_locator(mdates.MonthLocator(interval=1)) 
 
-plt.savefig('US Death Waves.png', bbox_inches='tight')
+plt.savefig('charts/US Death Waves.png', bbox_inches='tight')
 plt.close()
 
 df = pd.read_csv('state_daily_14day_centered.csv', header=[0,1], index_col=0)
@@ -92,4 +92,4 @@ print('Formatting axes...')
 #plt.gca().xaxis.set_major_locator(mdates.MonthLocator(interval=1)) 
 #plt.box(False)
 print('Saving...')
-plt.savefig('State Deaths.png', bbox_inches='tight')
+plt.savefig('charts/State Deaths.png', bbox_inches='tight')

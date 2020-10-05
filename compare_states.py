@@ -55,7 +55,7 @@ plt.gca().xaxis.set_major_locator(mdates.MonthLocator(interval=1))
 plt.box(False)
 plt.legend().get_frame().set_linewidth(0.0)
 plt.margins(0)
-plt.savefig('Compare '+sys.argv[1]+' - Deaths.png', bbox_inches='tight')
+plt.savefig('charts/Compare '+sys.argv[1]+' - Deaths.png', bbox_inches='tight')
 
 
 #######################################################################################
@@ -78,7 +78,7 @@ plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%m/%d'))
 # Change the tick interval
 plt.gca().xaxis.set_major_locator(mdates.MonthLocator(interval=1)) 
 
-plt.savefig('Compare '+sys.argv[1]+' - Positives.png', bbox_inches='tight')
+plt.savefig('charts/Compare '+sys.argv[1]+' - Positives.png', bbox_inches='tight')
 
 
 #######################################################################################
@@ -104,7 +104,7 @@ plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%m/%d'))
 # Change the tick interval
 plt.gca().xaxis.set_major_locator(mdates.MonthLocator(interval=1)) 
 
-plt.savefig('Compare '+sys.argv[1] + ' - Positive pct.png', bbox_inches='tight')
+plt.savefig('charts/Compare '+sys.argv[1] + ' - Positive pct.png', bbox_inches='tight')
 
 #######################################################################################
 # Completed Test Report
@@ -127,4 +127,4 @@ plt.gca().xaxis.set_major_locator(mdates.MonthLocator(interval=1))
 plt.box(False)
 plt.legend().get_frame().set_linewidth(0.0)
 plt.margins(0)
-plt.savefig('Compare '+sys.argv[1]+ ' - Testing.png', bbox_inches='tight')
+plt.savefig('charts/Compare '+sys.argv[1]+ ' - Testing.png', bbox_inches='tight')

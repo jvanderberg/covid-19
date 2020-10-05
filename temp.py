@@ -53,4 +53,4 @@ f.suptitle('Illinois North/South Death Rates Per Million - 7 Day Average', fonts
 plt.box(False)
 
 #plt.margins(0)
-plt.savefig('North-South deaths per Million.png', dpi=200)
+plt.savefig('charts/North-South deaths per Million.png', dpi=200)

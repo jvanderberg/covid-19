@@ -36,7 +36,7 @@ plt.gca().xaxis.set_major_locator(mdates.MonthLocator(interval=1))
 plt.box(False)
 plt.legend().get_frame().set_linewidth(0.0)
 plt.margins(0)
-plt.savefig('IL Deaths.png', bbox_inches='tight')
+plt.savefig('charts/IL Deaths.png', bbox_inches='tight')
 
 
 #######################################################################################
@@ -74,7 +74,7 @@ plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%m/%d'))
 # Change the tick interval
 plt.gca().xaxis.set_major_locator(mdates.MonthLocator(interval=1)) 
 
-plt.savefig('IL Positives.png', bbox_inches='tight')
+plt.savefig('charts/IL Positives.png', bbox_inches='tight')
 plt.close()
 
 
@@ -99,7 +99,7 @@ plt.gca().xaxis.set_major_locator(mdates.MonthLocator(interval=1))
 plt.box(False)
 plt.legend().get_frame().set_linewidth(0.0)
 plt.margins(0)
-plt.savefig('IL Testing.png', bbox_inches='tight')
+plt.savefig('charts/IL Testing.png', bbox_inches='tight')
 
 #######################################################################################
 # Regional Positive %
@@ -143,7 +143,7 @@ plt.box(False)
 #plt.margins(0)
 f.suptitle('Illinois Regional % Positive - 7 Day Average', fontsize=20)
 
-plt.savefig('Region Percentage.png', dpi=400)
+plt.savefig('charts/Region Percentage.png', dpi=400)
 
 #######################################################################################
 # Regional Deaths Per Million
@@ -184,7 +184,7 @@ plt.gca().xaxis.set_major_locator(mdates.MonthLocator(interval=1))
 plt.box(False)
 
 #plt.margins(0)
-plt.savefig('Region Deaths per Million.png', dpi=400)
+plt.savefig('charts/Region Deaths per Million.png', dpi=400)
 
 #######################################################################################
 # State Hospitalization
@@ -226,7 +226,7 @@ plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%m/%d'))
 # Change the tick interval
 plt.gca().xaxis.set_major_locator(mdates.MonthLocator(interval=1)) 
 
-plt.savefig('IL Hospitalization.png', bbox_inches='tight')
+plt.savefig('charts/IL Hospitalization.png', bbox_inches='tight')
 plt.close()
 
 
@@ -271,7 +271,7 @@ plt.box(False)
 #plt.margins(0)
 f.suptitle('Illinois North/South % Positive - 7 Day Average', fontsize=18)
 
-plt.savefig('North-South Percentage.png', dpi=400)
+plt.savefig('charts/North-South Percentage.png', dpi=400)
 
 #######################################################################################
 # North/South Deaths Per Million
@@ -305,4 +305,4 @@ f.suptitle('Illinois North/South Death Rates Per Million - 7 Day Average', fonts
 plt.box(False)
 
 #plt.margins(0)
-plt.savefig('North-South deaths per Million.png', dpi=200)
+plt.savefig('charts/North-South deaths per Million.png', dpi=200)

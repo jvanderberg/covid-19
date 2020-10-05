@@ -49,7 +49,7 @@ plt.gca().xaxis.set_major_locator(mdates.MonthLocator(interval=1))
 plt.box(False)
 plt.legend().get_frame().set_linewidth(0.0)
 plt.margins(0)
-plt.savefig('Single State - '+state + ' Deaths.png', bbox_inches='tight')
+plt.savefig('charts/Single State - '+state + ' Deaths.png', bbox_inches='tight')
 
 #######################################################################################
 # Hospitalized report
@@ -72,7 +72,7 @@ plt.gca().xaxis.set_major_locator(mdates.MonthLocator(interval=1))
 plt.box(False)
 plt.legend().get_frame().set_linewidth(0.0)
 plt.margins(0)
-plt.savefig('Single State - '+state + ' Hospitalized.png', bbox_inches='tight')
+plt.savefig('charts/Single State - '+state + ' Hospitalized.png', bbox_inches='tight')
 
 #######################################################################################
 # Positives/Positive testing %
@@ -109,7 +109,7 @@ plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%m/%d'))
 # Change the tick interval
 plt.gca().xaxis.set_major_locator(mdates.MonthLocator(interval=1)) 
 
-plt.savefig('Single State - '+state+' Positives.png', bbox_inches='tight')
+plt.savefig('charts/Single State - '+state+' Positives.png', bbox_inches='tight')
 
 #######################################################################################
 # Completed Test Report
@@ -134,4 +134,4 @@ plt.gca().xaxis.set_major_locator(mdates.MonthLocator(interval=1))
 plt.box(False)
 plt.legend().get_frame().set_linewidth(0.0)
 plt.margins(0)
-plt.savefig('Single State - ' + state +' Testing.png', bbox_inches='tight')
+plt.savefig('charts/Single State - ' + state +' Testing.png', bbox_inches='tight')

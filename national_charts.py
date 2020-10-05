@@ -37,7 +37,7 @@ plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%m/%d'))
 # Change the tick interval
 plt.gca().xaxis.set_major_locator(mdates.MonthLocator(interval=1)) 
 
-plt.savefig('US Death.png', bbox_inches='tight')
+plt.savefig('charts/US Death.png', bbox_inches='tight')
 plt.close()
 
 #######################################################################################
@@ -63,7 +63,7 @@ plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%m/%d'))
 # Change the tick interval
 plt.gca().xaxis.set_major_locator(mdates.MonthLocator(interval=1)) 
 
-plt.savefig('US Tests.png', bbox_inches='tight')
+plt.savefig('charts/US Tests.png', bbox_inches='tight')
 plt.close()
 
 ######################################################################################
@@ -89,7 +89,7 @@ plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%m/%d'))
 # Change the tick interval
 plt.gca().xaxis.set_major_locator(mdates.MonthLocator(interval=1)) 
 
-plt.savefig('US Positive Cases.png', bbox_inches='tight')
+plt.savefig('charts/US Positive Cases.png', bbox_inches='tight')
 plt.close()
 
 ######################################################################################
@@ -114,7 +114,7 @@ plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%m/%d'))
 # Change the tick interval
 plt.gca().xaxis.set_major_locator(mdates.MonthLocator(interval=1)) 
 
-plt.savefig('US Hospitalization.png', bbox_inches='tight')
+plt.savefig('charts/US Hospitalization.png', bbox_inches='tight')
 plt.close()
 
 
@@ -142,5 +142,5 @@ plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%m/%d'))
 plt.gca().xaxis.set_major_locator(mdates.MonthLocator(interval=1)) 
 plt.gca().yaxis.set_major_formatter(mtick.PercentFormatter(1.0)) 
 
-plt.savefig('US Positive Percentage.png', bbox_inches='tight')
+plt.savefig('charts/US Positive Percentage.png', bbox_inches='tight')
 plt.close()

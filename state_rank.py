@@ -30,7 +30,7 @@ df = df.join(population, on='state')
 df['percentage'] = 0
 df = df.pivot(index=df.index, columns='state')
 df = df.rolling(window=window).mean()
-
+current_date = df.tail(1)['deathIncrease']['TX'].index[0]
 df['percentage'] = df['positiveIncrease'] / df['totalTestResultsIncrease']
 df['positiveIncrease'] = 1000000* df['positiveIncrease'] / df['population']
 df['deathIncrease'] = 1000000* df['deathIncrease'] / df['population']
@@ -104,12 +104,11 @@ def do_chart(df_sorted, df, stat = 'deathIncrease', name='Death Per Million', pe
     f.tight_layout(pad=0, w_pad=0, h_pad=0)
     f.suptitle(name)
     print('Saving...')    
-    plt.savefig('State Ranking '+name+'.png')
+    plt.savefig('charts/State Ranking '+name+'.png')
 
 # do_chart(df_sorted = do_sort(df=df, stat='positiveIncrease'),df=df,stat='positiveIncrease', name="Positive Cases Per Million")
-
 # do_chart(df_sorted = do_sort(df=df, stat='percentage'),df=df,stat='percentage', name="Positivity Percentage", percentage=True)
-# do_chart(df_sorted = do_sort(df=df, stat='deathIncrease'),df=df,stat='deathIncrease', name="Deaths Per Million")
+#do_chart(df_sorted = do_sort(df=df, stat='deathIncrease'),df=df,stat='deathIncrease', name="Deaths Per Million")
 # do_chart(df_sorted = do_sort(df=df, stat='hospitalizedIncrease'),df=df,stat='hospitalizedIncrease', name="Hospitalized per Million")
 
 
@@ -135,10 +134,11 @@ df['percentage'] = df['positiveIncrease'] / df['totalTestResultsIncrease']
 df['positiveIncrease'] = 1000000* df['positiveIncrease'] / df['population']
 df['deathIncrease'] = 1000000* df['deathIncrease'] / df['population']
 df['hospitalizedIncrease'] = 1000000* df['hospitalizedIncrease'] / df['population']
-df = df.tail(1)
 
-def getmap(df,stat,title):
-    df = df[stat].transpose()
+def getmap(df,stat,statname,title):
+    df = do_sort(df,stat)
+    df.to_csv('us_change_in_'+statname+'.csv')
+    df = df[['diff']]
     df['zscore'] = stats.zscore(df)
 
 
@@ -150,21 +150,19 @@ def getmap(df,stat,title):
     scheme = 'RdYlGn'
     cmap=plt.get_cmap(scheme)
 
-    max = df['zscore'].abs().max()
-    norm = plt.Normalize(-max, max)
+    max = df['diff'].max()
+    min = df['diff'].min()
+    absmax = np.maximum(np.abs(min), np.abs(max))
+    norm = plt.Normalize(-absmax, absmax)
     df = df.transpose()
     #for state in shpreader.Reader(states_shp).geometries():
     for astate in shpreader.Reader(states_shp).records():
 
-        ### You want to replace the following code with code that sets the
-        ### facecolor as a gradient based on the population density above
-        #facecolor = [0.9375, 0.9375, 0.859375]
-
-        edgecolor = 'black'
+        edgecolor = 'gray'
 
         try:
             # use the name of this state to get pop_density
-            value = df[astate.attributes['name']].iloc[1]
+            value = df[astate.attributes['name']].iloc[0]
         except:
             value = 0
 
@@ -173,7 +171,9 @@ def getmap(df,stat,title):
         ax.add_geometries([astate.geometry], ccrs.PlateCarree(),
                         facecolor=facecolor, edgecolor=edgecolor)
 
-    plt.savefig(title+'.png')
+    plt.savefig('charts/US Map of Change in '+statname+'.png')
 
-getmap(df,'deathIncrease', 'US Deaths per Million Last '+str(window)+' days')
-getmap(df,'positiveIncrease', 'US Cases per Million Last '+str(window)+' days')
+from_date = current_date - datetime.timedelta(days=window)
+getmap(df,'percentage', 'positivity', 'Change in Positive Testing % {:%m/%d}-{:%m/%d}'.format(from_date,current_date))
+getmap(df,'deathIncrease', 'deaths', 'Change in Deaths per Million {:%m/%d}-{:%m/%d}'.format(from_date,current_date))
+getmap(df,'positiveIncrease', 'positive_cases', 'Change in Positive Cases per Million {:%m/%d}-{:%m/%d}'.format(from_date,current_date))

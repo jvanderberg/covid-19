@@ -37,35 +37,45 @@ df['percentage'] = df['positiveIncrease'] / df['totalTestResultsIncrease']
 df['positiveIncrease'] = 1000000* df['positiveIncrease'] / df['population']
 df['deathIncrease'] = 1000000* df['deathIncrease'] / df['population']
 df['hospitalizedIncrease'] = 1000000* df['hospitalizedIncrease'] / df['population']
-df = df.fillna(value=0)
-
-def getmap(data,stat,title,date):
+df = df.fillna(value=0.0)
+# df = df.replace(to_replace=0, value=0.1)
+# df[df < 0.1] = 0.1
+def getmap(data,stat,title,date,minz,maxz):
     plt.close()
     fig = plt.figure(figsize=(10,6), dpi=400)
     ax = fig.add_axes([0, 0, 1, 1], projection=ccrs.LambertConformal())
 
     ax.set_extent([-125, -66.5, 20, 50], ccrs.Geodetic())
-
     shapename = 'admin_1_states_provinces_lakes_shp'
     states_shp = shpreader.natural_earth(resolution='110m',
                                         category='cultural', name=shapename)
 
-    df=data[data.index==date]
-    df = df[stat].transpose()
-    df['zscore'] = stats.zscore(df)
+    #df = np.log(data[stat])
+    df = data[stat]
+    # max = df.max().max()
+    # min = df.min().min()
+    zscore = stats.zscore(df, axis=None)
+    for index, col in enumerate(df.columns):
+        df[col+'_zscore'] = zscore[:,index]
+
+    # df.to_csv('temp.csv')
+    df=df[df.index==date]
+    # df = df.transpose()
+    # df['zscore'] = stats.zscore(df)
 
 
     ax.background_patch.set_visible(False)
     ax.outline_patch.set_visible(False)
 
-    ax.set_title(title+ ' '+date.strftime("%m/%d/%y"), fontsize=20)
+    ax.set_title(title, fontsize=20)
 
     scheme = 'RdYlGn'
     cmap=plt.get_cmap(scheme)
 
-    max = df['zscore'].abs().max()
-    norm = plt.Normalize(-max, max)
-    df = df.transpose()
+    max = np.max(zscore)
+    min = np.min(zscore)
+    norm = plt.Normalize(minz, maxz)
+    # df = df.transpose()
     #for state in shpreader.Reader(states_shp).geometries():
     for astate in shpreader.Reader(states_shp).records():
 
@@ -76,8 +86,9 @@ def getmap(data,stat,title,date):
         edgecolor = 'black'
 
         try:
+            val = df[astate.attributes['name']+'_zscore'].iloc[0]
             # use the name of this state to get pop_density
-            value = df[astate.attributes['name']].iloc[1]
+            value = val
         except:
             value = 0
 
@@ -85,13 +96,15 @@ def getmap(data,stat,title,date):
         # `astate.geometry` is the polygon to plot
         ax.add_geometries([astate.geometry], ccrs.PlateCarree(),
                         facecolor=facecolor, edgecolor=edgecolor)
+    text = ax.text(x=-120,y=22,s=date.strftime("%m/%d"), transform=ccrs.PlateCarree(), fontsize=70)
+    text.set_alpha(0.6)
 
-    plt.savefig('map_animation/'+str(date) + ' ' +title+'.png')
+    plt.savefig('charts/map_animation/'+str(date) + ' ' +title+'.jpg')
 
 date = datetime.datetime(2020,3,1)
 
 while ((datetime.datetime.now() - date).days >= 0):
-    #getmap(df,'deathIncrease', 'US Deaths per Million',date)
-    getmap(df,'positiveIncrease', 'US Positive Cases per Million',date)
+    #getmap(df,'deathIncrease', 'US Deaths per Million',date,-3,3)
+    getmap(df,'positiveIncrease', 'US Positive Cases per Million',date,-3,3)
     date = date + datetime.timedelta(days= 1)
     print(date)

@@ -39,7 +39,7 @@ plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%m/%d'))
 # Change the tick interval
 plt.gca().xaxis.set_major_locator(mdates.MonthLocator(interval=1)) 
 
-plt.savefig('Oak Park Positives.png', bbox_inches='tight')
+plt.savefig('charts/Oak Park Positives.png', bbox_inches='tight')
 plt.close()
 
 
@@ -75,7 +75,7 @@ plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%m/%d'))
 # Change the tick interval
 plt.gca().xaxis.set_major_locator(mdates.MonthLocator(interval=1)) 
 
-plt.savefig('Oak Park Positives by age.png', bbox_inches='tight')
+plt.savefig('charts/Oak Park Positives by age.png', bbox_inches='tight')
 plt.close()
 
 
@@ -110,7 +110,7 @@ plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%m/%d'))
 # Change the tick interval
 plt.gca().xaxis.set_major_locator(mdates.MonthLocator(interval=1)) 
 
-plt.savefig('Oak Park Tests by age.png', bbox_inches='tight')
+plt.savefig('charts/Oak Park Tests by age.png', bbox_inches='tight')
 plt.close()
 
 
@@ -136,7 +136,7 @@ plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%m/%d'))
 plt.gca().xaxis.set_major_locator(mdates.MonthLocator(interval=1)) 
 plt.gca().yaxis.set_major_formatter(mtick.PercentFormatter(1.0)) 
 plt.ylim(0)
-plt.savefig('Oak Park Positive Pct.png', bbox_inches='tight')
+plt.savefig('charts/Oak Park Positive Pct.png', bbox_inches='tight')
 plt.close()
 
 #######################################################################################
@@ -161,7 +161,7 @@ plt.box(False)
 plt.legend()
 plt.legend().get_frame().set_linewidth(0.0)
 plt.margins(0)
-plt.savefig('Oak Park Testing.png', bbox_inches='tight')
+plt.savefig('charts/Oak Park Testing.png', bbox_inches='tight')
 
 #######################################################################################
 # Positive testing % by zip
@@ -192,6 +192,6 @@ plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%m/%d'))
 plt.gca().xaxis.set_major_locator(mdates.MonthLocator(interval=1)) 
 plt.gca().yaxis.set_major_formatter(mtick.PercentFormatter(1.0)) 
 plt.ylim(0)
-plt.savefig('Oak Park Positive Pct by Zip.png', bbox_inches='tight')
+plt.savefig('charts/Oak Park Positive Pct by Zip.png', bbox_inches='tight')
 plt.close()
 
