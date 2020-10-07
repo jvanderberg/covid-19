@@ -113,15 +113,6 @@ def do_chart(df_sorted, df, stat = 'deathIncrease', name='Death Per Million', pe
 
 
 
-fig = plt.figure(figsize=(10,6), dpi=400)
-ax = fig.add_axes([0, 0, 1, 1], projection=ccrs.LambertConformal())
-
-ax.set_extent([-125, -66.5, 20, 50], ccrs.Geodetic())
-
-shapename = 'admin_1_states_provinces_lakes_shp'
-states_shp = shpreader.natural_earth(resolution='110m',
-                                     category='cultural', name=shapename)
-
 df = pd.read_csv("https://api.covidtracking.com/v1/states/daily.csv",parse_dates=True, index_col='date')
 df = df.sort_index(ascending=True)
 df = df.join(population, on='state')
@@ -135,45 +126,59 @@ df['positiveIncrease'] = 1000000* df['positiveIncrease'] / df['population']
 df['deathIncrease'] = 1000000* df['deathIncrease'] / df['population']
 df['hospitalizedIncrease'] = 1000000* df['hospitalizedIncrease'] / df['population']
 
-def getmap(df,stat,statname,title):
-    df = do_sort(df,stat)
-    df.to_csv('us_change_in_'+statname+'.csv')
-    df = df[['diff']]
-    df['zscore'] = stats.zscore(df)
+
+def getmap(df,stat,statname,title, min, max):
+    plt.close()
+    fig = plt.figure(figsize=(12,7), dpi=400)
+    ax = fig.add_axes([0, 0, 1, 1], projection=ccrs.LambertConformal())
+
+    ax.set_extent([-122, -73.5, 22, 50], ccrs.Geodetic())
+
+    shapename = 'admin_1_states_provinces_lakes_shp'
+    states_shp = shpreader.natural_earth(resolution='110m',
+                                        category='cultural', name=shapename)
+
+
+    # df = do_sort(df,stat)
+    # df = df[['diff']]
+    # df['zscore'] = stats.zscore(df)
 
 
     ax.background_patch.set_visible(False)
     ax.outline_patch.set_visible(False)
+    ax.set_title(title, fontsize=20)
 
-    ax.set_title(title)
-
-    scheme = 'RdYlGn'
+    scheme = 'RdYlGn_r'
     cmap=plt.get_cmap(scheme)
-
-    max = df['diff'].max()
-    min = df['diff'].min()
-    absmax = np.maximum(np.abs(min), np.abs(max))
-    norm = plt.Normalize(-absmax, absmax)
+    df = df[stat].drop(columns=['Puerto Rico', 'District of Columbia', 'Hawaii', 'Alaska'])
+    df = df.iloc[-1]
+    df.to_csv('us_change_in_'+statname+'.csv')
+    # max = df.max()
+    # min = df.min()
+    norm = plt.Normalize(min, max)
     df = df.transpose()
+    # ax.imshow(gradient, aspect='auto', cmap=plt.get_cmap(scheme))
     #for state in shpreader.Reader(states_shp).geometries():
+    sm = plt.cm.ScalarMappable(cmap=cmap,norm=norm, )
+    sm._A = []
+    plt.colorbar(sm,ax=ax,shrink=0.6, boundaries=np.arange(0, max, max/100))
     for astate in shpreader.Reader(states_shp).records():
-
         edgecolor = 'gray'
 
         try:
             # use the name of this state to get pop_density
-            value = df[astate.attributes['name']].iloc[0]
+            value = df[astate.attributes['name']]
         except:
             value = 0
 
-        facecolor = cmap(1-norm(value))
+        facecolor = cmap(norm(value))
         # `astate.geometry` is the polygon to plot
         ax.add_geometries([astate.geometry], ccrs.PlateCarree(),
                         facecolor=facecolor, edgecolor=edgecolor)
 
-    plt.savefig('charts/US Map of Change in '+statname+'.png')
+    plt.savefig('charts/US Map of '+statname+'.png')
 
 from_date = current_date - datetime.timedelta(days=window)
-getmap(df,'percentage', 'positivity', 'Change in Positive Testing % {:%m/%d}-{:%m/%d}'.format(from_date,current_date))
-getmap(df,'deathIncrease', 'deaths', 'Change in Deaths per Million {:%m/%d}-{:%m/%d}'.format(from_date,current_date))
-getmap(df,'positiveIncrease', 'positive_cases', 'Change in Positive Cases per Million {:%m/%d}-{:%m/%d}'.format(from_date,current_date))
+getmap(df,'percentage', 'positivity', 'Positive Testing % {:%m/%d}'.format(current_date), -.2, .30)
+getmap(df,'deathIncrease', 'deaths', 'Deaths per Million {:%m/%d}'.format(current_date), -3, 6)
+getmap(df,'positiveIncrease', 'positive_cases', 'Positive Cases per Million {:%m/%d}'.format(current_date),-200, 400)
