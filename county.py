@@ -19,16 +19,19 @@ def get_regional_breakdown(region_file):
     table['tested'] = []
     table['percentage'] = []
     table['deaths_per_million'] = []
+    table['count_per_million'] = []
     table['deaths_7day'] = []
     table['count_7day'] = []
     table['tested_7day'] = []
     table['percentage_7day'] = []
     table['deaths_per_million_7day'] = []
+    table['count_per_million_7day'] = []
     table['deaths_14day'] = []
     table['count_14day'] = []
     table['tested_14day'] = []
     table['percentage_14day'] = []
     table['deaths_per_million_14day'] = []
+    table['count_per_million_14day'] = []
 
     for date_data in data['historical_county']['values']:
         date = date_data['testDate']
@@ -40,16 +43,19 @@ def get_regional_breakdown(region_file):
             table['deaths'].append(county['deaths'])
             table['percentage'].append(0)
             table['deaths_per_million'].append(0)
+            table['count_per_million'].append(0)
             table['tested_7day'].append(0)
             table['count_7day'].append(0)
             table['deaths_7day'].append(0)
             table['percentage_7day'].append(0)
             table['deaths_per_million_7day'].append(0)
+            table['count_per_million_7day'].append(0)
             table['tested_14day'].append(0)
             table['count_14day'].append(0)
             table['deaths_14day'].append(0)
             table['percentage_14day'].append(0)
             table['deaths_per_million_14day'].append(0)
+            table['count_per_million_14day'].append(0)
 
     df = pd.DataFrame(table)
     df['date'] = pd.to_datetime(df['date'])
@@ -67,6 +73,7 @@ def get_regional_breakdown(region_file):
     df2 = df2.interpolate().round()
     df2['percentage'] = df2['count'] / df2['tested']
     df2['deaths_per_million'] = 1000000 * df2['deaths'] / df2['population']
+    df2['count_per_million'] = 1000000 * df2['count'] / df2['population']
 
     values = pd.DataFrame(df2)
 
@@ -75,12 +82,14 @@ def get_regional_breakdown(region_file):
     df2['tested_7day'] = df2['tested'].rolling(window=7).mean()
     df2['percentage_7day'] = df2['count_7day'] / df2['tested_7day']
     df2['deaths_per_million_7day'] = 1000000 * df2['deaths_7day'] / df2['population']
+    df2['count_per_million_7day'] = 1000000 * df2['count_7day'] / df2['population']
 
     df2['deaths_14day'] = df2['deaths'].rolling(window=14).mean()
     df2['count_14day'] = df2['count'].rolling(window=14).mean()
     df2['tested_14day'] = df2['tested'].rolling(window=14).mean()
     df2['percentage_14day'] = df2['count_14day'] / df2['tested_14day']
     df2['deaths_per_million_14day'] = 1000000 * df2['deaths_14day'] / df2['population']
+    df2['count_per_million_14day'] = 1000000 * df2['count_14day'] / df2['population']
     return df2
     
 get_regional_breakdown('regions.csv').to_csv('regional_all.csv')
