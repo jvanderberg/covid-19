@@ -111,36 +111,21 @@ def get_regional_breakdown(region_file):
 counties = get_regional_breakdown('regions.csv')
 
 
-def getmap(df,stat,statname,title, min, max):
+def getmap(df,stat,statname,title, min, max, date):
     plt.close()
     fig = plt.figure(figsize=(7,8), dpi=400)
     ax = fig.add_axes([0, 0, 1, 1], projection=ccrs.LambertConformal())
 
     ax.set_extent([-93, -87, 37, 43], ccrs.Geodetic())
+    df=df[df.index==date][stat]
 
-    # shapename = 'admin_1_states_provinces_lakes_shp'
-    # states_shp = shpreader.natural_earth('cb_2018_us_county_20m.shp')
-
-
-    # df = do_sort(df,stat)
-    # df = df[['diff']]
-    # df['zscore'] = stats.zscore(df)
-
-    df = df[stat].tail(1)
     ax.background_patch.set_visible(False)
     ax.outline_patch.set_visible(False)
     ax.set_title(title, fontsize=20)
 
     scheme = 'RdYlGn_r'
     cmap=plt.get_cmap(scheme)
-    # df = df[stat].drop(columns=['Puerto Rico', 'District of Columbia', 'Hawaii', 'Alaska'])
-    # df = df.iloc[-1]
-    # df.to_csv('us_change_in_'+statname+'.csv')
-    # max = df.max()
-    # min = df.min()
     norm = plt.Normalize(min, max)
-    # ax.imshow(gradient, aspect='auto', cmap=plt.get_cmap(scheme))
-    #for state in shpreader.Reader(states_shp).geometries():
     sm = plt.cm.ScalarMappable(cmap=cmap,norm=norm, )
     sm._A = []
     plt.colorbar(sm,ax=ax,shrink=0.6, boundaries=np.arange(0, max, max/100))
@@ -156,15 +141,22 @@ def getmap(df,stat,statname,title, min, max):
         except:
             value=0
             print('Bad '+astate.attributes['NAME'])
-        print(value)
         facecolor = cmap(norm(value))
         # # `astate.geometry` is the polygon to plot
         ax.add_geometries([astate.geometry], ccrs.PlateCarree(),
                         facecolor=facecolor, edgecolor=edgecolor)
-
-    plt.savefig('charts/IL County Map'+statname+'.png')
+    
+    text = ax.text(x=-93,y=37,s=date.strftime("%m/%d"), transform=ccrs.PlateCarree(), fontsize=70)
+    text.set_alpha(0.6)
+    plt.savefig('state_map_animation/'+str(date)+' IL County Map '+statname+'.png')
 current_date = datetime.datetime.today()
 # from_date = current_date - datetime.timedelta(days=window)
 # getmap(counties,'count_per_million_14day', 'positivity', 'Positive Testing % {:%m/%d}'.format(current_date), -.2, .30)
-getmap(counties,'deaths_per_million_14day', 'deaths', 'Deaths per Million {:%m/%d}'.format(current_date), -15, 25)
-getmap(counties,'count_per_million_14day', 'positive_cases', 'Positive Cases per Million {:%m/%d}'.format(current_date),-200, 400)
+
+date = datetime.datetime(2020,3,18)
+
+while ((datetime.datetime.now() - date).days >= 0):
+    getmap(counties,'deaths_per_million_14day', 'deaths', 'Deaths per Million', -15, 25, date)
+    getmap(counties,'count_per_million_14day', 'positive_cases', 'Positive Cases per Million',-200, 400, date)    #getmap(df,'deathIncrease', 'US Deaths per Million',date,-3,3)
+    date = date + datetime.timedelta(days= 1)
+    print(date)

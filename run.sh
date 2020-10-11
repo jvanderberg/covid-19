@@ -6,3 +6,4 @@ python regional_charts.py
 python state_charts.py
 python zip_charts.py
 python national_charts.py
+python regional_hospitalization.py

@@ -15,8 +15,8 @@ f.write(r.text)
 f.close()
 
 startdate=datetime.datetime(2020,4,19,0,0,0,0)
-target_zips = ['60301', '60302', '60304']
-
+target_zips = ['60301', '60302', '60304']2,539, 32108 17231
+population = pd.DataFrame({'zip':target_zips, 'population':[ 2536.00, 32048, 17641]}).set_index('zip')
 date = startdate
 df = pd.DataFrame()
 bad_file = False
@@ -25,10 +25,13 @@ table['zip'] = []
 table['date'] = []
 table['count'] = []
 table['tested'] = []
+table['7daypos100k'] = []
 table['percentage'] = []
 table['count_14day'] = []
 table['tested_14day'] = []
 table['percentage_14day'] = []
+table['7daypos100k_14day'] = []
+
 age_groups = ['Unknown', '<20', '20-29', '30-39', '40-49', '50-59', '60-69', '70-79', '80+']
 
 for age_group in age_groups:
@@ -65,11 +68,13 @@ while ((datetime.datetime.now() - date).days >= 0):
                 table['zip'].append( zip_data['zip'])
                 table['date'].append(date)
                 table['count'].append(np.NaN)
+                table['7daypos100k'].append(np.NaN)
                 table['tested'].append(np.NaN)
                 table['percentage'].append(0)
                 table['count_14day'].append(np.NaN)
                 table['tested_14day'].append(np.NaN)
                 table['percentage_14day'].append(0)
+                table['7daypos100k_14day'].append(np.NaN)
                 age_index = 0
                 for age_group in zip_data['demographics']['age']:
                     table[age_groups[age_index] + " count"].append(np.NaN)
@@ -85,10 +90,13 @@ while ((datetime.datetime.now() - date).days >= 0):
                 table['date'].append(date)
                 table['count'].append(zip_data['confirmed_cases'])
                 table['tested'].append(zip_data['total_tested'])
+                table['7daypos100k'].append(np.NaN)
+
                 table['percentage'].append(0)
                 table['count_14day'].append(np.NaN)
                 table['tested_14day'].append(np.NaN)
                 table['percentage_14day'].append(0)
+                table['7daypos100k_14day'].append(np.NaN)
                 age_index = 0
                 for age_group in zip_data['demographics']['age']:
                     table[age_groups[age_index] + " count"].append(age_group['count'])
@@ -106,11 +114,19 @@ while ((datetime.datetime.now() - date).days >= 0):
 df = pd.DataFrame(table)
 df = df[df['zip'].isin(target_zips)]
 df['date'] = pd.to_datetime(df['date'])
-
+df = df.join(population, on='zip')
 df2 = df.pivot(index='date',columns='zip')
 df2 = df2.interpolate().round()
 
-diff = df2.diff(periods=1)
+diff = pd.DataFrame(df2)
+diff['count'] = diff['count'].diff(periods=1)
+diff['tested'] = diff['tested'].diff(periods=1)
+
+for age_group in age_groups:
+    diff[age_group+' count']  = diff[age_group+' count'].diff(periods=1)
+    diff[age_group+' tested']  = diff[age_group+' tested'].diff(periods=1)
+
+diff['7daypos100k'] = 100000 * diff['count'].rolling(window=7).sum() / diff['population']
 diff['percentage'] = diff['count'] / diff['tested']
 for age_group in age_groups:
     diff[age_group+' percentage']  = diff[age_group+' count'] / diff[age_group+' tested']
@@ -119,6 +135,8 @@ for age_group in age_groups:
 diff['count_14day'] = diff['count'].rolling(window=14).mean()
 diff['tested_14day'] = diff['tested'].rolling(window=14).mean()
 diff['percentage_14day'] = diff['count_14day'] / diff['tested_14day']
+diff['7daypos100k_14day'] = diff['7daypos100k'].rolling(window=14).mean()
+
 for age_group in age_groups:
     diff[age_group+' percentage']  = diff[age_group+' count'] / diff[age_group+' tested']
     diff[age_group+' count_14day'] = diff['count'].rolling(window=14).mean()
@@ -138,6 +156,8 @@ for age_group in age_groups:
 dftotals['count_14day'] = dftotals['count'].rolling(window=14).mean()
 dftotals['tested_14day'] = dftotals['tested'].rolling(window=14).mean()
 dftotals['percentage_14day'] = dftotals['count_14day'] / dftotals['tested_14day']
+dftotals['7daypos100k'] = 100000 * dftotals['count'].rolling(window=7).sum() / dftotals['population']
+dftotals['7daypos100k_14day'] = dftotals['7daypos100k'].rolling(window=14).mean()
 
 for age_group in age_groups:
     dftotals[age_group+' percentage']  = dftotals[age_group+' count'] / dftotals[age_group+' tested']
