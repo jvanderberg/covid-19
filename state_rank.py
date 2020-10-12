@@ -139,11 +139,6 @@ def getmap(df,stat,statname,title, min, max):
                                         category='cultural', name=shapename)
 
 
-    # df = do_sort(df,stat)
-    # df = df[['diff']]
-    # df['zscore'] = stats.zscore(df)
-
-
     ax.background_patch.set_visible(False)
     ax.outline_patch.set_visible(False)
     ax.set_title(title, fontsize=20)
@@ -153,12 +148,8 @@ def getmap(df,stat,statname,title, min, max):
     df = df[stat].drop(columns=['Puerto Rico', 'District of Columbia', 'Hawaii', 'Alaska'])
     df = df.iloc[-1]
     df.to_csv('us_change_in_'+statname+'.csv')
-    # max = df.max()
-    # min = df.min()
     norm = plt.Normalize(min, max)
     df = df.transpose()
-    # ax.imshow(gradient, aspect='auto', cmap=plt.get_cmap(scheme))
-    #for state in shpreader.Reader(states_shp).geometries():
     sm = plt.cm.ScalarMappable(cmap=cmap,norm=norm, )
     sm._A = []
     plt.colorbar(sm,ax=ax,shrink=0.6, boundaries=np.arange(0, max, max/100))
@@ -166,13 +157,11 @@ def getmap(df,stat,statname,title, min, max):
         edgecolor = 'gray'
 
         try:
-            # use the name of this state to get pop_density
             value = df[astate.attributes['name']]
         except:
             value = 0
 
         facecolor = cmap(norm(value))
-        # `astate.geometry` is the polygon to plot
         ax.add_geometries([astate.geometry], ccrs.PlateCarree(),
                         facecolor=facecolor, edgecolor=edgecolor)
 

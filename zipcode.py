@@ -15,7 +15,7 @@ f.write(r.text)
 f.close()
 
 startdate=datetime.datetime(2020,4,19,0,0,0,0)
-target_zips = ['60301', '60302', '60304']2,539, 32108 17231
+target_zips = ['60301', '60302', '60304']
 population = pd.DataFrame({'zip':target_zips, 'population':[ 2536.00, 32048, 17641]}).set_index('zip')
 date = startdate
 df = pd.DataFrame()

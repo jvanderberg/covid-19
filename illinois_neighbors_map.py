@@ -52,9 +52,11 @@ def get_all_county_data(stat):
     cols.append('Admin2')
     df2 = pd.DataFrame(df[cols])
     df2 = df2.set_index(['Admin2','Province_State'])
+    df2.to_csv('temp_abs_'+stat+'.csv')
     df2 = df2.transpose()
     df2 = df2.diff(periods=1)
     df2 = df2.rolling(window=14).mean()
+    df2.to_csv('temp_rolling_'+stat+'.csv')
     df2 = df2.transpose()
     # df.melt(id_vars=['Province_State','Admin2'], var_name='date', value_name='deaths')
     df3 = pd.DataFrame(df[['Admin2','Province_State','population']]).set_index(['Admin2','Province_State'])
@@ -73,6 +75,9 @@ def getmap(df,stat,statname,title, min, max, date):
     ax.background_patch.set_visible(False)
     ax.outline_patch.set_visible(False)
     ax.set_title(title, fontsize=20)
+    shapename = 'admin_1_states_provinces_lakes_shp'
+    states_shp = shpreader.natural_earth(resolution='110m',
+                                        category='cultural', name=shapename)
 
     scheme = 'RdYlGn_r'
     cmap=plt.get_cmap(scheme)
@@ -80,6 +85,7 @@ def getmap(df,stat,statname,title, min, max, date):
     sm = plt.cm.ScalarMappable(cmap=cmap,norm=norm, )
     sm._A = []
     plt.colorbar(sm,ax=ax,shrink=0.6, boundaries=np.arange(0, max, max/100))
+
     for astate in shpreader.Reader('cb_2018_us_county_5m').records():
         statefp = int(astate.attributes['STATEFP'])
         state = None
@@ -88,20 +94,13 @@ def getmap(df,stat,statname,title, min, max, date):
         except:
             continue
 
-        if (statefp == 17):
-            edgecolor = 'black'
-        else:
-            edgecolor = 'gray'
+        edgecolor = 'gray'
 
         county = astate.attributes['NAME']
-        # use the name of this state to get pop_density
-        # previousdate = date - datetime.timedelta(days=1)
         try:
-            # lastvalue = df.loc[county].loc[state['statename']].loc[previousdate.strftime('%-m/%-d/%y')]
             value = df.loc[county].loc[state['statename']].loc[date.strftime('%-m/%-d/%y')]
             pop = df.loc[county].loc[state['statename']].loc['population']
             value = 1000000 * (value ) / pop
-            print(value)
 
         except:
             value=0
@@ -111,18 +110,32 @@ def getmap(df,stat,statname,title, min, max, date):
         ax.add_geometries([astate.geometry], ccrs.PlateCarree(),
                         facecolor=facecolor, edgecolor=edgecolor)
     
-    text = ax.text(x=-93,y=37,s=date.strftime("%m/%d"), transform=ccrs.PlateCarree(), fontsize=70)
+    for astate in shpreader.Reader(states_shp).records():
+
+        edgecolor = 'black'
+
+        # `astate.geometry` is the polygon to plot
+        ax.add_geometries([astate.geometry], ccrs.PlateCarree(), facecolor='none', edgecolor=edgecolor)
+
+
+
+    text = ax.text(x=-96,y=34,s=date.strftime("%m/%d"), transform=ccrs.PlateCarree(), fontsize=70)
     text.set_alpha(0.6)
     plt.savefig('state_map_animation/'+str(date)+' IL Neighbors County Map '+statname+'.png')
+
+
 current_date = datetime.datetime.today()
 
 counties_confirmed = get_all_county_data('confirmed')
 counties_deaths = get_all_county_data('deaths')
 
-print(1)
-date = datetime.datetime(2020,10,8)
-getmap(counties_deaths,'deaths_per_million_14day', 'deaths', 'Deaths per Million', -15, 25, date)
-getmap(counties_confirmed,'count_per_million_14day', 'positive_cases', 'Positive Cases per Million',-200, 400, date)    
+date = datetime.datetime(2020,4,14)
+while ((datetime.datetime.now() - date).days >= 0):
+    getmap(counties_deaths,'deaths_per_million_14day', 'deaths', 'Daily Deaths per Million', -15, 25, date)
+    getmap(counties_confirmed,'count_per_million_14day', 'positive_cases', 'Daily Positive Cases per Million',-200, 400, date)    
+    date = date + datetime.timedelta(days= 1)
+    print(date)
+
 #getmap(df,'deathIncrease', 'US Deaths per Million',date,-3,3)
 
 # while ((datetime.datetime.now() - date).days >= 0):

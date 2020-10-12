@@ -38,73 +38,69 @@ df['positiveIncrease'] = 1000000* df['positiveIncrease'] / df['population']
 df['deathIncrease'] = 1000000* df['deathIncrease'] / df['population']
 df['hospitalizedIncrease'] = 1000000* df['hospitalizedIncrease'] / df['population']
 df = df.fillna(value=0.0)
-# df = df.replace(to_replace=0, value=0.1)
-# df[df < 0.1] = 0.1
-def getmap(data,stat,title,date,minz,maxz):
+
+
+def getmap(df,stat,statname,title, min, max, date):
     plt.close()
-    fig = plt.figure(figsize=(10,6), dpi=400)
+    fig = plt.figure(figsize=(12,7), dpi=400)
     ax = fig.add_axes([0, 0, 1, 1], projection=ccrs.LambertConformal())
 
-    ax.set_extent([-125, -66.5, 20, 50], ccrs.Geodetic())
+    ax.set_extent([-122, -73.5, 22, 50], ccrs.Geodetic())
+
     shapename = 'admin_1_states_provinces_lakes_shp'
     states_shp = shpreader.natural_earth(resolution='110m',
                                         category='cultural', name=shapename)
 
-    #df = np.log(data[stat])
-    df = data[stat]
-    # max = df.max().max()
-    # min = df.min().min()
-    zscore = stats.zscore(df, axis=None)
-    for index, col in enumerate(df.columns):
-        df[col+'_zscore'] = zscore[:,index]
-
-    # df.to_csv('temp.csv')
-    df=df[df.index==date]
-    # df = df.transpose()
-    # df['zscore'] = stats.zscore(df)
-
 
     ax.background_patch.set_visible(False)
     ax.outline_patch.set_visible(False)
-
     ax.set_title(title, fontsize=20)
-
-    scheme = 'RdYlGn'
+    df = df[stat].drop(columns=['Puerto Rico', 'District of Columbia', 'Hawaii', 'Alaska'])
+    df=df[df.index==date]
+    scheme = 'RdYlGn_r'
     cmap=plt.get_cmap(scheme)
+    N = 256
+    vals = np.ones((N, 4))
+    vals[0:29, 0] = np.linspace(76/256, 1, 29)
+    vals[0:29, 1] = np.linspace(168/256, 253/256, 29)
+    vals[0:29, 2] = np.linspace(0/256, 148/256, 29)
+    vals[29:128, 0] = np.linspace( 1, 1, 99)
+    vals[29:128, 1] = np.linspace( 253/256, 0, 99)
+    vals[29:128, 2] = np.linspace( 148/256, 0, 99)
+    
+    vals[128:256, 0] = np.linspace(1, 147/256, 128)
+    vals[128:256, 1] = np.linspace(0, 85/256, 128)
+    vals[128:256, 2] = np.linspace(0, 1, 128)
 
-    max = np.max(zscore)
-    min = np.min(zscore)
-    norm = plt.Normalize(minz, maxz)
-    # df = df.transpose()
-    #for state in shpreader.Reader(states_shp).geometries():
+    newcmap = matplotlib.colors.ListedColormap(vals)
+    norm = plt.Normalize(min, max)
+    df = df.transpose()
+    sm = plt.cm.ScalarMappable(cmap=newcmap,norm=norm )
+    sm._A = []
+    plt.colorbar(sm,ax=ax,shrink=0.6)
     for astate in shpreader.Reader(states_shp).records():
-
-        ### You want to replace the following code with code that sets the
-        ### facecolor as a gradient based on the population density above
-        #facecolor = [0.9375, 0.9375, 0.859375]
-
-        edgecolor = 'black'
+        edgecolor = 'gray'
 
         try:
-            val = df[astate.attributes['name']+'_zscore'].iloc[0]
-            # use the name of this state to get pop_density
-            value = val
+            value = df.loc[astate.attributes['name']][0]
         except:
             value = 0
-
-        facecolor = cmap(1-norm(value))
-        # `astate.geometry` is the polygon to plot
+        facecolor = newcmap(norm(value))
         ax.add_geometries([astate.geometry], ccrs.PlateCarree(),
                         facecolor=facecolor, edgecolor=edgecolor)
-    text = ax.text(x=-120,y=22,s=date.strftime("%m/%d"), transform=ccrs.PlateCarree(), fontsize=70)
-    text.set_alpha(0.6)
 
-    plt.savefig('charts/map_animation/'+str(date) + ' ' +title+'.jpg')
+    text = ax.text(x=-120,y=22,s=date.strftime("%-m/%-d"), transform=ccrs.PlateCarree(), fontsize=70)
+    text.set_alpha(0.6)
+    plt.savefig('map_animation/'+str(date) + ' ' +title+'.jpg')
+
 
 date = datetime.datetime(2020,3,1)
 
 while ((datetime.datetime.now() - date).days >= 0):
+    # getmap(df,'percentage', 'positivity', 'Positive Testing % {:%m/%d}'.format(current_date), -.2, .30)
+    getmap(df,'deathIncrease', 'deaths', 'Daily Deaths per Million', 0, df['deathIncrease'].max().max(), date)
+    getmap(df,'positiveIncrease', 'positive_cases', 'Daily Positive Cases per Million',0, df['positiveIncrease'].max().max(), date)
     #getmap(df,'deathIncrease', 'US Deaths per Million',date,-3,3)
-    getmap(df,'positiveIncrease', 'US Positive Cases per Million',date,-3,3)
+    # getmap(df,'positiveIncrease', 'US Positive Cases per Million',date,-3,3)
     date = date + datetime.timedelta(days= 1)
     print(date)
