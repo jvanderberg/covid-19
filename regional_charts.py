@@ -116,9 +116,9 @@ june_plus = df[df.index > datetime.datetime(2020,5,31)]
 for row in range(0,3):
     for col in range(0,4):
         item = items[row][col]
-        current_value = df.tail(1)['percentage_14day'][item][0]
+        current_value = df.tail(1)['percentage_7day'][item][0]
 
-        ax[row][col].plot(june_plus.index, june_plus['percentage_14day'][item], linewidth=3, color='#6688cc')
+        ax[row][col].plot(june_plus.index, june_plus['percentage_7day'][item], linewidth=3, color='#6688cc')
         ax[row][col].set_title(item +' - {:0.1f}%'.format(100*current_value))
         ax[row][col].grid(axis='y', linewidth=0.5)
         ax[row][col].set_ylim(0,.12)
@@ -141,7 +141,7 @@ plt.gca().xaxis.set_major_locator(mdates.MonthLocator(interval=1))
 plt.box(False)
 
 #plt.margins(0)
-f.suptitle('Illinois Regional % Positive - 14 Day Average', fontsize=20)
+f.suptitle('Illinois Regional % Positive - 7 Day Average', fontsize=20)
 
 plt.savefig('charts/Region Percentage.png', dpi=400)
 
@@ -160,9 +160,9 @@ june_plus = df[df.index > datetime.datetime(2020,5,31)]
 for row in range(0,3):
     for col in range(0,4):
         item = items[row][col]
-        current_value = df.tail(1)['deaths_per_million_14day'][item][0]
+        current_value = df.tail(1)['deaths_per_million_7day'][item][0]
 
-        ax[row][col].plot(june_plus.index, june_plus['deaths_per_million_14day'][item], linewidth=3, color='#6688cc')
+        ax[row][col].plot(june_plus.index, june_plus['deaths_per_million_7day'][item], linewidth=3, color='#6688cc')
         ax[row][col].set_title(item +' - {:0.1f}'.format(current_value))
         ax[row][col].grid(axis='y', linewidth=0.5)
         ax[row][col].set_ylim(0,10)
@@ -175,7 +175,7 @@ for row in range(0,3):
 f.set_figheight(8)
 f.set_figwidth(16)
 f.tight_layout(pad=4, w_pad=-0.2, h_pad=3)
-f.suptitle('Illinois Regional Daily Death Rates Per Million - 14 Day Average', fontsize=20)
+f.suptitle('Illinois Regional Daily Death Rates Per Million - 7 Day Average', fontsize=20)
 # Format the date into months & days
 plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%m/%d')) 
 
@@ -201,9 +201,9 @@ june_plus = df[df.index > datetime.datetime(2020,5,31)]
 for row in range(0,3):
     for col in range(0,4):
         item = items[row][col]
-        current_value = df.tail(1)['count_per_million_14day'][item][0]
+        current_value = df.tail(1)['count_per_million_7day'][item][0]
 
-        ax[row][col].plot(june_plus.index, june_plus['count_per_million_14day'][item], linewidth=3, color='#6688cc')
+        ax[row][col].plot(june_plus.index, june_plus['count_per_million_7day'][item], linewidth=3, color='#6688cc')
         ax[row][col].set_title(item +' - {:0.1f}'.format(current_value))
         ax[row][col].grid(axis='y', linewidth=0.5)
         ax[row][col].set_ylim(0,400)
@@ -216,7 +216,7 @@ for row in range(0,3):
 f.set_figheight(8)
 f.set_figwidth(16)
 f.tight_layout(pad=4, w_pad=-0.2, h_pad=3)
-f.suptitle('Illinois Regional Daily Positive Cases Per Million - 14 Day Average', fontsize=20)
+f.suptitle('Illinois Regional Daily Positive Cases Per Million - 7 Day Average', fontsize=20)
 # Format the date into months & days
 plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%m/%d')) 
 
@@ -232,27 +232,33 @@ plt.savefig('charts/Region Cases per Million.png', dpi=400)
 #######################################################################################
 
 df = pd.read_csv('state_hospitalization.csv', index_col=1, parse_dates=True)
-
-plt.figure(figsize=(10, 5), dpi=400)
+df = df[df.index > datetime.datetime(2020,5,30)]
+plt.figure()
+f, ax = plt.subplots(2)
 plt.box(on=None)
-plt.margins(0)
-plt.plot(df.index, df['VentilatorInUseCOVID_7day'], color='#6688cc', label="Ventilator", linewidth=3)
-plt.plot(df.index, df['ICUInUseBedsCOVID_7day'], color='#EE3333', label="ICU", linewidth=3)
-plt.ylabel("Vents/ICU Beds")
-plt.ylim(0)
-plt.legend(loc=9).get_frame().set_linewidth(0.0)
+ax[0].plot(df.index, df['VentilatorInUseCOVID_7day'], color='#6688cc', label="Ventilator", linewidth=3)
+ax[0].plot(df.index, df['ICUInUseBedsCOVID_7day'], color='#EE3333', label="ICU", linewidth=3)
+# ax[0].ylabel("Vents/ICU Beds")
 
-ax2 = plt.twinx()
-ax2.plot(df.index, df['TotalInUseBedsCOVID_7day'], color='#cca80a', label="Non ICU Bed", linewidth=3)
-ax2.set_ylim(0)
-ax2.set_ylabel("Non ICU Beds")
-ax2.margins(0)
+# ax2 = plt.twinx()
+ax[1].plot(df.index, df['TotalInUseBedsCOVID_7day'], color='#cca80a', label="Non ICU Bed", linewidth=3)
+# ax[1].ylabel("Hospital Beds")
 
-ax2.spines["top"].set_visible(False)
-ax2.spines["right"].set_visible(False)
-ax2.spines["left"].set_visible(False)
-ax2.legend(loc='best').set_zorder(10)
-ax2.legend().get_frame().set_linewidth(0.0)
+ax[0].set_ylim(0)
+ax[1].set_ylim(0)
+
+# ax2.set_ylim(0)
+# ax2.set_ylabel("Non ICU Beds")
+# ax2.margins(0)
+
+# ax2.spines["top"].set_visible(False)
+# ax2.spines["right"].set_visible(False)
+# ax2.spines["left"].set_visible(False)
+# ax2.legend(loc='best').set_zorder(10)
+# ax2.legend().get_frame().set_linewidth(0.0)
+ax[0].legend().get_frame().set_linewidth(0.0)
+ax[1].legend().get_frame().set_linewidth(0.0)
+
 vent_value = df.tail(1)['VentilatorInUseCOVID_7day'].values[0]
 vent_pct = vent_value / df.tail(1)['VentilatorCapacity_7day'].values[0]
 icu_value = df.tail(1)['ICUInUseBedsCOVID_7day'].values[0]
@@ -260,14 +266,27 @@ icu_pct = icu_value / df.tail(1)['ICUBeds_7day'].values[0]
 bed_value = df.tail(1)['TotalInUseBedsCOVID_7day'].values[0]
 bed_pct = bed_value / df.tail(1)['TotalBeds_14day'].values[0]
 current_date= df.tail(1)['VentilatorInUseCOVID_7day'].index[0]
-plt.title('Illinois COVID Hospitalization - '+'{:%b %-d} - {:,} ICU Beds ({:0.1f}%) - {:,} Ventilators ({:0.1f}%) - {:,} Non-ICU Beds ({:0.1f}%)  '.format(current_date,int(icu_value), 100* icu_pct, int(vent_value), 100*vent_pct, int(bed_value), 100*bed_pct))
-plt.grid(axis='y', linewidth=0.5)
-plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%m/%d')) 
+ax[0].set_title('Hospitalization - '+'{:%b %-d} - {:,} ICU Beds ({:0.1f}%) - {:,} Ventilators ({:0.1f}%)'.format(current_date,int(icu_value), 100* icu_pct, int(vent_value), 100*vent_pct), fontsize=16)
+ax[1].set_title('Hospitalization - '+'{:%b %-d} - {:,} Non-ICU Beds ({:0.1f}%)  '.format(current_date, int(bed_value), 100*bed_pct), fontsize=16)
+ax[0].grid(axis='y', linewidth=0.5)
+ax[1].grid(axis='y', linewidth=0.5)
+ax[0].spines["top"].set_visible(False)
+ax[0].spines["right"].set_visible(False)
+ax[0].spines["left"].set_visible(False)
+ax[0].spines["bottom"].set_visible(False)
+ax[1].spines["top"].set_visible(False)
+ax[1].spines["right"].set_visible(False)
+ax[1].spines["left"].set_visible(False)
+ax[1].spines["bottom"].set_visible(False)
+ax[0].xaxis.set_major_formatter(mdates.DateFormatter('%m/%d')) 
+ax[0].xaxis.set_major_locator(mdates.MonthLocator(interval=1)) 
+ax[1].xaxis.set_major_formatter(mdates.DateFormatter('%m/%d')) 
+ax[1].xaxis.set_major_locator(mdates.MonthLocator(interval=1)) 
 
-# Change the tick interval
-plt.gca().xaxis.set_major_locator(mdates.MonthLocator(interval=1)) 
-
-plt.savefig('charts/IL Hospitalization.png', bbox_inches='tight')
+f.set_figheight(10)
+f.set_figwidth(10)
+f.tight_layout(pad=1, w_pad=3, h_pad=5)
+plt.savefig('charts/IL Hospitalization.png', dpi=200)
 plt.close()
 
 

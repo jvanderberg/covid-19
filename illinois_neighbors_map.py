@@ -39,7 +39,7 @@ def get_all_county_data(stat):
     date = datetime.datetime(2020,4,1)
     
     cols = []
-    while ((datetime.datetime.now() - date).days >= 2):
+    while ((datetime.datetime.now() - date).days >= 1):
         try:
             col = date.strftime('%-m/%-d/%y')
             cols.append(col)
@@ -52,20 +52,17 @@ def get_all_county_data(stat):
     cols.append('Admin2')
     df2 = pd.DataFrame(df[cols])
     df2 = df2.set_index(['Admin2','Province_State'])
-    df2.to_csv('temp_abs_'+stat+'.csv')
     df2 = df2.transpose()
     df2 = df2.diff(periods=1)
     df2 = df2.rolling(window=14).mean()
-    df2.to_csv('temp_rolling_'+stat+'.csv')
     df2 = df2.transpose()
-    # df.melt(id_vars=['Province_State','Admin2'], var_name='date', value_name='deaths')
     df3 = pd.DataFrame(df[['Admin2','Province_State','population']]).set_index(['Admin2','Province_State'])
     df = df2.join(df3)
     return df
     
 
 
-def getmap(df,stat,statname,title, min, max, date):
+def getmap(df,statname,title, min, max, date):
     plt.close()
     fig = plt.figure(figsize=(7,8), dpi=400)
     ax = fig.add_axes([0, 0, 1, 1], projection=ccrs.LambertConformal())
@@ -79,12 +76,23 @@ def getmap(df,stat,statname,title, min, max, date):
     states_shp = shpreader.natural_earth(resolution='110m',
                                         category='cultural', name=shapename)
 
-    scheme = 'RdYlGn_r'
-    cmap=plt.get_cmap(scheme)
+    N = 256
+    vals = np.ones((N, 4))
+    vals[0:29, 0] = np.linspace(76/256, 1, 29)
+    vals[0:29, 1] = np.linspace(168/256, 253/256, 29)
+    vals[0:29, 2] = np.linspace(0/256, 148/256, 29)
+    vals[29:128, 0] = np.linspace( 1, 1, 99)
+    vals[29:128, 1] = np.linspace( 253/256, 0, 99)
+    vals[29:128, 2] = np.linspace( 148/256, 0, 99)
+    
+    vals[128:256, 0] = np.linspace(1, 147/256, 128)
+    vals[128:256, 1] = np.linspace(0, 85/256, 128)
+    vals[128:256, 2] = np.linspace(0, 1, 128)
+    cmap = matplotlib.colors.ListedColormap(vals)
     norm = plt.Normalize(min, max)
     sm = plt.cm.ScalarMappable(cmap=cmap,norm=norm, )
     sm._A = []
-    plt.colorbar(sm,ax=ax,shrink=0.6, boundaries=np.arange(0, max, max/100))
+    plt.colorbar(sm,ax=ax,shrink=0.6)
 
     for astate in shpreader.Reader('cb_2018_us_county_5m').records():
         statefp = int(astate.attributes['STATEFP'])
@@ -97,16 +105,15 @@ def getmap(df,stat,statname,title, min, max, date):
         edgecolor = 'gray'
 
         county = astate.attributes['NAME']
-        try:
-            value = df.loc[county].loc[state['statename']].loc[date.strftime('%-m/%-d/%y')]
-            pop = df.loc[county].loc[state['statename']].loc['population']
-            value = 1000000 * (value ) / pop
+        # try:
+        value = df.loc[county].loc[state['statename']].loc[date.strftime('%-m/%-d/%y')]
+        pop = df.loc[county].loc[state['statename']].loc['population']
+        value = 1000000 * (value ) / pop
 
-        except:
-            value=0
-            print('Bad '+astate.attributes['NAME'])
+        # except:
+            # value=0
+            # print('Bad '+astate.attributes['NAME'])
         facecolor = cmap(norm(value))
-        # # `astate.geometry` is the polygon to plot
         ax.add_geometries([astate.geometry], ccrs.PlateCarree(),
                         facecolor=facecolor, edgecolor=edgecolor)
     
@@ -114,7 +121,6 @@ def getmap(df,stat,statname,title, min, max, date):
 
         edgecolor = 'black'
 
-        # `astate.geometry` is the polygon to plot
         ax.add_geometries([astate.geometry], ccrs.PlateCarree(), facecolor='none', edgecolor=edgecolor)
 
 
@@ -129,12 +135,12 @@ current_date = datetime.datetime.today()
 counties_confirmed = get_all_county_data('confirmed')
 counties_deaths = get_all_county_data('deaths')
 
-date = datetime.datetime(2020,4,14)
-while ((datetime.datetime.now() - date).days >= 0):
-    getmap(counties_deaths,'deaths_per_million_14day', 'deaths', 'Daily Deaths per Million', -15, 25, date)
-    getmap(counties_confirmed,'count_per_million_14day', 'positive_cases', 'Daily Positive Cases per Million',-200, 400, date)    
-    date = date + datetime.timedelta(days= 1)
-    print(date)
+date = datetime.datetime(2020,10,12)
+#while ((datetime.datetime.now() - date).days >= 0):
+getmap(counties_deaths, 'deaths', 'Daily Deaths per Million', 0,25, date)
+getmap(counties_confirmed, 'positive_cases', 'Daily Positive Cases per Million',0, 800, date)    
+    # date = date + datetime.timedelta(days= 1)
+    # print(date)
 
 #getmap(df,'deathIncrease', 'US Deaths per Million',date,-3,3)
 
