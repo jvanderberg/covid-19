@@ -87,7 +87,7 @@ def getmap(df,stat,statname,title, min, max, date):
             value = 0
         facecolor = newcmap(norm(value))
         ax.add_geometries([astate.geometry], ccrs.PlateCarree(),
-                        facecolor=facecolor, edgecolor=edgecolor)
+                        facecolor=facecolor, edgecolor=edgecolor, line_width=0.5)
 
     text = ax.text(x=-120,y=22,s=date.strftime("%-m/%-d"), transform=ccrs.PlateCarree(), fontsize=70)
     text.set_alpha(0.6)
@@ -100,7 +100,5 @@ while ((datetime.datetime.now() - date).days >= 0):
     # getmap(df,'percentage', 'positivity', 'Positive Testing % {:%m/%d}'.format(current_date), -.2, .30)
     getmap(df,'deathIncrease', 'deaths', 'Daily Deaths per Million', 0, df['deathIncrease'].max().max(), date)
     getmap(df,'positiveIncrease', 'positive_cases', 'Daily Positive Cases per Million',0, df['positiveIncrease'].max().max(), date)
-    #getmap(df,'deathIncrease', 'US Deaths per Million',date,-3,3)
-    # getmap(df,'positiveIncrease', 'US Positive Cases per Million',date,-3,3)
     date = date + datetime.timedelta(days= 1)
     print(date)
