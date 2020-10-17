@@ -90,7 +90,7 @@ current_value = df.tail(1)['tested_7day']['Illinois'].round()[0]
 current_date = df.tail(1)['tested_7day']['Illinois'].index[0]
 plt.title('Illinois Tests Completed - '+'{:%b %-d} - {:,} test per day'.format(current_date,int(current_value)))
 plt.grid(axis='y', linewidth=0.5)
-plt.ylim(0,65000)
+plt.ylim(0,85000)
 # Format the date into months & days
 plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%m/%d')) 
 
@@ -206,7 +206,7 @@ for row in range(0,3):
         ax[row][col].plot(june_plus.index, june_plus['count_per_million_7day'][item], linewidth=3, color='#6688cc')
         ax[row][col].set_title(item +' - {:0.1f}'.format(current_value))
         ax[row][col].grid(axis='y', linewidth=0.5)
-        ax[row][col].set_ylim(0,400)
+        ax[row][col].set_ylim(0,500)
         ax[row][col].spines["top"].set_visible(False)
         ax[row][col].spines["right"].set_visible(False)
         ax[row][col].spines["left"].set_visible(False)
@@ -232,30 +232,18 @@ plt.savefig('charts/Region Cases per Million.png', dpi=400)
 #######################################################################################
 
 df = pd.read_csv('state_hospitalization.csv', index_col=1, parse_dates=True)
-df = df[df.index > datetime.datetime(2020,5,30)]
+df = df[df.index > datetime.datetime(2020,3,1)]
 plt.figure()
 f, ax = plt.subplots(2)
 plt.box(on=None)
 ax[0].plot(df.index, df['VentilatorInUseCOVID_7day'], color='#6688cc', label="Ventilator", linewidth=3)
 ax[0].plot(df.index, df['ICUInUseBedsCOVID_7day'], color='#EE3333', label="ICU", linewidth=3)
-# ax[0].ylabel("Vents/ICU Beds")
-
-# ax2 = plt.twinx()
 ax[1].plot(df.index, df['TotalInUseBedsCOVID_7day'], color='#cca80a', label="Non ICU Bed", linewidth=3)
-# ax[1].ylabel("Hospital Beds")
 
 ax[0].set_ylim(0)
 ax[1].set_ylim(0)
 
-# ax2.set_ylim(0)
-# ax2.set_ylabel("Non ICU Beds")
-# ax2.margins(0)
 
-# ax2.spines["top"].set_visible(False)
-# ax2.spines["right"].set_visible(False)
-# ax2.spines["left"].set_visible(False)
-# ax2.legend(loc='best').set_zorder(10)
-# ax2.legend().get_frame().set_linewidth(0.0)
 ax[0].legend().get_frame().set_linewidth(0.0)
 ax[1].legend().get_frame().set_linewidth(0.0)
 

@@ -110,6 +110,19 @@ def get_regional_breakdown(region_file):
     
 counties = get_regional_breakdown('regions.csv')
 
+N = 256
+vals = np.ones((N, 4))
+vals[0:29, 0] = np.linspace(76/256, 1, 29)
+vals[0:29, 1] = np.linspace(168/256, 253/256, 29)
+vals[0:29, 2] = np.linspace(0/256, 148/256, 29)
+vals[29:128, 0] = np.linspace( 1, 1, 99)
+vals[29:128, 1] = np.linspace( 253/256, 0, 99)
+vals[29:128, 2] = np.linspace( 148/256, 0, 99)
+
+vals[128:256, 0] = np.linspace(1, 147/256, 128)
+vals[128:256, 1] = np.linspace(0, 85/256, 128)
+vals[128:256, 2] = np.linspace(0, 1, 128)
+cmap = matplotlib.colors.ListedColormap(vals)
 
 def getmap(df,stat,statname,title, min, max, date):
     plt.close()
@@ -123,12 +136,10 @@ def getmap(df,stat,statname,title, min, max, date):
     ax.outline_patch.set_visible(False)
     ax.set_title(title, fontsize=20)
 
-    scheme = 'RdYlGn_r'
-    cmap=plt.get_cmap(scheme)
     norm = plt.Normalize(min, max)
     sm = plt.cm.ScalarMappable(cmap=cmap,norm=norm, )
     sm._A = []
-    plt.colorbar(sm,ax=ax,shrink=0.6, boundaries=np.arange(0, max, max/100))
+    plt.colorbar(sm,ax=ax,shrink=0.6)
     for astate in shpreader.Reader('cb_2018_us_county_5m').records():
         if (astate.attributes['STATEFP']!='17'):
             continue
@@ -153,10 +164,10 @@ current_date = datetime.datetime.today()
 # from_date = current_date - datetime.timedelta(days=window)
 # getmap(counties,'count_per_million_14day', 'positivity', 'Positive Testing % {:%m/%d}'.format(current_date), -.2, .30)
 
-date = datetime.datetime(2020,3,18)
+date = datetime.datetime(2020,4,1)
 
 while ((datetime.datetime.now() - date).days >= 0):
-    getmap(counties,'deaths_per_million_14day', 'deaths', 'Deaths per Million', -15, 25, date)
-    getmap(counties,'count_per_million_14day', 'positive_cases', 'Positive Cases per Million',-200, 400, date)    #getmap(df,'deathIncrease', 'US Deaths per Million',date,-3,3)
+    getmap(counties,'deaths_per_million_14day', 'deaths', 'Deaths per Million', 0, 25, date)
+    getmap(counties,'count_per_million_14day', 'positive_cases', 'Positive Cases per Million',0, 700, date)    #getmap(df,'deathIncrease', 'US Deaths per Million',date,-3,3)
     date = date + datetime.timedelta(days= 1)
     print(date)
