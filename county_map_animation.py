@@ -143,7 +143,7 @@ def getmap(setting, fips, df,statname,title, min, max, date):
 
 
 
-setting = settings['US']
+setting = settings['IL']
 state_fips = all_state_fips[all_state_fips['state'].isin(setting['states'])] 
 
 current_date = datetime.datetime.today()

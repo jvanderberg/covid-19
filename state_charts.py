@@ -21,13 +21,14 @@ df = pd.read_csv('state_first_second_wave.csv', index_col=0, parse_dates=True)
 plt.figure(figsize=(10, 5), dpi=400)
 plt.box(on=None)
 plt.margins(0)
-plt.plot(df.index, df['deaths_per_millionfirst'], color='#6688cc', label="First Wave")
-plt.plot(df.index, df['deaths_per_millionsecond'], color='#EE3333', label="Second Wave")
+plt.plot(df.index, df['deaths_per_million'], color='#6688cc', label="First Wave", linewidth=3)
+plt.plot(df.index, df['deaths_per_millionsecond'], color='#EE3333', label="Second Wave", linewidth=3)
+plt.plot(df.index, df['deaths_per_millionthird'], color='#CCCC33', label="Third Wave", linewidth=3)
 plt.ylabel("Deaths Per Million")
 plt.ylim(0)
 plt.legend()
 
-plt.title('US Death Rates First Wave vs Second Wave')
+plt.title('US Death Rates 3 waves')
 plt.grid(axis='y', linewidth=0.5)
 plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%m/%d')) 
 
@@ -55,8 +56,8 @@ length = len(items)
 cols = 5
 rows = int(np.ceil(length/cols))
 plt.close()
-plt.figure(1, dpi=400, clear=True)
-f, ax = plt.subplots(rows,cols, sharey=True, sharex=True)
+plt.figure(1, dpi=100, clear=True)
+f, ax = plt.subplots(rows,cols, sharey=True, sharex=False)
 
 
 plt.rc('font', size=22)          # controls default text sizes
@@ -65,10 +66,9 @@ for row in range(0,rows):
         loc = row*cols+col
         if (loc <= length-1):
             item = items[loc]
-            print(loc, item)
             current_value = df.tail(1)['deaths_per_million'][item][0]
 
-            ax[row][col].plot(df.index, df['deaths_per_million'][item],linewidth=4, color='#6688cc')
+            ax[row][col].plot(df.index, df['deaths_per_million'][item],linewidth=8, color='#6688cc')
             ax[row][col].set_title(item)
             ax[row][col].grid(axis='y', linewidth=0.5)
             ax[row][col].set_ylim(0,40)
@@ -76,13 +76,13 @@ for row in range(0,rows):
             ax[row][col].tick_params(axis='y', labelsize=20)
 
             ax[row][col].xaxis.set_major_formatter(mdates.DateFormatter('%m/%d')) 
-            ax[row][col].xaxis.set_major_locator(mdates.MonthLocator(interval=1)) 
+            ax[row][col].xaxis.set_major_locator(mdates.MonthLocator(interval=2)) 
  
 print('Setting height...')
-f.set_figheight(8* rows)
+f.set_figheight(4*rows)
 f.set_figwidth(8*cols)
 print('Setting layout...')
-f.tight_layout(pad=8, w_pad=1, h_pad=2)
+# f.tight_layout(pad=8, w_pad=1, h_pad=2)
 f.suptitle('Deaths Per Million by State - 14 Day Average - Sorted by Date of Peak', fontsize=40)
 # Format the date into months & days
 print('Formatting axes...')
@@ -91,5 +91,6 @@ print('Formatting axes...')
 # Change the tick interval
 #plt.gca().xaxis.set_major_locator(mdates.MonthLocator(interval=1)) 
 #plt.box(False)
+f.tight_layout(pad=5,w_pad=2,h_pad=2)
 print('Saving...')
-plt.savefig('charts/State Deaths.png', bbox_inches='tight')
+plt.savefig('charts/State Deaths.png',dpi=100)

@@ -45,13 +45,27 @@ df = df[df['population'] > min_population]
 
 first = df[df['worst_date'] < datetime.datetime(2020,7,1)]
 second = df[df['worst_date'] > datetime.datetime(2020,6,30)]
+third = second[second['worst_date'] > datetime.datetime(2020, 8,31)]
+second = second[second['worst_date'] < datetime.datetime(2020, 9,1)]
+
 first_totals = first.groupby('date').sum()
 first_totals = first_totals.rolling(window=7).mean()
 second_totals = second.groupby('date').sum()
 second_totals = second_totals.rolling(window=7).mean()
+third_totals = third.groupby('date').sum()
+third_totals = third_totals.rolling(window=7).mean()
+
+print('First:')
+print((first['state'].unique()))
+print('Second:')
+print((second['state'].unique()))
+print('Third:')
+print((third['state'].unique()))
+
 
 first_totals['deaths_per_million'] = 1000000 * first_totals['deathIncrease']/first_totals['population']
 second_totals['deaths_per_million'] = 1000000 * second_totals['deathIncrease']/second_totals['population']
+third_totals['deaths_per_million'] = 1000000 * third_totals['deathIncrease']/third_totals['population']
 df['deaths_per_million'] = 1000000 * df['deathIncrease']/df['population']
 stats = ['deathIncrease','positiveIncrease','totalTestResultsIncrease','hospitalizedIncrease', 'deaths_per_million']
 df = df.pivot(index=df.index, columns='state')
@@ -60,7 +74,7 @@ for stat in stats:
 
 df.to_csv('state_daily_14day_centered.csv')
 
-final = first_totals.join(second_totals,lsuffix='first', rsuffix='second')
+final = second_totals.join(third_totals,lsuffix='second', rsuffix='third').join(first_totals)
 
 final.to_csv('state_first_second_wave.csv')
 
