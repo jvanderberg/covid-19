@@ -5,10 +5,11 @@ import numpy as np
 import requests
 
 #fetch the latest file and save it
-r = requests.get("https://www.dph.illinois.gov/sitefiles/COVIDZip.json?nocache=1")
+r = requests.get("https://idph.illinois.gov/DPHPublicInformation/api/COVID/GetZip")
 zip_json= r.text
 data = json.loads(zip_json)
-file_date = datetime.datetime(data['LastUpdateDate']['year'], data['LastUpdateDate']['month'], data['LastUpdateDate']['day'])
+file_date = datetime.datetime(data['lastUpdatedDate']['year'], data['lastUpdatedDate']['month'], data['lastUpdatedDate']['day'])
+file_date = datetime.datetime.now()
 file_name = file_date.strftime("%m-%d") + ".json"
 f = open(file_name, "w")
 f.write(r.text)
@@ -34,15 +35,15 @@ table['7daypos100k_14day'] = []
 
 age_groups = ['Unknown', '<20', '20-29', '30-39', '40-49', '50-59', '60-69', '70-79', '80+']
 
-for age_group in age_groups:
-    table[age_group+' tested'] = []
-    table[age_group+' count'] = []
-    table[age_group+' percentage'] = []
+# for age_group in age_groups:
+#     table[age_group+' tested'] = []
+#     table[age_group+' count'] = []
+#     table[age_group+' percentage'] = []
 
-for age_group in age_groups:
-    table[age_group+' tested_14day'] = []
-    table[age_group+' count_14day'] = []
-    table[age_group+' percentage_14day'] = []
+# for age_group in age_groups:
+#     table[age_group+' tested_14day'] = []
+#     table[age_group+' count_14day'] = []
+#     table[age_group+' percentage_14day'] = []
 
 age_index = 0
 last_good_file = None
@@ -60,7 +61,11 @@ while ((datetime.datetime.now() - date).days >= 0):
 
     if (bad_file == False or last_good_file):
         data = json.load(open(last_good_file))
-        fileDate = datetime.datetime(data['LastUpdateDate']['year'], data['LastUpdateDate']['month'], data['LastUpdateDate']['day'])
+        try:
+            fileDate = datetime.datetime(data['LastUpdateDate']['year'], data['LastUpdateDate']['month'], data['LastUpdateDate']['day'])
+        except:
+            fileDate = datetime.datetime(data['lastUpdatedDate']['year'], data['lastUpdatedDate']['month'], data['lastUpdatedDate']['day'])
+
         strdate= date.strftime("%m-%d")
         for zip_data in data['zip_values']:
           #  df2 = pd.DataFrame()
@@ -75,15 +80,15 @@ while ((datetime.datetime.now() - date).days >= 0):
                 table['tested_14day'].append(np.NaN)
                 table['percentage_14day'].append(0)
                 table['7daypos100k_14day'].append(np.NaN)
-                age_index = 0
-                for age_group in zip_data['demographics']['age']:
-                    table[age_groups[age_index] + " count"].append(np.NaN)
-                    table[age_groups[age_index] + " tested"].append(np.NaN)
-                    table[age_groups[age_index] + " percentage"] = 0
-                    table[age_groups[age_index] + " count_14day"].append(np.NaN)
-                    table[age_groups[age_index] + " tested_14day"].append(np.NaN)
-                    table[age_groups[age_index] + " percentage_14day"] = 0
-                    age_index = age_index + 1
+                # age_index = 0
+                # for age_group in zip_data['demographics']['age']:
+                #     table[age_groups[age_index] + " count"].append(np.NaN)
+                #     table[age_groups[age_index] + " tested"].append(np.NaN)
+                #     table[age_groups[age_index] + " percentage"] = 0
+                #     table[age_groups[age_index] + " count_14day"].append(np.NaN)
+                #     table[age_groups[age_index] + " tested_14day"].append(np.NaN)
+                #     table[age_groups[age_index] + " percentage_14day"] = 0
+                #     age_index = age_index + 1
 
             else:
                 table['zip'].append( zip_data['zip'])
@@ -98,14 +103,14 @@ while ((datetime.datetime.now() - date).days >= 0):
                 table['percentage_14day'].append(0)
                 table['7daypos100k_14day'].append(np.NaN)
                 age_index = 0
-                for age_group in zip_data['demographics']['age']:
-                    table[age_groups[age_index] + " count"].append(age_group['count'])
-                    table[age_groups[age_index] + " tested"].append(age_group['tested'])
-                    table[age_groups[age_index] + " percentage"] = 0
-                    table[age_groups[age_index] + " count_14day"].append(np.NaN)
-                    table[age_groups[age_index] + " tested_14day"].append(np.NaN)
-                    table[age_groups[age_index] + " percentage_14day"] = 0
-                    age_index = age_index + 1
+                # for age_group in zip_data['demographics']['age']:
+                #     table[age_groups[age_index] + " count"].append(age_group['count'])
+                #     table[age_groups[age_index] + " tested"].append(age_group['tested'])
+                #     table[age_groups[age_index] + " percentage"] = 0
+                #     table[age_groups[age_index] + " count_14day"].append(np.NaN)
+                #     table[age_groups[age_index] + " tested_14day"].append(np.NaN)
+                #     table[age_groups[age_index] + " percentage_14day"] = 0
+                #     age_index = age_index + 1
 
 
     
@@ -116,20 +121,23 @@ df = df[df['zip'].isin(target_zips)]
 df['date'] = pd.to_datetime(df['date'])
 df = df.join(population, on='zip')
 df2 = df.pivot(index='date',columns='zip')
-df2 = df2.interpolate().round()
+df2 = df2.interpolate()
 
 diff = pd.DataFrame(df2)
 diff['count'] = diff['count'].diff(periods=1)
 diff['tested'] = diff['tested'].diff(periods=1)
+diff['count'] = diff['count'].round()
+diff['tested'] = diff['tested'].round()
 
-for age_group in age_groups:
-    diff[age_group+' count']  = diff[age_group+' count'].diff(periods=1)
-    diff[age_group+' tested']  = diff[age_group+' tested'].diff(periods=1)
+
+# for age_group in age_groups:
+#     diff[age_group+' count']  = diff[age_group+' count'].diff(periods=1)
+#     diff[age_group+' tested']  = diff[age_group+' tested'].diff(periods=1)
 
 diff['7daypos100k'] = 100000 * diff['count'].rolling(window=7).sum() / diff['population']
 diff['percentage'] = diff['count'] / diff['tested']
-for age_group in age_groups:
-    diff[age_group+' percentage']  = diff[age_group+' count'] / diff[age_group+' tested']
+# for age_group in age_groups:
+#     diff[age_group+' percentage']  = diff[age_group+' count'] / diff[age_group+' tested']
 
 
 diff['count_14day'] = diff['count'].rolling(window=14).mean()
@@ -137,11 +145,11 @@ diff['tested_14day'] = diff['tested'].rolling(window=14).mean()
 diff['percentage_14day'] = diff['count_14day'] / diff['tested_14day']
 diff['7daypos100k_14day'] = diff['7daypos100k'].rolling(window=14).mean()
 
-for age_group in age_groups:
-    diff[age_group+' percentage']  = diff[age_group+' count'] / diff[age_group+' tested']
-    diff[age_group+' count_14day'] = diff['count'].rolling(window=14).mean()
-    diff[age_group+' tested_14day'] = diff['tested'].rolling(window=14).mean()
-    diff[age_group+' percentage_14day']  = diff[age_group+' count_14day'] / diff[age_group+' tested_14day']
+# for age_group in age_groups:
+#     diff[age_group+' percentage']  = diff[age_group+' count'] / diff[age_group+' tested']
+#     diff[age_group+' count_14day'] = diff['count'].rolling(window=14).mean()
+#     diff[age_group+' tested_14day'] = diff['tested'].rolling(window=14).mean()
+#     diff[age_group+' percentage_14day']  = diff[age_group+' count_14day'] / diff[age_group+' tested_14day']
 
 diff.to_csv('zip_detail_all.csv')
 
@@ -150,8 +158,8 @@ dftotals = dftotals.sum(level=0)
 dftotals = dftotals.transpose()
 
 dftotals['percentage'] = dftotals['count'] / dftotals['tested']
-for age_group in age_groups:
-    dftotals[age_group+' percentage']  = dftotals[age_group+' count'] / dftotals[age_group+' tested']
+# for age_group in age_groups:
+#     dftotals[age_group+' percentage']  = dftotals[age_group+' count'] / dftotals[age_group+' tested']
 
 dftotals['count_14day'] = dftotals['count'].rolling(window=14).mean()
 dftotals['tested_14day'] = dftotals['tested'].rolling(window=14).mean()
@@ -159,11 +167,11 @@ dftotals['percentage_14day'] = dftotals['count_14day'] / dftotals['tested_14day'
 dftotals['7daypos100k'] = 100000 * dftotals['count'].rolling(window=7).sum() / dftotals['population']
 dftotals['7daypos100k_14day'] = dftotals['7daypos100k'].rolling(window=14).mean()
 
-for age_group in age_groups:
-    dftotals[age_group+' percentage']  = dftotals[age_group+' count'] / dftotals[age_group+' tested']
-    dftotals[age_group+' count_14day'] = dftotals[age_group+' count'].rolling(window=14).mean()
-    dftotals[age_group+' tested_14day'] = dftotals[age_group+' tested'].rolling(window=14).mean()
-    dftotals[age_group+' percentage_14day']  = dftotals[age_group+' count_14day'] / dftotals[age_group+' tested_14day']
+# for age_group in age_groups:
+#     dftotals[age_group+' percentage']  = dftotals[age_group+' count'] / dftotals[age_group+' tested']
+#     dftotals[age_group+' count_14day'] = dftotals[age_group+' count'].rolling(window=14).mean()
+#     dftotals[age_group+' tested_14day'] = dftotals[age_group+' tested'].rolling(window=14).mean()
+#     dftotals[age_group+' percentage_14day']  = dftotals[age_group+' count_14day'] / dftotals[age_group+' tested_14day']
 
 dftotals.to_csv('zip_rollup_all.csv')
 

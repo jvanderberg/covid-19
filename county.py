@@ -98,7 +98,7 @@ get_regional_breakdown('regions_north_south.csv').to_csv('regional_north_south.c
 ##############################################################################
 # Calculate hospitalization stats
 ##############################################################################
-r = requests.get("https://www.dph.illinois.gov/sitefiles/COVIDHospitalRegions.json?nocache=1")
+r = requests.get("https://idph.illinois.gov/DPHPublicInformation/api/COVID/GetHospitalizationResults")
 hospitalization_json= r.text
 
 data = json.loads(hospitalization_json)
@@ -116,7 +116,7 @@ for column in cols:
     table[column+'_14day'] = []
 
 for day in history:
-    table['date'].append(day['reportDate'])
+    table['date'].append(day['ReportDate'])
     for column in cols:
         
         table[column].append(day[column])
