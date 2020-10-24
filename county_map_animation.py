@@ -23,7 +23,6 @@ matplotlib.rcParams['ytick.color'] = '#555555'
 # states = ['CO','WY','NE','KS','OK','NM','AZ','UT']
 # statenames = ['Colorado', 'Wyoming', 'Nebraska', 'Kansas', 'Oklahoma', 'New Mexico', 'Arizona','Utah']
 # statefips= [8, 56, 31, 20, 40, 35, 4, 49]
-[-122, -73.5, 22, 50]
 settings = {'CO' : { 'name': 'Colorado Area', 'states': ['CO','WY','NE','KS','OK','NM','AZ','UT'], 'title_font': 30, 'datex':-102,'datey':30,'figsize':(10,9), 'dpi':400, 'extent':[-115, -94, 30,45]},
             'IL' : { 'name': 'Midwest', 'states': ['OH','MN','IL','KY','IN','MO','IA','MI','WI'], 'title_font': 24, 'datex':-96,'datey':34,'figsize':(7,8), 'dpi':400, 'extent':[-98, -82, 35, 50]},
             'US' : { 'name': 'US', 'states':['AL','AZ','AR','CA','CO','CT','DE','FL','GA','HI','ID','IL','IN','IA','KS','KY','LA','ME','MD','MA','MI','MN','MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND','OH','OK','OR','PA','RI','SC','SD','TN','TX','UT','VT','VA','WA','WV','WI','WY'], 'title_font': 24, 'datex':-120,'datey':22,'figsize':(12,7), 'dpi':400, 'extent':[-122, -73.5, 22, 50]}}
@@ -151,8 +150,8 @@ current_date = datetime.datetime.today()
 counties_confirmed, cases_stats = get_all_county_data(setting,state_fips,'confirmed')
 counties_deaths,death_stats = get_all_county_data(setting,state_fips,'deaths')
 
-date = datetime.datetime(2020,4,16)
-while ((datetime.datetime.now() - date).days >= 1):
+date = datetime.datetime(2020,10,23)
+while ((datetime.datetime.now() - date).days >= 0):
     print(date)
     getmap(setting, state_fips, counties_deaths, 'deaths', 'Daily Deaths per Million', 0,death_stats['std']*10, date)
     getmap(setting, state_fips, counties_confirmed, 'positive_cases', 'Daily Positive Cases per Million',0, cases_stats['std'] * 10, date)    

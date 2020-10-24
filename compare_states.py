@@ -9,13 +9,14 @@ import matplotlib.ticker as mtick
 import matplotlib
 import sys
 
+startdate = datetime.datetime(2020,7,1)
 matplotlib.rcParams['text.color'] = '#555555'
 matplotlib.rcParams['axes.labelcolor'] = '#555555'
 matplotlib.rcParams['xtick.color'] = '#555555'
 matplotlib.rcParams['ytick.color'] = '#555555'
 states = sys.argv[1].split(',')
 print(states)
-window = 7
+window = 14
 population = pd.read_csv("population.csv",parse_dates=True)
 population = population.set_index('state')
 population['population'] = population['population'].astype('int32')
@@ -24,7 +25,7 @@ df = df.sort_index(ascending=True)
 df = df.join(population, on='state')
 df['percentage'] = 0
 df = df[df['state'].isin(states)]
-
+df = df[df.index >= startdate]
 df = df.pivot(index=df.index, columns='state')
 
 df['percentage'] = df['positiveIncrease'] / df['totalTestResultsIncrease']
@@ -49,7 +50,7 @@ plt.title('Daily Deaths as of {:%b %-d}'.format(current_date))
 plt.grid(axis='y', linewidth=0.5)
 # Format the date into months & days
 plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%m/%d')) 
-
+plt.ylim(0)
 # Change the tick interval
 plt.gca().xaxis.set_major_locator(mdates.MonthLocator(interval=1)) 
 plt.box(False)
@@ -74,7 +75,7 @@ current_date = df.tail(1)['percentage'][state].index[0]
 plt.title('Daily Positive Cases as of {:%b %-d}'.format(current_date))
 plt.grid(axis='y', linewidth=0.5)
 plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%m/%d')) 
-
+plt.ylim(0)
 # Change the tick interval
 plt.gca().xaxis.set_major_locator(mdates.MonthLocator(interval=1)) 
 
@@ -93,7 +94,7 @@ for idx,state in enumerate(states):
 plt.ylabel("Daily Positive %")
 plt.legend(loc='best').get_frame().set_linewidth(0.0)
 
-plt.ylim(0,.3)
+plt.ylim(0,.5)
 plt.gca().yaxis.set_major_formatter(mtick.PercentFormatter(1.0))
 current_date = df.tail(1)['percentage'][state].index[0]
 
@@ -118,7 +119,7 @@ plt.ylabel("Daily Tests per Million")
 current_date = df.tail(1)['totalTestResultsIncrease'][state].index[0]
 plt.title('Tests Completed per Million as of '+'{:%b %-d}'.format(current_date))
 plt.grid(axis='y', linewidth=0.5)
-
+plt.ylim(0)
 # Format the date into months & days
 plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%m/%d')) 
 

@@ -40,29 +40,17 @@ plt.savefig('charts/IL Deaths.png', bbox_inches='tight')
 
 
 #######################################################################################
-# Positives/Positive testing %
-#######################################################################################
+# Positives Cases
+####################################################################################
 plt.figure(figsize=(10, 5), dpi=400)
 plt.box(on=None)
 plt.margins(0)
 
 p1 = plt.bar(df.index, df['count']['Illinois'], width, color='#6688cc', label="Daily Positives")
-plt.plot(df.index, df['count_7day']['Illinois'], color='#EE3333', label="7 Day Average")
+plt.plot(df.index, df['count_7day']['Illinois'], color='#EE3333', label="7 Day Average", linewidth=3)
 plt.ylabel("Daily Positives")
 plt.legend(loc=9).get_frame().set_linewidth(0.0)
 
-ax2 = plt.twinx()
-ax2.plot(df.index, df['percentage_7day']['Illinois'], color='#cca80a', label="% Positive", linewidth=3)
-ax2.set_ylim(0)
-ax2.set_ylabel("% Positive")
-ax2.margins(0)
-
-ax2.yaxis.set_major_formatter(mtick.PercentFormatter(1.0))
-ax2.spines["top"].set_visible(False)
-ax2.spines["right"].set_visible(False)
-ax2.spines["left"].set_visible(False)
-ax2.legend(loc='best').set_zorder(10)
-ax2.legend().get_frame().set_linewidth(0.0)
 current_value = df.tail(1)['count_7day']['Illinois'].round()[0]
 current_date = df.tail(1)['count_7day']['Illinois'].index[0]
 current_value_percentage = df.tail(1)['percentage_7day']['Illinois'][0]
@@ -79,12 +67,39 @@ plt.close()
 
 
 #######################################################################################
+# Positive testing %
+#######################################################################################
+plt.figure(figsize=(10, 5), dpi=400)
+plt.box(on=None)
+plt.margins(0)
+
+plt.plot(df.index, df['percentage_7day']['Illinois'], color='#EE3333', label="7 Day Average", linewidth=3)
+plt.ylabel("Daily Positives")
+plt.legend(loc=9).get_frame().set_linewidth(0.0)
+
+
+plt.gca().yaxis.set_major_formatter(mtick.PercentFormatter(1.0))
+current_value = df.tail(1)['count_7day']['Illinois'].round()[0]
+current_date = df.tail(1)['count_7day']['Illinois'].index[0]
+current_value_percentage = df.tail(1)['percentage_7day']['Illinois'][0]
+plt.ylim(0)
+plt.title('Illinois Daily Positive % - '+'{:%b %-d} - {:,} cases per day - {:0.1f}% positive'.format(current_date,int(current_value), 100* current_value_percentage))
+plt.grid(axis='y', linewidth=0.5)
+plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%m/%d')) 
+
+# Change the tick interval
+plt.gca().xaxis.set_major_locator(mdates.MonthLocator(interval=1)) 
+
+plt.savefig('charts/IL Positive Pct.png', bbox_inches='tight')
+plt.close()
+
+#######################################################################################
 # Completed Test Report
 #######################################################################################
 plt.figure(1,figsize=(10, 5), dpi=400, clear=True)
 width = 0.75
 p1 = plt.bar(df.index, df['tested']['Illinois'], width, color='#6688cc', label="Tests Completed")
-plt.plot(df.index, df['tested_7day']['Illinois'], color='#EE3333', label="7 Day Average")
+plt.plot(df.index, df['tested_7day']['Illinois'], color='#EE3333', label="7 Day Average", linewidth=3)
 plt.ylabel("Daily Tests")
 current_value = df.tail(1)['tested_7day']['Illinois'].round()[0]
 current_date = df.tail(1)['tested_7day']['Illinois'].index[0]

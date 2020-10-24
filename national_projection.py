@@ -13,28 +13,28 @@ matplotlib.rcParams['text.color'] = '#555555'
 matplotlib.rcParams['axes.labelcolor'] = '#555555'
 matplotlib.rcParams['xtick.color'] = '#555555'
 matplotlib.rcParams['ytick.color'] = '#555555'
-startdate = datetime.datetime(2020,5,1)
+startdate = datetime.datetime(2020,3,1)
 df = pd.read_csv('us_daily.csv', index_col=0, parse_dates=True)
 
 pos = df['positiveIncrease_7day']/df['totalTestResultsIncrease_7day']
 
-cfr = pd.DataFrame({'deaths':df['deathIncrease'],'cases': df['positiveIncrease'], 'tests': df['totalTestResultsIncrease']})
+df = pd.DataFrame({'deaths':df['deathIncrease'],'cases': df['positiveIncrease'], 'tests': df['totalTestResultsIncrease']})
 
-cfr = cfr[cfr.index > startdate]
-cfr = cfr.rolling(window=14, center=True).mean()
-cfr['percentage'] = cfr['cases'] / cfr['tests']
+df = df[df.index > startdate]
+df = df.rolling(window=14, center=True).mean()
+df['percentage'] = df['cases'] / df['tests']
 lag_correlations = np.zeros(80)
 for i in range(0,80):
-    shifted = cfr['percentage'].shift(periods=i)
-    corr = cfr['deaths'].corr(shifted)
+    shifted = df['percentage'].shift(periods=i)
+    corr = df['deaths'].corr(shifted)
     print(str(i) + ' ' + str(corr))
     lag_correlations[i] = corr
 
 max_corr_lag = np.argmax(lag_correlations)
 # max_corr_lag = 55
-future_index = pd.date_range(cfr.tail(1).index[0]+datetime.timedelta(days=1), periods=max_corr_lag)
-future = pd.DataFrame(index=future_index,columns=cfr.columns)
-cfr = pd.concat((cfr,future))
+future_index = pd.date_range(df.tail(1).index[0]+datetime.timedelta(days=1), periods=max_corr_lag)
+future = pd.DataFrame(index=future_index,columns=df.columns)
+cfr = pd.concat((df,future))
 cfr['percentage_lagged'] = cfr['percentage'].shift(periods=max_corr_lag)
 
 clean = cfr.dropna()
@@ -80,3 +80,33 @@ plt.box(False)
 plt.legend().get_frame().set_linewidth(0.0)
 plt.margins(0)
 plt.savefig('charts/US Deaths Projection.png')
+
+
+for lag in range(1,40):
+    future_index = pd.date_range(df.tail(1).index[0]+datetime.timedelta(days=1), periods=lag)
+    future = pd.DataFrame(index=future_index,columns=df.columns)
+    cfr = pd.concat((df,future))
+    cfr['percentage_lagged'] = cfr['percentage'].shift(periods=lag)
+    clean = cfr.dropna()
+    slope, intercept, r_value, p_value, std_err = stats.linregress(clean['percentage_lagged'], clean['deaths'])
+    # fit = np.polyfit(clean['percentage_lagged'], y=clean['deaths'], deg=1, full=True)
+
+    cfr['fit'] = slope*cfr['percentage_lagged'] + intercept
+    plt.close()
+    plt.figure(1,figsize=(10, 5), dpi=400)
+    width = 0.75
+    plt.plot(cfr.index, cfr['deaths'], color='#EE3333', label="Deaths", linewidth=3)
+    plt.plot(cfr.index, cfr['fit'], color='#AA33AA', label="Fit/Projection", linewidth=3)
+    plt.ylabel("Daily Deaths")
+    plt.title('US Daily Deaths Projection - '+str(lag)+' day lag of Case Positivity %')
+    plt.grid(axis='y', linewidth=0.5)
+    # Format the date into months & days
+    plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%m/%d')) 
+
+    # Change the tick interval
+    plt.gca().xaxis.set_major_locator(mdates.MonthLocator(interval=1)) 
+    plt.box(False)
+    plt.legend().get_frame().set_linewidth(0.0)
+    plt.margins(0)
+    print('Lag '+str(lag)+' day animation frame')
+    plt.savefig('charts/US Deaths '+str(lag)+' day lag Projection.png')

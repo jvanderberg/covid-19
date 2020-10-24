@@ -50,7 +50,11 @@ def get_regional_breakdown(region_file):
     table['count_per_million_14day'] = []
 
     for date_data in data['historical_county']['values']:
-        date = date_data['testDate']
+        try:
+            date = date_data['testDate']
+        except:
+            date = date_data['testdate']
+
         for county in date_data['values']:
             table['date'].append(date)
             table['county'].append(county['County'])

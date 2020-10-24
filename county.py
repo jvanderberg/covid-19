@@ -6,7 +6,7 @@ import requests
 from scipy import stats
 
 def get_regional_breakdown(region_file):
-    r = requests.get("https://www.dph.illinois.gov/sitefiles/COVIDHistoricalTestResults.json?nocache=5")
+    r = requests.get("https://www.dph.illinois.gov/sitefiles/COVIDHistoricalTestResults.json?nocache=1221")
     county_json= r.text
     regions = pd.read_csv(region_file)
     data = json.loads(county_json)
@@ -34,7 +34,11 @@ def get_regional_breakdown(region_file):
     table['count_per_million_14day'] = []
 
     for date_data in data['historical_county']['values']:
-        date = date_data['testDate']
+        try:
+            date = date_data['testDate']
+        except:
+            date = date_data['testdate']
+        print(date)
         for county in date_data['values']:
             table['date'].append(date)
             table['county'].append(county['County'])
