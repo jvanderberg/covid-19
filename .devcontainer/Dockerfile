@@ -29,6 +29,7 @@ RUN if [ -f "/tmp/conda-tmp/environment.yml" ]; then /opt/conda/bin/conda env up
 
 # Install pylint
 RUN /opt/conda/bin/pip install pylint
+RUN /opt/conda/bin/pip install aiohttp
 RUN conda install -y --channel conda-forge cartopy
 RUN apt-get update && apt-get install imagemagick -y
 

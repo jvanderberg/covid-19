@@ -44,7 +44,7 @@ def get_all_county_data(setting, fips, stat):
     date = datetime.datetime(2020,4,1)
     
     cols = []
-    while ((datetime.datetime.now() - date).days >= 1):
+    while ((datetime.datetime.now() - date).days >= 2):
         try:
             col = date.strftime('%-m/%-d/%y')
             cols.append(col)
@@ -142,7 +142,7 @@ def getmap(setting, fips, df,statname,title, min, max, date):
 
 
 
-setting = settings['IL']
+setting = settings['US']
 state_fips = all_state_fips[all_state_fips['state'].isin(setting['states'])] 
 
 current_date = datetime.datetime.today()
