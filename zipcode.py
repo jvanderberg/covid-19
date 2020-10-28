@@ -103,8 +103,7 @@ last_good_file = None
 while ((datetime.datetime.now() - date).days >= 0):
     file = date.strftime("%m-%d") + ".json"
     print(file)
-    if (file == "10-23.json"):
-        1==1
+
     try:
         open(file)
         last_good_file = file
@@ -122,7 +121,6 @@ while ((datetime.datetime.now() - date).days >= 0):
 
         strdate= date.strftime("%m-%d")
         for zip_data in data['zip_values']:
-          #  df2 = pd.DataFrame()
             if (bad_file):
                 table['zip'].append( zip_data['zip'])
                 table['date'].append(date)
@@ -187,10 +185,8 @@ df = pd.DataFrame(table)
 df = df[df['zip'].isin(target_zips)]
 df['date'] = pd.to_datetime(df['date'])
 df = df.join(population, on='zip')
-df.to_csv('temp__zip_detail_all.csv')
 df2 = df.pivot(index='date',columns='zip')
 df2 = df2.interpolate()
-df2.to_csv('temp_interpolate_zip_detail_all.csv')
 diff = pd.DataFrame(df2)
 diff['count'] = diff['count'].diff(periods=1)
 diff['tested'] = diff['tested'].diff(periods=1)
@@ -242,6 +238,49 @@ for age_group in age_groups:
     dftotals[age_group+' percentage_14day']  = dftotals[age_group+' count_14day'] / dftotals[age_group+' tested_14day']
 
 dftotals.to_csv('zip_rollup_all.csv')
+
+population = pd.read_csv('cook_zipcodes.csv').set_index('zip')
+
+keys = ['zip', 'date', 'count', 'tested']
+subset =  {key: table[key] for key in keys }
+subset['cases_per_million_14day'] = subset['count']
+df = pd.DataFrame(subset)
+# df = df[df['zip'].isin(population.index)]
+df['zip'] = df['zip'].astype('int')
+df['date'] = pd.to_datetime(df['date'])
+df = df.pivot(index='date',columns='zip').interpolate()
+
+count = df['count'].reset_index().melt(id_vars=('date'), value_name='count').set_index(keys=['date','zip']).join(population, on='zip', how='inner')
+tested = df['tested'].reset_index().melt(id_vars=('date'), value_name='tested').set_index(keys=['date','zip']).join(population, on='zip', how='inner')
+out = count.join(tested, rsuffix='_')
+df = pd.DataFrame( out, columns=['zip','city','count','tested','population'])
+keys = [ '7daypos100k', 'percentage', 'count_14day', 'tested_14day', 'percentage_14day', '7daypos100k_14day', 'cases_per_million_14day']
+for key in keys:
+    df[key] = 0
+df = df[df['population'] > 0]
+df = df.groupby(by=['city', 'date']).sum()
+df = df.reset_index()
+df2 = df.pivot(index='date',columns='city')
+diff = pd.DataFrame(df2)
+diff['count'] = diff['count'].diff(periods=1)
+diff['tested'] = diff['tested'].diff(periods=1)
+diff['count'] = diff['count'].round()
+diff['tested'] = diff['tested'].round()
+
+
+diff['7daypos100k'] = 100000 * diff['count'].rolling(window=7).sum() / diff['population']
+diff['percentage'] = diff['count'] / diff['tested']
+
+
+diff['count_14day'] = diff['count'].rolling(window=14).mean()
+diff['cases_per_million_14day'] = 1000000*diff['count_14day'] / diff['population'] 
+diff['tested_14day'] = diff['tested'].rolling(window=14).mean()
+diff['percentage_14day'] = diff['count_14day'] / diff['tested_14day']
+diff['7daypos100k_14day'] = diff['7daypos100k'].rolling(window=14).mean()
+
+diff.to_csv('zip_city_all.csv')
+
+
 
 
 
