@@ -142,7 +142,7 @@ def getmap(setting, fips, df,statname,title, min, max, date):
 
 
 
-setting = settings['US']
+setting = settings['IL']
 state_fips = all_state_fips[all_state_fips['state'].isin(setting['states'])] 
 
 current_date = datetime.datetime.today()
@@ -150,7 +150,7 @@ current_date = datetime.datetime.today()
 counties_confirmed, cases_stats = get_all_county_data(setting,state_fips,'confirmed')
 counties_deaths,death_stats = get_all_county_data(setting,state_fips,'deaths')
 
-date = datetime.datetime(2020,10,23)
+date = datetime.datetime(2020,10,21)
 while ((datetime.datetime.now() - date).days >= 0):
     print(date)
     getmap(setting, state_fips, counties_deaths, 'deaths', 'Daily Deaths per Million', 0,death_stats['std']*10, date)

@@ -127,6 +127,20 @@ df['deathIncrease'] = 1000000* df['deathIncrease'] / df['population']
 df['hospitalizedIncrease'] = 1000000* df['hospitalizedIncrease'] / df['population']
 
 
+
+N = 256
+vals = np.ones((N, 4))
+vals[0:29, 0] = np.linspace(76/256, 1, 29)
+vals[0:29, 1] = np.linspace(168/256, 253/256, 29)
+vals[0:29, 2] = np.linspace(0/256, 148/256, 29)
+vals[29:128, 0] = np.linspace( 1, 1, 99)
+vals[29:128, 1] = np.linspace( 253/256, 0, 99)
+vals[29:128, 2] = np.linspace( 148/256, 0, 99)
+
+vals[128:256, 0] = np.linspace(1, 147/256, 128)
+vals[128:256, 1] = np.linspace(0, 85/256, 128)
+vals[128:256, 2] = np.linspace(0, 1, 128)
+cmap = matplotlib.colors.ListedColormap(vals)
 def getmap(df,stat,statname,title, min, max):
     plt.close()
     fig = plt.figure(figsize=(12,7), dpi=400)
@@ -143,16 +157,14 @@ def getmap(df,stat,statname,title, min, max):
     ax.outline_patch.set_visible(False)
     ax.set_title(title, fontsize=20)
 
-    scheme = 'RdYlGn_r'
-    cmap=plt.get_cmap(scheme)
     df = df[stat].drop(columns=['Puerto Rico', 'District of Columbia', 'Hawaii', 'Alaska'])
     df = df.iloc[-1]
     df.to_csv('us_change_in_'+statname+'.csv')
-    norm = plt.Normalize(min, max)
+    norm = plt.Normalize(0, df.max())
     df = df.transpose()
     sm = plt.cm.ScalarMappable(cmap=cmap,norm=norm, )
     sm._A = []
-    plt.colorbar(sm,ax=ax,shrink=0.6, boundaries=np.arange(0, max, max/100))
+    plt.colorbar(sm,ax=ax,shrink=0.6)
     for astate in shpreader.Reader(states_shp).records():
         edgecolor = 'gray'
 
