@@ -13,8 +13,42 @@ matplotlib.rcParams['axes.labelcolor'] = '#555555'
 matplotlib.rcParams['xtick.color'] = '#555555'
 matplotlib.rcParams['ytick.color'] = '#555555'
 
+
+df = pd.read_csv('zip_city_percentage_latest.csv')
+
+df.columns = ['city', 'positivity']
+df = df.sort_values(by='positivity', ascending=True)
+#######################################################################################
+# Local Cities ranked by positivity
+#######################################################################################
+plt.figure(figsize=(8, 30), dpi=400)
+plt.box(0)
+plt.margins(0)
+width = 0.75
+p1 = plt.barh(df['city'], df['positivity'], width,
+              color='#6688cc', label="14 Day Case Pos. %")
+plt.legend(loc='best')
+plt.legend().get_frame().set_linewidth(0.0)
+plt.gca().xaxis.set_major_formatter(mtick.PercentFormatter(1.0))
+plt.title('Cook County Case Positivity % Ranking')
+plt.grid(axis='x', linewidth=0.5)
+plt.xticks([0, 0.02, 0.04, 0.06, 0.08, 0.10, 0.12, 0.14, 0.16, 0.18, 0.20])
+for x, y in zip(df['city'], df['positivity']):
+
+    label = "{:0.1f}%".format(100*y)
+
+    plt.annotate(label,  # this is the text
+                 (y, x),  # this is the point to label
+                 textcoords="offset points",  # how to position the text
+                 xytext=(20, 0),  # distance from text to points (x,y)
+                 ha='center')  # horizontal alignment can be left, right or center
+
+plt.savefig('charts/Cook Municipal Ranking.png', bbox_inches='tight')
+plt.close()
+
+
 df = pd.read_csv('zip_rollup_all.csv', header=[
-                 0], index_col=0, parse_dates=True)
+    0], index_col=0, parse_dates=True)
 
 
 #######################################################################################
@@ -26,7 +60,8 @@ plt.margins(0)
 width = 0.75
 p1 = plt.bar(df.index, df['count'], width,
              color='#6688cc', label="Daily Positives")
-plt.plot(df.index, df['count_14day'], color='#EE3333', label="14 Day Average")
+plt.plot(df.index, df['count_14day'],
+         color='#EE3333', label="14 Day Average")
 plt.ylabel("Daily Positives")
 plt.legend(loc='best')
 plt.legend().get_frame().set_linewidth(0.0)
@@ -97,10 +132,10 @@ x = df.index
 y = []
 for age in age_groups:
     y.append(df[age['group']+' tested_14day'])
-    #plt.plot(df.index, df[age['group']+' count_14day'], color=age['color'], linewidth=4, label=age['group'])
+    # plt.plot(df.index, df[age['group']+' count_14day'], color=age['color'], linewidth=4, label=age['group'])
 
 plt.stackplot(x, y, labels=[age['group'] for age in age_groups], alpha=0.75)
-#plt.plot(df.index, df['count_14day'], color='black', label='All Ages', linewidth=4 )
+# plt.plot(df.index, df['count_14day'], color='black', label='All Ages', linewidth=4 )
 
 plt.ylabel("Daily Tests")
 plt.legend(loc='upper left', bbox_to_anchor=(
