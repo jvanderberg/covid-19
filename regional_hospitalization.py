@@ -8,64 +8,78 @@ import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 import matplotlib.ticker as mtick
 import matplotlib
-
-r = requests.get("https://www.dph.illinois.gov/sitefiles/COVID19/ResurgenceMetrics.json?nocache=1")
-hospitalization_json= r.text
+import datetime
 
 
-data = json.loads(hospitalization_json)
-print(data.keys())
+start = datetime.datetime(2020, 6, 11)
+daysback = (datetime.datetime.now() - start).days
+
+pos = {}
+hosp = {}
+
+pos['date'] = []
+pos['region'] = []
+pos['testPositivity'] = []
+pos['totalTests'] = []
+pos['positiveTests'] = []
+pos['cliAdmissions'] = []
+
+hosp['date'] = []
+hosp['region'] = []
+hosp['beds'] = []
+hosp['icu'] = []
+
+regions = ['', 'North', 'North-Central', 'West-Central', 'Metro East', 'Southern',
+           'East-Central', 'South Suburban', 'West Suburban', 'North Suburban', 'Suburban Cook', 'Chicago']
+for region in range(1, 12):
+
+    r = requests.get(
+        "https://idph.illinois.gov/DPHPublicInformation/api/COVID/GetResurgenceData?regionID="+str(region)+"&daysIncluded="+str(daysback))
+    hospitalization_json = r.text
+    data = json.loads(hospitalization_json)
+    for row in data['TestPositivity']:
+        if row['regionID'] == 14:
+            continue
+        pos['date'].append(datetime.datetime.strptime(
+            row['reportDate'][0:10], "%Y-%m-%d"))
+        pos['region'].append(regions[row['regionID']])
+        pos['positiveTests'].append(row['positiveTests'])
+        pos['totalTests'].append(row['totalTests'])
+        pos['testPositivity'].append(row['testPositivityRollingAvg'])
+
+    for row in data["CLIAdmissions"]:
+        if row['regionID'] == 14:
+            continue
+        pos['cliAdmissions'].append(row['CLIAdmissionsRA'])
+
+    for row in data['HospitalAvailability']:
+        if row['regionID'] == 14:
+            continue
+        hosp['date'].append(datetime.datetime.strptime(
+            row['reportDate'][0:10], "%Y-%m-%d"))
+
+        hosp['region'].append(regions[row['regionID']])
+        hosp['beds'].append(row['AverageMedSurgAvailPct'])
+        hosp['icu'].append(row['AverageICUAvailPct'])
+
 
 last_update = data['lastUpdatedDate']
-last_update_date = datetime.datetime(last_update['year'], last_update['month'], last_update['day'])
-table = {}
+last_update_date = datetime.datetime(
+    last_update['year'], last_update['month'], last_update['day'])
 
-table['date'] = []
-table['region'] = []
-table['testPositivity'] = []
-table['hospitalAvailability'] = []
-table['surge'] = []
-table['icu'] = []
-table['cliAdmissions'] = []
-for row in data['TestPositivity']:
-    table['date'].append(row['reportDate'])
-    table['region'].append(row['regionID'])
-    table['testPositivity'].append(row['testPositivityRollingAvg'])
-df_pos = pd.DataFrame({"date":table['date'], "region": table['region'],"testPositivity": table['testPositivity']})
+df_pos = pd.DataFrame(
+    {"date": pos['date'], "region": pos['region'], "cliAdmissions": pos['cliAdmissions'], "testPositivity": pos['testPositivity'], "positiveTests": pos['positiveTests'], "totalTests": pos['totalTests']})
 df_pos = df_pos.set_index(['date', 'region'])
 table = {}
-table['date'] = []
-table['region'] = []
-table['testPositivity'] = []
-table['hospitalAvailability'] = []
-table['surge'] = []
-table['icu'] = []
-table['cliAdmissions'] = []
+df_icu_beds = pd.DataFrame(
+    {"date": hosp['date'], "region": hosp['region'], "beds": hosp['beds'], "icu": hosp['icu']})
+df_icu_beds = df_icu_beds.set_index(['date', 'region'])
+df_pos.to_csv('regional_hospitalization_pos.csv')
+df_icu_beds.to_csv('regional_hospitalization_beds.csv')
 
-for row in data['HospitalAvailability']:
-    table['date'].append(row['reportDate'])
-    table['region'].append(row['regionID'])
-    table['surge'].append(row['AverageMedSurgAvailPct'])
-    table['icu'].append(row['AverageICUAvailPct'])
-df_icu_surge = pd.DataFrame({"date":table['date'], "region": table['region'],"surge": table['surge'], "icu": table['icu']})
-df_icu_surge = df_icu_surge.set_index(['date', 'region'])
-table['date'] = []
-table['region'] = []
-table['testPositivity'] = []
-table['hospitalAvailability'] = []
-table['surge'] = []
-table['icu'] = []
-table['cliAdmissions'] = []
-
-for row in data['CLIAdmissions']:
-    table['date'].append(row['reportDate'])
-    table['region'].append(row['regionID'])
-    table['cliAdmissions'].append(row['CLIAdmissionsRA'])
-df_cli_admissions = pd.DataFrame({"date":table['date'], "region": table['region'],"cliAdmissions": table['cliAdmissions']})
-df_cli_admissions = df_cli_admissions.set_index(['date', 'region'])
-
-df = df_pos.join(df_icu_surge).join(df_cli_admissions)
+df = df_icu_beds.join(df_pos, how='outer')
 df = df.drop_duplicates()
 df = df.reset_index()
-df = df.pivot(index='date',columns='region')
+df = df.pivot(index='date', columns='region')
+df = df[df.index >= start]
 df.to_csv('regional_hospitalization.csv')

@@ -13,6 +13,81 @@ matplotlib.rcParams['axes.labelcolor'] = '#555555'
 matplotlib.rcParams['xtick.color'] = '#555555'
 matplotlib.rcParams['ytick.color'] = '#555555'
 
+df = pd.read_csv('regional_hospitalization.csv', header=[
+                 0, 1], index_col=0, parse_dates=True)
+df2 = pd.read_csv('state_hospitalization.csv', index_col=1, parse_dates=True)
+df = df[df.index > datetime.datetime(2020, 6, 12)]
+df['icu'] = df['icu'].rolling(window=7).mean()
+df['beds'] = df['beds'].rolling(window=7).mean()
+df2 = df2[df2.index > datetime.datetime(2020, 6, 12)]
+df2['IL_icu'] = df2['ICUOpenBeds_7day']/df2['ICUBeds_7day']
+df2['IL_beds'] = df2['TotalOpenBeds_7day']/df2['TotalBeds_7day']
+df = df.join(df2['IL_icu'])
+df = df.join(df2['IL_beds'])
+
+
+#######################################################################################
+# ICU/Surg
+#######################################################################################
+items = [
+    ['Chicago', 'Illinois', 'Suburban Cook', 'North Suburban'],
+    ['West Suburban', 'South Suburban', 'North', 'North-Central'],
+    ['East-Central', 'West-Central', 'Metro East', 'Southern']
+]
+plt.close()
+plt.figure(1, dpi=800, clear=True)
+f, ax = plt.subplots(3, 4, sharex=True, sharey=True)
+june_plus = df[df.index > datetime.datetime(2020, 6, 11)]
+for row in range(0, 3):
+    for col in range(0, 4):
+        item = items[row][col]
+        if (item != 'Illinois'):
+            current_value_icu = df.tail(1)[('icu', item)][0]
+            current_value_beds = df.tail(1)[('beds', item)][0]
+        else:
+            current_value_icu = df.tail(1)['IL_icu'][0]
+            current_value_beds = df.tail(1)['IL_beds'][0]
+
+        if (item != 'Illinois'):
+            ax[row][col].plot(june_plus.index, june_plus[('icu', item)],
+                              linewidth=3, color='#6688cc', label='ICU Beds')
+            ax[row][col].plot(june_plus.index, june_plus[('beds', item)],
+                              linewidth=3, color='#cc6688', label='Hosp. Beds')
+        else:
+            ax[row][col].plot(june_plus.index, june_plus['IL_icu'],
+                              linewidth=3, color='#6688cc', label='ICU Beds')
+            ax[row][col].plot(june_plus.index, june_plus['IL_beds'],
+                              linewidth=3, color='#cc6688', label='Hosp. Beds')
+
+        ax[row][col].set_title(item + '\nICU {:0.1f}% - Beds {:0.1f}%'.format(
+            100*current_value_icu, 100*current_value_beds))
+        ax[row][col].grid(axis='y', linewidth=0.5)
+        ax[row][col].set_ylim(0.2, 0.6)
+        ax[row][col].spines["top"].set_visible(False)
+        ax[row][col].spines["right"].set_visible(False)
+        ax[row][col].spines["left"].set_visible(False)
+        ax[row][col].spines["bottom"].set_visible(False)
+        ax[row][col].yaxis.set_major_formatter(mtick.PercentFormatter(1.0))
+
+ax[0][0].legend()
+
+f.set_figheight(8)
+f.set_figwidth(16)
+f.tight_layout(pad=4, w_pad=-0.2, h_pad=3)
+# Format the date into months & days
+plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%m/%d'))
+plt.gca().yaxis.set_major_formatter(mtick.PercentFormatter(1.0))
+
+# Change the tick interval
+plt.gca().xaxis.set_major_locator(mdates.MonthLocator(interval=1))
+plt.box(False)
+
+# plt.margins(0)
+f.suptitle('Illinois Regional ICU and Hospital Bed % Available', fontsize=20)
+
+plt.savefig('charts/Region ICU.png', dpi=400)
+
+
 df = pd.read_csv('regional_all.csv', header=[0, 1], index_col=0)
 df.index = pd.to_datetime(df.index)
 
@@ -148,7 +223,7 @@ for row in range(0, 3):
                           [item], linewidth=3, color='#6688cc')
         ax[row][col].set_title(item + ' - {:0.1f}%'.format(100*current_value))
         ax[row][col].grid(axis='y', linewidth=0.5)
-        ax[row][col].set_ylim(0, .12)
+        ax[row][col].set_ylim(0, .18)
         ax[row][col].spines["top"].set_visible(False)
         ax[row][col].spines["right"].set_visible(False)
         ax[row][col].spines["left"].set_visible(False)
@@ -236,7 +311,7 @@ for row in range(0, 3):
                           [item], linewidth=3, color='#6688cc')
         ax[row][col].set_title(item + ' - {:0.1f}'.format(current_value))
         ax[row][col].grid(axis='y', linewidth=0.5)
-        ax[row][col].set_ylim(0, 600)
+        ax[row][col].set_ylim(0, 1000)
         ax[row][col].spines["top"].set_visible(False)
         ax[row][col].spines["right"].set_visible(False)
         ax[row][col].spines["left"].set_visible(False)
@@ -335,7 +410,7 @@ for col in range(0, 3):
     ax[col].set_title(
         item + ' - {:0.1f}%'.format(100*current_value), fontsize=18)
     ax[col].grid(axis='y', linewidth=0.5)
-    ax[col].set_ylim(0, .12)
+    ax[col].set_ylim(0, .16)
     ax[col].spines["top"].set_visible(False)
     ax[col].spines["right"].set_visible(False)
     ax[col].spines["left"].set_visible(False)
