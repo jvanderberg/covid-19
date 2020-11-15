@@ -191,7 +191,7 @@ current_date = df.tail(1)['tested_7day']['Illinois'].index[0]
 plt.title('Illinois Tests Completed - ' +
           '{:%b %-d} - {:,} test per day'.format(current_date, int(current_value)))
 plt.grid(axis='y', linewidth=0.5)
-plt.ylim(0, 100000)
+plt.ylim(0, 120000)
 # Format the date into months & days
 plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%m/%d'))
 
@@ -223,7 +223,7 @@ for row in range(0, 3):
                           [item], linewidth=3, color='#6688cc')
         ax[row][col].set_title(item + ' - {:0.1f}%'.format(100*current_value))
         ax[row][col].grid(axis='y', linewidth=0.5)
-        ax[row][col].set_ylim(0, .18)
+        ax[row][col].set_ylim(0, .2)
         ax[row][col].spines["top"].set_visible(False)
         ax[row][col].spines["right"].set_visible(False)
         ax[row][col].spines["left"].set_visible(False)
@@ -311,7 +311,7 @@ for row in range(0, 3):
                           [item], linewidth=3, color='#6688cc')
         ax[row][col].set_title(item + ' - {:0.1f}'.format(current_value))
         ax[row][col].grid(axis='y', linewidth=0.5)
-        ax[row][col].set_ylim(0, 1000)
+        ax[row][col].set_ylim(0, 1400)
         ax[row][col].spines["top"].set_visible(False)
         ax[row][col].spines["right"].set_visible(False)
         ax[row][col].spines["left"].set_visible(False)

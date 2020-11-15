@@ -155,7 +155,7 @@ counties_confirmed, cases_stats = get_all_county_data(
 counties_deaths, death_stats = get_all_county_data(
     setting, state_fips, 'deaths')
 
-date = datetime.datetime(2020, 11, 8)
+date = datetime.datetime(2020, 11, 12)
 while ((datetime.datetime.now() - date).days >= 0):
     print(date)
     getmap(setting, state_fips, counties_deaths, 'deaths',
