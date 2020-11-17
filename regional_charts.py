@@ -343,11 +343,11 @@ plt.figure()
 f, ax = plt.subplots(2)
 plt.box(on=None)
 ax[0].plot(df.index, df['VentilatorInUseCOVID_7day'],
-           color='#6688cc', label="Ventilator", linewidth=3)
+           color='#6688cc', label="Ventilator 7day", linewidth=3)
 ax[0].plot(df.index, df['ICUInUseBedsCOVID_7day'],
-           color='#EE3333', label="ICU", linewidth=3)
+           color='#EE3333', label="ICU 7day", linewidth=3)
 ax[1].plot(df.index, df['TotalInUseBedsCOVID_7day'],
-           color='#cca80a', label="Non ICU Bed", linewidth=3)
+           color='#cca80a', label="COVID Patients 7day", linewidth=3)
 
 ax[0].set_ylim(0)
 ax[1].set_ylim(0)
@@ -363,10 +363,10 @@ icu_pct = icu_value / df.tail(1)['ICUBeds_7day'].values[0]
 bed_value = df.tail(1)['TotalInUseBedsCOVID_7day'].values[0]
 bed_pct = bed_value / df.tail(1)['TotalBeds_7day'].values[0]
 current_date = df.tail(1)['VentilatorInUseCOVID_7day'].index[0]
-ax[0].set_title('Hospitalization - '+'{:%b %-d} - {:,} ICU Beds ({:0.1f}%) - {:,} Ventilators ({:0.1f}%)'.format(
-    current_date, int(icu_value), 100 * icu_pct, int(vent_value), 100*vent_pct), fontsize=16)
-ax[1].set_title('Hospitalization - '+'{:%b %-d} - {:,} Non-ICU Beds ({:0.1f}%)  '.format(
-    current_date, int(bed_value), 100*bed_pct), fontsize=16)
+ax[0].set_title('Hospitalization - '+'{:%b %-d} - {:,} ICU Beds - {:,} Ventilators'.format(
+    current_date, int(icu_value), int(vent_value), fontsize=16))
+ax[1].set_title('Hospitalization - '+'{:%b %-d} - {:,} Total COVID Patients '.format(
+    current_date, int(bed_value)), fontsize=16)
 ax[0].grid(axis='y', linewidth=0.5)
 ax[1].grid(axis='y', linewidth=0.5)
 ax[0].spines["top"].set_visible(False)
@@ -390,7 +390,7 @@ plt.close()
 
 
 df = pd.read_csv('regional_north_south.csv', header=[
-                 0, 1], index_col=0, parse_dates=True)
+    0, 1], index_col=0, parse_dates=True)
 
 #######################################################################################
 # North/South Positive %

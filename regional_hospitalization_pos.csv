@@ -153,6 +153,9 @@ date,region,cliAdmissions,testPositivity,positiveTests,totalTests
 2020-11-09,North,28.0,18.9,944,5068
 2020-11-10,North,28.0,19.4,831,4168
 2020-11-11,North,29.0,19.9,795,3507
+2020-11-12,North,28.0,20.9,899,3693
+2020-11-13,North,30.0,20.5,796,4246
+2020-11-14,North,31.0,20.0,744,4095
 2020-06-11,North-Central,1.0,2.7,70,1913
 2020-06-12,North-Central,2.0,2.8,69,1990
 2020-06-13,North-Central,2.0,2.7,32,1792
@@ -307,6 +310,9 @@ date,region,cliAdmissions,testPositivity,positiveTests,totalTests
 2020-11-09,North-Central,35.0,15.1,1422,9099
 2020-11-10,North-Central,37.0,15.6,1470,9130
 2020-11-11,North-Central,42.0,16.0,1523,8897
+2020-11-12,North-Central,42.0,16.7,1970,10639
+2020-11-13,North-Central,45.0,17.0,1885,10626
+2020-11-14,North-Central,50.0,17.0,1075,6454
 2020-06-11,West-Central,0.0,1.6,12,1843
 2020-06-12,West-Central,1.0,1.3,4,1198
 2020-06-13,West-Central,1.0,1.4,12,630
@@ -461,6 +467,9 @@ date,region,cliAdmissions,testPositivity,positiveTests,totalTests
 2020-11-09,West-Central,23.0,16.4,1091,5822
 2020-11-10,West-Central,22.0,16.4,705,4842
 2020-11-11,West-Central,25.0,16.9,732,4294
+2020-11-12,West-Central,25.0,17.2,1045,5730
+2020-11-13,West-Central,26.0,16.8,984,5846
+2020-11-14,West-Central,28.0,16.7,560,3600
 2020-06-11,Metro East,3.0,4.4,31,924
 2020-06-12,Metro East,3.0,4.9,51,627
 2020-06-13,Metro East,4.0,4.6,50,1150
@@ -615,6 +624,9 @@ date,region,cliAdmissions,testPositivity,positiveTests,totalTests
 2020-11-09,Metro East,8.0,13.9,561,3247
 2020-11-10,Metro East,8.0,14.8,456,2368
 2020-11-11,Metro East,9.0,15.2,600,4021
+2020-11-12,Metro East,10.0,15.3,611,4023
+2020-11-13,Metro East,9.0,16.3,815,4335
+2020-11-14,Metro East,11.0,16.1,439,3476
 2020-06-11,Southern,0.0,1.6,5,472
 2020-06-12,Southern,1.0,1.5,13,413
 2020-06-13,Southern,1.0,1.3,8,607
@@ -769,6 +781,9 @@ date,region,cliAdmissions,testPositivity,positiveTests,totalTests
 2020-11-09,Southern,14.0,12.5,373,2639
 2020-11-10,Southern,13.0,12.8,361,2444
 2020-11-11,Southern,13.0,13.8,457,2579
+2020-11-12,Southern,14.0,14.0,385,3097
+2020-11-13,Southern,13.0,13.9,465,3660
+2020-11-14,Southern,12.0,13.9,220,1762
 2020-06-11,East-Central,0.0,1.7,21,1224
 2020-06-12,East-Central,1.0,1.6,20,1012
 2020-06-13,East-Central,1.0,1.6,22,1383
@@ -923,6 +938,9 @@ date,region,cliAdmissions,testPositivity,positiveTests,totalTests
 2020-11-09,East-Central,26.0,4.8,792,11785
 2020-11-10,East-Central,28.0,5.2,744,15211
 2020-11-11,East-Central,29.0,5.2,763,16307
+2020-11-12,East-Central,29.0,5.3,805,14924
+2020-11-13,East-Central,29.0,5.3,831,15608
+2020-11-14,East-Central,30.0,5.4,585,9957
 2020-06-11,South Suburban,3.0,5.9,76,1492
 2020-06-12,South Suburban,4.0,5.4,50,1149
 2020-06-13,South Suburban,5.0,5.3,59,1092
@@ -1077,6 +1095,9 @@ date,region,cliAdmissions,testPositivity,positiveTests,totalTests
 2020-11-09,South Suburban,41.0,18.5,1066,5424
 2020-11-10,South Suburban,42.0,18.6,1028,5543
 2020-11-11,South Suburban,44.0,19.2,1144,5687
+2020-11-12,South Suburban,43.0,19.8,1088,5158
+2020-11-13,South Suburban,42.0,19.7,1170,5850
+2020-11-14,South Suburban,43.0,20.3,1164,4604
 2020-06-11,West Suburban,5.0,7.0,136,2381
 2020-06-12,West Suburban,7.0,6.5,113,2158
 2020-06-13,West Suburban,9.0,6.0,102,2090
@@ -1231,6 +1252,9 @@ date,region,cliAdmissions,testPositivity,positiveTests,totalTests
 2020-11-09,West Suburban,60.0,15.1,1337,8706
 2020-11-10,West Suburban,60.0,15.2,1425,8889
 2020-11-11,West Suburban,59.0,15.5,1275,8505
+2020-11-12,West Suburban,58.0,15.8,1240,7840
+2020-11-13,West Suburban,55.0,16.0,1497,9500
+2020-11-14,West Suburban,53.0,15.8,1153,7543
 2020-06-11,North Suburban,3.0,5.5,101,1986
 2020-06-12,North Suburban,4.0,5.3,88,1350
 2020-06-13,North Suburban,5.0,4.8,66,1490
@@ -1385,6 +1409,9 @@ date,region,cliAdmissions,testPositivity,positiveTests,totalTests
 2020-11-09,North Suburban,40.0,15.3,941,6017
 2020-11-10,North Suburban,40.0,15.8,1087,6285
 2020-11-11,North Suburban,41.0,16.2,1077,7216
+2020-11-12,North Suburban,43.0,16.9,1269,6658
+2020-11-13,North Suburban,44.0,17.1,1161,7557
+2020-11-14,North Suburban,43.0,16.2,887,6318
 2020-06-11,Suburban Cook,10.0,7.3,271,5204
 2020-06-12,Suburban Cook,15.0,6.6,234,4265
 2020-06-13,Suburban Cook,18.0,6.3,271,4683
@@ -1539,6 +1566,9 @@ date,region,cliAdmissions,testPositivity,positiveTests,totalTests
 2020-11-09,Suburban Cook,102.0,13.7,2535,15847
 2020-11-10,Suburban Cook,106.0,14.4,2556,14452
 2020-11-11,Suburban Cook,108.0,14.8,2650,17320
+2020-11-12,Suburban Cook,110.0,15.6,3089,17377
+2020-11-13,Suburban Cook,108.0,15.9,3044,21207
+2020-11-14,Suburban Cook,111.0,15.9,2506,16139
 2020-06-11,Chicago,11.0,8.6,349,5454
 2020-06-12,Chicago,16.0,7.7,307,4952
 2020-06-13,Chicago,22.0,7.2,329,5486
@@ -1693,3 +1723,6 @@ date,region,cliAdmissions,testPositivity,positiveTests,totalTests
 2020-11-09,Chicago,99.0,13.9,3004,19846
 2020-11-10,Chicago,102.0,14.4,2333,15088
 2020-11-11,Chicago,112.0,14.6,2179,15568
+2020-11-12,Chicago,112.0,15.2,3298,18712
+2020-11-13,Chicago,108.0,15.6,3372,21629
+2020-11-14,Chicago,112.0,15.5,3066,20365
