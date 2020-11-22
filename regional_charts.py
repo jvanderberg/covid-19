@@ -62,7 +62,7 @@ for row in range(0, 3):
         ax[row][col].set_title(item + '\nICU {:0.1f}% - Beds {:0.1f}%'.format(
             100*current_value_icu, 100*current_value_beds))
         ax[row][col].grid(axis='y', linewidth=0.5)
-        ax[row][col].set_ylim(0.2, 0.6)
+        ax[row][col].set_ylim(0.1, 0.6)
         ax[row][col].spines["top"].set_visible(False)
         ax[row][col].spines["right"].set_visible(False)
         ax[row][col].spines["left"].set_visible(False)

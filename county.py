@@ -5,9 +5,11 @@ import numpy as np
 import requests
 from scipy import stats
 
+
 def get_regional_breakdown(region_file):
-    r = requests.get("https://www.dph.illinois.gov/sitefiles/COVIDHistoricalTestResults.json?nocache=1221")
-    county_json= r.text
+    r = requests.get(
+        "https://www.dph.illinois.gov/sitefiles/COVIDHistoricalTestResults.json?nocache=1221")
+    county_json = r.text
     regions = pd.read_csv(region_file)
     data = json.loads(county_json)
 
@@ -63,8 +65,8 @@ def get_regional_breakdown(region_file):
 
     df = pd.DataFrame(table)
     df['date'] = pd.to_datetime(df['date'])
-    df = pd.merge(df,regions,how='inner', on='county')
-    df = df.groupby(by=['date','region']).sum()
+    df = pd.merge(df, regions, how='inner', on='county')
+    df = df.groupby(by=['date', 'region']).sum()
     df = df.reset_index()
     df2 = df.pivot(index='date', columns='region')
 
@@ -74,6 +76,10 @@ def get_regional_breakdown(region_file):
     df2.dropna(inplace=True)
     # Remove outliers and interpolate
     df2.loc[abs(stats.zscore(df2['deaths']['Illinois'])) > 3] = np.nan
+    df2 = df2.interpolate().round()
+    df2.loc[abs(stats.zscore(df2['count']['Illinois'])) > 5] = np.nan
+    df2 = df2.interpolate().round()
+    df2.loc[abs(stats.zscore(df2['tested']['Illinois'])) > 5] = np.nan
     df2 = df2.interpolate().round()
     df2['percentage'] = df2['count'] / df2['tested']
     df2['deaths_per_million'] = 1000000 * df2['deaths'] / df2['population']
@@ -85,30 +91,38 @@ def get_regional_breakdown(region_file):
     df2['count_7day'] = df2['count'].rolling(window=7).mean()
     df2['tested_7day'] = df2['tested'].rolling(window=7).mean()
     df2['percentage_7day'] = df2['count_7day'] / df2['tested_7day']
-    df2['deaths_per_million_7day'] = 1000000 * df2['deaths_7day'] / df2['population']
-    df2['count_per_million_7day'] = 1000000 * df2['count_7day'] / df2['population']
+    df2['deaths_per_million_7day'] = 1000000 * \
+        df2['deaths_7day'] / df2['population']
+    df2['count_per_million_7day'] = 1000000 * \
+        df2['count_7day'] / df2['population']
 
     df2['deaths_14day'] = df2['deaths'].rolling(window=14).mean()
     df2['count_14day'] = df2['count'].rolling(window=14).mean()
     df2['tested_14day'] = df2['tested'].rolling(window=14).mean()
     df2['percentage_14day'] = df2['count_14day'] / df2['tested_14day']
-    df2['deaths_per_million_14day'] = 1000000 * df2['deaths_14day'] / df2['population']
-    df2['count_per_million_14day'] = 1000000 * df2['count_14day'] / df2['population']
+    df2['deaths_per_million_14day'] = 1000000 * \
+        df2['deaths_14day'] / df2['population']
+    df2['count_per_million_14day'] = 1000000 * \
+        df2['count_14day'] / df2['population']
     return df2
-    
+
+
 get_regional_breakdown('regions.csv').to_csv('regional_all.csv')
-get_regional_breakdown('regions_north_south.csv').to_csv('regional_north_south.csv')
+get_regional_breakdown('regions_north_south.csv').to_csv(
+    'regional_north_south.csv')
 
 ##############################################################################
 # Calculate hospitalization stats
 ##############################################################################
-r = requests.get("https://idph.illinois.gov/DPHPublicInformation/api/COVID/GetHospitalizationResults")
-hospitalization_json= r.text
+r = requests.get(
+    "https://idph.illinois.gov/DPHPublicInformation/api/COVID/GetHospitalizationResults")
+hospitalization_json = r.text
 
 data = json.loads(hospitalization_json)
 history = data['HospitalUtilizationResults']
 
-cols = [ 'TotalBeds','TotalOpenBeds','TotalInUseBedsNonCOVID','TotalInUseBedsCOVID','ICUBeds','ICUOpenBeds', 'ICUInUseBedsNonCOVID','ICUInUseBedsCOVID','VentilatorCapacity','VentilatorAvailable','VentilatorInUseNonCOVID','VentilatorInUseCOVID']
+cols = ['TotalBeds', 'TotalOpenBeds', 'TotalInUseBedsNonCOVID', 'TotalInUseBedsCOVID', 'ICUBeds', 'ICUOpenBeds', 'ICUInUseBedsNonCOVID',
+        'ICUInUseBedsCOVID', 'VentilatorCapacity', 'VentilatorAvailable', 'VentilatorInUseNonCOVID', 'VentilatorInUseCOVID']
 table = {}
 table['date'] = []
 for column in cols:
@@ -122,7 +136,7 @@ for column in cols:
 for day in history:
     table['date'].append(day['ReportDate'])
     for column in cols:
-        
+
         table[column].append(day[column])
         table[column+'_change'].append(0)
         table[column+'_change_7day'].append(0)

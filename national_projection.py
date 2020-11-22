@@ -13,7 +13,7 @@ matplotlib.rcParams['text.color'] = '#555555'
 matplotlib.rcParams['axes.labelcolor'] = '#555555'
 matplotlib.rcParams['xtick.color'] = '#555555'
 matplotlib.rcParams['ytick.color'] = '#555555'
-startdate = datetime.datetime(2020, 6, 1)
+startdate = datetime.datetime(2020, 8, 15)
 df = pd.read_csv('us_daily.csv', index_col=0, parse_dates=True)
 
 pos = df['positiveIncrease_7day']/df['totalTestResultsIncrease_7day']
@@ -22,7 +22,8 @@ df = pd.DataFrame({'deaths': df['deathIncrease'],
                    'cases': df['positiveIncrease'], 'tests': df['totalTestResultsIncrease']})
 
 df = df[df.index > startdate]
-df = df.rolling(window=14, center=True).mean()
+#df = df[df.index < datetime.datetime(2020, 9, 15)]
+df = df.rolling(window=7, center=True).mean()
 df['percentage'] = df['cases'] / df['tests']
 lag_correlations = np.zeros(80)
 for i in range(0, 30):
