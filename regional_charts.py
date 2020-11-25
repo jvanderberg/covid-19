@@ -268,7 +268,7 @@ for row in range(0, 3):
                           [item], linewidth=3, color='#6688cc')
         ax[row][col].set_title(item + ' - {:0.1f}'.format(current_value))
         ax[row][col].grid(axis='y', linewidth=0.5)
-        ax[row][col].set_ylim(0, 10)
+        ax[row][col].set_ylim(0, 14)
         ax[row][col].spines["top"].set_visible(False)
         ax[row][col].spines["right"].set_visible(False)
         ax[row][col].spines["left"].set_visible(False)
