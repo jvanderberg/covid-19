@@ -59,7 +59,7 @@ length = len(items)
 cols = 5
 rows = int(np.ceil(length/cols))
 plt.close()
-plt.figure(1, dpi=100, clear=True)
+plt.figure(1, dpi=400, clear=True)
 f, ax = plt.subplots(rows, cols, sharey=True, sharex=False)
 
 
@@ -93,11 +93,11 @@ f.suptitle(
     'Deaths Per Million by State - 14 Day Average - Sorted by Date of Peak', fontsize=40)
 # Format the date into months & days
 print('Formatting axes...')
-# plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%m/%d'))
+plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%m/%d'))
 
 # Change the tick interval
-# plt.gca().xaxis.set_major_locator(mdates.MonthLocator(interval=1))
+plt.gca().xaxis.set_major_locator(mdates.MonthLocator(interval=1))
 # plt.box(False)
 f.tight_layout(pad=5, w_pad=2, h_pad=2)
 print('Saving...')
-plt.savefig('charts/State Deaths.png', dpi=100)
+plt.savefig('charts/State Deaths.png')
