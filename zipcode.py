@@ -310,8 +310,8 @@ diff['7daypos100k_14day'] = diff['7daypos100k'].rolling(window=14).mean()
 
 diff.to_csv('zip_city_all.csv')
 
-diff['cases_per_million_14day'].tail(1).transpose().to_csv(
+diff[diff['population'] > 30000]['cases_per_million_14day'].tail(1).transpose().dropna().to_csv(
     'zip_city_cases_per_million_latest.csv')
-diff['percentage_14day'].tail(1).transpose().to_csv(
+diff[diff['population'] > 30000]['percentage_14day'].tail(1).transpose().dropna().to_csv(
     'zip_city_percentage_latest.csv')
 diff['count_14day'].tail(1).transpose().to_csv('zip_city_cases_latest.csv')

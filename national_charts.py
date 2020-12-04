@@ -149,8 +149,11 @@ plt.legend().get_frame().set_linewidth(0.0)
 current_value = df.tail(1)['hospitalizedIncrease_7day'].round()[0]
 current_date = df.tail(1)['hospitalizedIncrease_7day'].index[0]
 
-plt.title('US Daily Number of New Hospitalizations - ' +
-          '{:%b %-d} - {:,} People Avg / day'.format(current_date, int(current_value)), fontsize=15)
+try:
+    plt.title('US Daily Number of New Hospitalizations - ' +
+              '{:%b %-d} - {:,} People Avg / day'.format(current_date, int(current_value)), fontsize=15)
+except:
+    1 == 1
 plt.grid(axis='y', linewidth=0.5)
 plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%m/%d'))
 
