@@ -27,7 +27,7 @@ df = df.join(population, on='state')
 df['percentage'] = 0
 df = df[df['state'].isin(states)]
 df = df[df.index >= startdate]
-df = df.pivot(index=df.index, columns='state')
+df = df.pivot(columns='state')
 
 df['percentage'] = df['positiveIncrease'] / df['totalTestResultsIncrease']
 df_7day = df.rolling(window=window).mean()
