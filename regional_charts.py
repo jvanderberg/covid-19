@@ -258,7 +258,7 @@ items = [
 plt.close()
 plt.figure(1, dpi=800, clear=True)
 f, ax = plt.subplots(3, 4, sharex=True, sharey=True)
-june_plus = df[df.index > datetime.datetime(2020, 5, 31)]
+june_plus = df[df.index > datetime.datetime(2020, 3, 31)]
 for row in range(0, 3):
     for col in range(0, 4):
         item = items[row][col]
@@ -268,7 +268,7 @@ for row in range(0, 3):
                           [item], linewidth=3, color='#6688cc')
         ax[row][col].set_title(item + ' - {:0.1f}'.format(current_value))
         ax[row][col].grid(axis='y', linewidth=0.5)
-        ax[row][col].set_ylim(0, 14)
+        ax[row][col].set_ylim(0, 22)
         ax[row][col].spines["top"].set_visible(False)
         ax[row][col].spines["right"].set_visible(False)
         ax[row][col].spines["left"].set_visible(False)
