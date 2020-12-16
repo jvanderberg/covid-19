@@ -33,7 +33,7 @@ for i in range(0, 30):
     lag_correlations[i] = corr
 
 max_corr_lag = np.argmax(lag_correlations)
-max_corr_lag = 21
+max_corr_lag = 8
 future_index = pd.date_range(
     df.tail(1).index[0]+datetime.timedelta(days=1), periods=max_corr_lag)
 future = pd.DataFrame(index=future_index, columns=df.columns)
