@@ -1,4 +1,5 @@
 import json
+import sys
 import datetime
 import pandas as pd
 import numpy as np
@@ -73,12 +74,12 @@ def get_all_county_data(setting, fips, stat):
 def getmap(setting, fips, df, statname, title, min, max, date):
     lookup = fips.set_index('FIPS')
     plt.close()
-    #fig = plt.figure(figsize=(10,9), dpi=400)
+    # fig = plt.figure(figsize=(10,9), dpi=400)
     fig = plt.figure(figsize=setting['figsize'], dpi=setting['dpi'])
     ax = fig.add_axes([0, 0, 1, 1], projection=ccrs.LambertConformal())
     ax.set_extent(setting['extent'], ccrs.Geodetic())
 
-    #ax.set_extent([-115, -94, 30,45], ccrs.Geodetic())
+    # ax.set_extent([-115, -94, 30,45], ccrs.Geodetic())
 
     ax.background_patch.set_visible(False)
     ax.outline_patch.set_visible(False)
@@ -104,7 +105,7 @@ def getmap(setting, fips, df, statname, title, min, max, date):
     sm = plt.cm.ScalarMappable(cmap=cmap, norm=norm, )
     sm._A = []
     plt.colorbar(sm, ax=ax, shrink=0.6)
-
+    df = df.loc[:, [date.strftime('%-m/%-d/%y'), 'population']]
     for astate in shpreader.Reader('cb_2018_us_county_5m').records():
         statefp = int(astate.attributes['STATEFP'])
         state = None
@@ -117,9 +118,9 @@ def getmap(setting, fips, df, statname, title, min, max, date):
 
         county = astate.attributes['NAME']
         try:
-            value = df.loc[county].loc[state['statename']
-                                       ].loc[date.strftime('%-m/%-d/%y')]
-            pop = df.loc[county].loc[state['statename']].loc['population']
+            item = df.loc[county].loc[state['statename']]
+            value = item[0]
+            pop = item[1]
             value = 1000000 * (value) / pop
 
         except:
@@ -139,7 +140,7 @@ def getmap(setting, fips, df, statname, title, min, max, date):
     text = ax.text(x=setting['datex'], y=setting['datey'], s=date.strftime(
         "%m/%d"), transform=ccrs.PlateCarree(), fontsize=70)
 
-    #text = ax.text(x=-102,y=30,s=date.strftime("%m/%d"), transform=ccrs.PlateCarree(), fontsize=70)
+    # text = ax.text(x=-102,y=30,s=date.strftime("%m/%d"), transform=ccrs.PlateCarree(), fontsize=70)
     text.set_alpha(0.6)
     plt.savefig('state_map_animation/'+str(date)+' ' +
                 setting['name']+' '+statname+'.png')
@@ -155,11 +156,20 @@ counties_confirmed, cases_stats = get_all_county_data(
 counties_deaths, death_stats = get_all_county_data(
     setting, state_fips, 'deaths')
 
-date = datetime.datetime(2020, 12, 4)
-while ((datetime.datetime.now() - date).days >= 0):
-    print(date)
+start = sys.argv[1]
+end = sys.argv[2]
+
+start = datetime.datetime.strptime(start, '%Y-%m-%d')
+end = datetime.datetime.strptime(end, '%Y-%m-%d')
+
+date = start
+while ((end - date).days >= 0):
+    print('Starting: '+str(date))
     getmap(setting, state_fips, counties_deaths, 'deaths',
-           'Daily Deaths per Million', 0, death_stats['std']*10, date)
+           'Daily Deaths per Million', 0, 40, date)
+    print('    Deaths done')
     getmap(setting, state_fips, counties_confirmed, 'positive_cases',
-           'Daily Positive Cases per Million', 0, cases_stats['std'] * 10, date)
+           'Daily Positive Cases per Million', 0, 2000, date)
+    print('    Cases done')
+    print('  Done: '+str(date))
     date = date + datetime.timedelta(days=1)
