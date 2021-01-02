@@ -110,7 +110,17 @@ def get_regional_breakdown(region_file):
 get_regional_breakdown('regions.csv').to_csv('regional_all.csv')
 get_regional_breakdown('regions_north_south.csv').to_csv(
     'regional_north_south.csv')
-
+state = get_regional_breakdown('regions_state.csv')
+state = pd.DataFrame({'positives': state['count_7day']['Illinois'], 'deaths': state['deaths_7day']['Illinois'],
+                      'tested': state['tested_7day']['Illinois'], 'percent': state['percentage_7day']['Illinois']})
+lastweek = state.tail(8)
+lastweek['datestr'] = lastweek.index.strftime('%Y-%m-%d')
+lastweek = lastweek.reset_index().set_index('datestr')
+lastweek.drop(columns='date', inplace=True)
+compare = lastweek.iloc[[0, 7]].transpose()
+compare['diff'] = compare.iloc[:, 1] - compare.iloc[:, 0]
+compare['change_pct'] = 100 * compare.iloc[:, 2] / compare.iloc[:, 0]
+compare.to_csv('illinois_7day_summary.csv')
 ##############################################################################
 # Calculate hospitalization stats
 ##############################################################################

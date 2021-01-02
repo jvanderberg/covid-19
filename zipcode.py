@@ -68,7 +68,7 @@ for zip_data in data['zip_values']:
     zip_data['demographics']['age'] = groups
 
 # file_date = datetime.datetime.now()
-file_name = file_date.strftime("%m-%d") + ".json"
+file_name = "zipdata/"+file_date.strftime("%Y-%m-%d") + ".json"
 f = open(file_name, "w")
 json.dump(data, f)
 f.close()
@@ -109,16 +109,13 @@ age_index = 0
 last_good_file = None
 
 while ((datetime.datetime.now() - date).days >= 0):
-    file = date.strftime("%m-%d") + ".json"
-    newfile = date.strftime("%Y-%m-%d") + ".json"
+    #file = date.strftime("%m-%d") + ".json"
+    file = 'zipdata/'+date.strftime("%Y-%m-%d") + ".json"
 
     print(file)
 
     try:
         f = open(file)
-       # s = f.read()
-        newfile = open('zipdata/'+newfile, "a")
-        newfile.write(f.read())
         last_good_file = file
         bad_file = False
     except:
@@ -134,7 +131,6 @@ while ((datetime.datetime.now() - date).days >= 0):
             fileDate = datetime.datetime(
                 data['lastUpdatedDate']['year'], data['lastUpdatedDate']['month'], data['lastUpdatedDate']['day'])
 
-        strdate = date.strftime("%m-%d")
         for zip_data in data['zip_values']:
             if (bad_file):
                 table['zip'].append(zip_data['zip'])
