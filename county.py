@@ -40,7 +40,14 @@ def get_regional_breakdown(region_file):
             date = date_data['testDate']
         except:
             date = date_data['testdate']
+
+        pd_date = pd.to_datetime(date)
         print(date)
+        if ((pd_date - datetime.datetime(2020, 3, 1)).days < 0):
+            new_date = datetime.datetime(2021, pd_date.month, pd_date.day)
+            date = new_date.strftime('%-m/%-d/%Y')
+            print('BAD '+str(date))
+
         for county in date_data['values']:
             table['date'].append(date)
             table['county'].append(county['County'])
@@ -65,6 +72,7 @@ def get_regional_breakdown(region_file):
 
     df = pd.DataFrame(table)
     df['date'] = pd.to_datetime(df['date'])
+
     df = pd.merge(df, regions, how='inner', on='county')
     df = df.groupby(by=['date', 'region']).sum()
     df = df.reset_index()
@@ -84,8 +92,6 @@ def get_regional_breakdown(region_file):
     df2['percentage'] = df2['count'] / df2['tested']
     df2['deaths_per_million'] = 1000000 * df2['deaths'] / df2['population']
     df2['count_per_million'] = 1000000 * df2['count'] / df2['population']
-
-    values = pd.DataFrame(df2)
 
     df2['deaths_7day'] = df2['deaths'].rolling(window=7).mean()
     df2['count_7day'] = df2['count'].rolling(window=7).mean()

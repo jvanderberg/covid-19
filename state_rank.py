@@ -133,7 +133,7 @@ df['deathIncrease'] = 1000000 * df['deathIncrease'] / df['population']
 df['hospitalizedIncrease'] = 1000000 * \
     df['hospitalizedIncrease'] / df['population']
 
-
+df[['positiveIncrease', 'deathIncrease']].to_csv('state_14day.csv')
 N = 256
 vals = np.ones((N, 4))
 vals[0:29, 0] = np.linspace(76/256, 1, 29)
