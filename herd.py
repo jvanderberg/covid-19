@@ -36,7 +36,7 @@ population = pd.DataFrame(
 population = population.set_index(['county', 'statename'])
 
 
-def get_all_county_data(setting, fips, stat):
+def get_all_county_data(setting, fips, stat, ifr_start, ifr_end):
     df = pd.read_csv('time_series_covid19_'+stat+'_US.csv')
 
     df = df[df['Province_State'].isin(fips['statename'])]
@@ -59,8 +59,27 @@ def get_all_county_data(setting, fips, stat):
     df2 = pd.DataFrame(df[cols])
     df2 = df2.set_index(['county', 'statename'])
     df2 = df2.transpose()
-    df = df2.tail(1).transpose().join(population)
-    return df, stats
+    df2 = df2.diff()
+    df2 = df2.rolling(window=14).mean()
+    df2 = df2.reset_index()
+    rows = len(df2.index)
+    for index in range(1, len(df2.columns)):
+        # Calculate 1/IFR, where IFR starts at ifr_start on the first day, and ends at
+        # ifr_end today
+        vals = 1/(((ifr_end - ifr_start) / rows) * df2.index + ifr_start)
+        # Replace the columns with deaths / IFR, an estimate of actual cases
+        df2.iloc[:, index] = df2.iloc[:, index] * vals
+
+    # df3.index * df3.iloc[:,1]
+    # Total up the total estimated cases and join population back in
+    df = pd.DataFrame(df2.sum()).join(population)
+    total = pd.DataFrame(df2.sum())[0].values[1:len(df2.columns)].sum()
+    pct = 100 * total / population.sum()[0]
+    print('Total for '+str(ifr_start)+' to ' +
+          str(ifr_end) + ' is ' + str(total) + ' pct: ' + str(pct))
+
+   # df = df2.tail(1).transpose().join(population)
+    return df
 
 
 def getmap(setting, fips, df, ratio):
@@ -114,7 +133,7 @@ def getmap(setting, fips, df, ratio):
             item = df.loc[county].loc[state['statename']]
             value = item[0]
             pop = item['population']
-            value = ratio * 100 * (value) / pop
+            value = 100 * (value) / pop
 
         except:
             value = 0
@@ -138,13 +157,15 @@ state_fips = all_state_fips[all_state_fips['state'].isin(setting['states'])]
 
 current_date = datetime.datetime.today()
 
-counties_confirmed, cases_stats = get_all_county_data(
-    setting, state_fips, 'confirmed')
+# counties_confirmed, cases_stats = get_all_county_data(
+#     setting, state_fips, 'confirmed')
 
+deaths = get_all_county_data(
+    setting, state_fips, 'deaths', 0.006, 0.003)
 
-getmap(setting, state_fips, counties_confirmed, 1)
-getmap(setting, state_fips, counties_confirmed, 3)
+getmap(setting, state_fips, deaths, 1)
+# getmap(setting, state_fips, deaths, 3)
 
-getmap(setting, state_fips, counties_confirmed, 5)
-getmap(setting, state_fips, counties_confirmed, 8)
-getmap(setting, state_fips, counties_confirmed, 10)
+# getmap(setting, state_fips, deaths, 5)
+# getmap(setting, state_fips, deaths, 8)
+# getmap(setting, state_fips, deaths, 10)
