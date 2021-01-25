@@ -9,7 +9,7 @@ import matplotlib.ticker as mtick
 import matplotlib
 import sys
 
-startdate = datetime.datetime(2020, 4, 1)
+startdate = datetime.datetime(2020, 11, 1)
 matplotlib.rcParams['text.color'] = '#555555'
 matplotlib.rcParams['axes.labelcolor'] = '#555555'
 matplotlib.rcParams['xtick.color'] = '#555555'
