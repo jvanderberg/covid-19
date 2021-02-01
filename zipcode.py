@@ -110,10 +110,15 @@ last_good_file = None
 
 while ((datetime.datetime.now() - date).days >= 0):
     file = date.strftime("%m-%d") + ".json"
+    newfile = date.strftime("%Y-%m-%d") + ".json"
+
     print(file)
 
     try:
-        open(file)
+        f = open(file)
+       # s = f.read()
+        newfile = open('zipdata/'+newfile, "a")
+        newfile.write(f.read())
         last_good_file = file
         bad_file = False
     except:
