@@ -4,14 +4,47 @@ import pandas as pd
 import numpy as np
 import requests
 from scipy import stats
+import asyncio
+import aiohttp
+from aiohttp import ClientSession, ClientConnectorError
+county_data = {}
+
+
+async def fetch_html(date: str, session: ClientSession, **kwargs) -> tuple:
+    url = "https://idph.illinois.gov/DPHPublicInformation/api/COVID/GetCountyHistoricalTestResults?reportDate="+date
+    try:
+        resp = await session.request(method="GET", url=url, **kwargs)
+    except ClientConnectorError as err:
+        return (zip, 404)
+
+    try:
+        return (date, await resp.json())
+    except:
+        return (date, 404)
+
+
+async def make_requests(**kwargs) -> None:
+    date = datetime.datetime(2020, 3, 17)
+
+    async with ClientSession(connector=aiohttp.TCPConnector(ssl=False)) as session:
+        tasks = []
+        while ((datetime.datetime.now() - date).days >= 0):
+            datestr = date.strftime('%-m/%-d/%y')
+            tasks.append(
+                fetch_html(date=datestr, session=session, **kwargs)
+            )
+            date = date + datetime.timedelta(days=1)
+
+        results = await asyncio.gather(*tasks)
+
+    for result in results:
+        county_data[result[0]] = result[1]
+
+asyncio.run(make_requests())
 
 
 def get_regional_breakdown(region_file):
-    r = requests.get(
-        "https://www.dph.illinois.gov/sitefiles/COVIDHistoricalTestResults.json?nocache=1221")
-    county_json = r.text
     regions = pd.read_csv(region_file)
-    data = json.loads(county_json)
 
     table = {}
     table['date'] = []
@@ -34,24 +67,26 @@ def get_regional_breakdown(region_file):
     table['percentage_14day'] = []
     table['deaths_per_million_14day'] = []
     table['count_per_million_14day'] = []
+    date = datetime.datetime(2020, 3, 17)
+    while ((datetime.datetime.now() - date).days >= 0):
+        datestr = date.strftime('%-m/%-d/%y')
+        data = county_data[datestr]
 
-    for date_data in data['historical_county']['values']:
-        try:
-            date = date_data['testDate']
-        except:
-            date = date_data['testdate']
+        if (data == 404):
+            date = date + datetime.timedelta(days=1)
 
-        pd_date = pd.to_datetime(date)
-        print(date)
-        if ((pd_date - datetime.datetime(2020, 3, 1)).days < 0):
-            new_date = datetime.datetime(2021, pd_date.month, pd_date.day)
-            date = new_date.strftime('%-m/%-d/%Y')
-            print('BAD '+str(date))
+            continue
+        # pd_date = pd.to_datetime(date)
+        # print(date)
+        # if ((pd_date - datetime.datetime(2020, 3, 1)).days < 0):
+        #     new_date = datetime.datetime(2021, pd_date.month, pd_date.day)
+        #     date = new_date.strftime('%-m/%-d/%Y')
+        #     print('BAD '+str(date))
 
-        for county in date_data['values']:
+        for county in data['characteristics_by_county']:
             table['date'].append(date)
-            table['county'].append(county['County'])
-            table['tested'].append(county['total_tested'])
+            table['county'].append(county['CountyName'])
+            table['tested'].append(county['tested'])
             table['count'].append(county['confirmed_cases'])
             table['deaths'].append(county['deaths'])
             table['percentage'].append(0)
@@ -69,6 +104,7 @@ def get_regional_breakdown(region_file):
             table['percentage_14day'].append(0)
             table['deaths_per_million_14day'].append(0)
             table['count_per_million_14day'].append(0)
+        date = date + datetime.timedelta(days=1)
 
     df = pd.DataFrame(table)
     df['date'] = pd.to_datetime(df['date'])

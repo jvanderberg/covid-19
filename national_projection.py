@@ -23,7 +23,7 @@ df = pd.DataFrame({'deaths': df['deathIncrease'],
 
 df = df[df.index > startdate]
 #df = df[df.index < datetime.datetime(2020, 9, 15)]
-df = df.rolling(window=28, center=True).mean()
+df = df.rolling(window=7, center=True).mean()
 df['percentage'] = df['cases'] / df['tests']
 lag_correlations = np.zeros(80)
 for i in range(0, 30):
