@@ -239,6 +239,8 @@ date,region,cliAdmissions,testPositivity,positiveTests,totalTests
 2021-02-03,North,10.0,4.2,169,3533
 2021-02-04,North,9.0,3.9,143,3640
 2021-02-05,North,8.0,3.7,146,4205
+2021-02-06,North,7.0,3.9,113,2916
+2021-02-07,North,7.0,3.8,66,1716
 2020-06-11,North-Central,1.0,2.7,70,1913
 2020-06-12,North-Central,2.0,2.8,69,1990
 2020-06-13,North-Central,2.0,2.7,32,1792
@@ -479,6 +481,8 @@ date,region,cliAdmissions,testPositivity,positiveTests,totalTests
 2021-02-03,North-Central,17.0,4.7,490,12547
 2021-02-04,North-Central,14.0,4.5,473,9535
 2021-02-05,North-Central,14.0,4.5,377,7706
+2021-02-06,North-Central,15.0,4.5,303,6030
+2021-02-07,North-Central,15.0,4.5,199,3560
 2020-06-11,West-Central,0.0,1.6,12,1843
 2020-06-12,West-Central,1.0,1.3,4,1198
 2020-06-13,West-Central,1.0,1.4,12,630
@@ -719,6 +723,8 @@ date,region,cliAdmissions,testPositivity,positiveTests,totalTests
 2021-02-03,West-Central,7.0,3.6,158,5633
 2021-02-04,West-Central,7.0,3.4,157,3941
 2021-02-05,West-Central,6.0,3.3,138,5730
+2021-02-06,West-Central,5.0,3.3,125,3992
+2021-02-07,West-Central,5.0,3.2,88,1527
 2020-06-11,Metro East,3.0,4.4,31,924
 2020-06-12,Metro East,3.0,4.9,51,627
 2020-06-13,Metro East,4.0,4.6,50,1150
@@ -959,6 +965,8 @@ date,region,cliAdmissions,testPositivity,positiveTests,totalTests
 2021-02-03,Metro East,7.0,5.9,272,3908
 2021-02-04,Metro East,8.0,5.6,297,6422
 2021-02-05,Metro East,7.0,5.9,248,4257
+2021-02-06,Metro East,8.0,5.7,225,3580
+2021-02-07,Metro East,8.0,5.6,136,3364
 2020-06-11,Southern,0.0,1.6,5,472
 2020-06-12,Southern,1.0,1.5,13,413
 2020-06-13,Southern,1.0,1.3,8,607
@@ -1199,6 +1207,8 @@ date,region,cliAdmissions,testPositivity,positiveTests,totalTests
 2021-02-03,Southern,8.0,4.4,164,4642
 2021-02-04,Southern,8.0,4.4,169,4571
 2021-02-05,Southern,7.0,4.1,107,2716
+2021-02-06,Southern,7.0,3.8,88,4509
+2021-02-07,Southern,7.0,3.9,45,859
 2020-06-11,East-Central,0.0,1.7,21,1224
 2020-06-12,East-Central,1.0,1.6,20,1012
 2020-06-13,East-Central,1.0,1.6,22,1383
@@ -1439,6 +1449,8 @@ date,region,cliAdmissions,testPositivity,positiveTests,totalTests
 2021-02-03,East-Central,11.0,1.8,273,16174
 2021-02-04,East-Central,11.0,1.8,271,14221
 2021-02-05,East-Central,10.0,1.8,237,14422
+2021-02-06,East-Central,10.0,1.8,294,15077
+2021-02-07,East-Central,10.0,1.9,201,6094
 2020-06-11,South Suburban,3.0,5.9,76,1492
 2020-06-12,South Suburban,4.0,5.4,50,1149
 2020-06-13,South Suburban,5.0,5.3,59,1092
@@ -1679,6 +1691,8 @@ date,region,cliAdmissions,testPositivity,positiveTests,totalTests
 2021-02-03,South Suburban,13.0,5.8,247,5128
 2021-02-04,South Suburban,12.0,5.6,232,6500
 2021-02-05,South Suburban,12.0,5.3,248,3610
+2021-02-06,South Suburban,13.0,5.0,191,4579
+2021-02-07,South Suburban,12.0,5.0,196,3376
 2020-06-11,West Suburban,5.0,7.0,136,2381
 2020-06-12,West Suburban,7.0,6.5,113,2158
 2020-06-13,West Suburban,9.0,6.0,102,2090
@@ -1919,6 +1933,8 @@ date,region,cliAdmissions,testPositivity,positiveTests,totalTests
 2021-02-03,West Suburban,23.0,5.4,433,7766
 2021-02-04,West Suburban,21.0,5.1,361,8627
 2021-02-05,West Suburban,21.0,5.2,352,6495
+2021-02-06,West Suburban,21.0,4.9,250,6943
+2021-02-07,West Suburban,21.0,4.9,241,4015
 2020-06-11,North Suburban,3.0,5.5,101,1986
 2020-06-12,North Suburban,4.0,5.3,88,1350
 2020-06-13,North Suburban,5.0,4.8,66,1490
@@ -2159,6 +2175,8 @@ date,region,cliAdmissions,testPositivity,positiveTests,totalTests
 2021-02-03,North Suburban,19.0,5.9,292,5958
 2021-02-04,North Suburban,17.0,5.9,302,6322
 2021-02-05,North Suburban,19.0,5.8,261,4939
+2021-02-06,North Suburban,18.0,5.7,239,4500
+2021-02-07,North Suburban,18.0,5.5,187,2768
 2020-06-11,Suburban Cook,10.0,7.3,271,5204
 2020-06-12,Suburban Cook,15.0,6.6,234,4265
 2020-06-13,Suburban Cook,18.0,6.3,271,4683
@@ -2399,6 +2417,8 @@ date,region,cliAdmissions,testPositivity,positiveTests,totalTests
 2021-02-03,Suburban Cook,42.0,5.0,660,15868
 2021-02-04,Suburban Cook,42.0,4.9,716,18364
 2021-02-05,Suburban Cook,42.0,4.8,664,13453
+2021-02-06,Suburban Cook,43.0,4.8,624,13495
+2021-02-07,Suburban Cook,43.0,4.8,456,8180
 2020-06-11,Chicago,11.0,8.6,349,5454
 2020-06-12,Chicago,16.0,7.7,307,4952
 2020-06-13,Chicago,22.0,7.2,329,5486
@@ -2639,3 +2659,5 @@ date,region,cliAdmissions,testPositivity,positiveTests,totalTests
 2021-02-03,Chicago,38.0,4.8,695,16090
 2021-02-04,Chicago,37.0,4.8,808,17366
 2021-02-05,Chicago,36.0,4.7,704,16054
+2021-02-06,Chicago,35.0,4.6,530,12960
+2021-02-07,Chicago,37.0,4.5,507,10461
