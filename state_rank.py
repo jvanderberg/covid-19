@@ -168,7 +168,7 @@ def getmap(df, stat, statname, title, min, max):
         columns=['Puerto Rico', 'District of Columbia', 'Hawaii', 'Alaska'])
     df = df.iloc[-1]
     df.to_csv('us_'+statname+'.csv')
-    norm = plt.Normalize(0, df.max())
+    norm = plt.Normalize(min, max)
     df = df.transpose()
     sm = plt.cm.ScalarMappable(cmap=cmap, norm=norm)
     sm._A = []
@@ -190,11 +190,11 @@ def getmap(df, stat, statname, title, min, max):
 
 from_date = current_date - datetime.timedelta(days=window)
 getmap(df, 'percentage', 'positivity',
-       'Positive Testing % {:%m/%d}'.format(current_date), -.2, .30)
+       'Positive Testing % {:%m/%d}'.format(current_date), 0, .30)
 getmap(df, 'deathIncrease', 'deaths',
-       'Deaths per Million {:%m/%d}'.format(current_date), -3, 6)
+       'Deaths per Million {:%m/%d}'.format(current_date), 0, 30)
 getmap(df, 'positiveIncrease', 'positive_cases',
-       'Positive Cases per Million {:%m/%d}'.format(current_date), -200, 400)
+       'Positive Cases per Million {:%m/%d}'.format(current_date), 0, 1500)
 
 df['percentage'] = df['positiveIncrease'] / df['totalTestResultsIncrease']
 df['percentage'] = df['percentage'].diff(periods=14)

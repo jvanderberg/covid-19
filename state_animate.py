@@ -97,7 +97,7 @@ def getmap(df, stat, statname, title, min, max, date):
     plt.savefig('map_animation/'+str(date) + ' ' + title+'.jpg')
 
 
-date = datetime.datetime(2020, 12, 10)
+date = datetime.datetime(2020, 12, 18)
 
 while ((datetime.datetime.now() - date).days >= 0):
     # getmap(df,'percentage', 'positivity', 'Positive Testing % {:%m/%d}'.format(current_date), -.2, .30)
