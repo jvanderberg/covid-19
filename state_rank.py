@@ -20,11 +20,11 @@ matplotlib.rcParams['axes.labelcolor'] = '#555555'
 matplotlib.rcParams['xtick.color'] = '#555555'
 matplotlib.rcParams['ytick.color'] = '#555555'
 
-window = 14
+window = 7
 population = pd.read_csv("population.csv", parse_dates=True)
 population = population.set_index('state')
 population['population'] = population['population'].astype('int32')
-df = pd.read_csv("https://api.covidtracking.com/v1/states/daily.csv",
+df = pd.read_csv("covid-tracking.csv",
                  parse_dates=True, index_col='date')
 df = df.sort_index(ascending=True)
 df = df.join(population, on='state')
@@ -35,8 +35,8 @@ current_date = df.tail(1)['deathIncrease']['TX'].index[0]
 df['percentage'] = df['positiveIncrease'] / df['totalTestResultsIncrease']
 df['positiveIncrease'] = 1000000 * df['positiveIncrease'] / df['population']
 df['deathIncrease'] = 1000000 * df['deathIncrease'] / df['population']
-df['hospitalizedIncrease'] = 1000000 * \
-    df['hospitalizedIncrease'] / df['population']
+df['hospitalized'] = 1000000 * \
+    df['hospitalized'] / df['population']
 df = df[df.index >= datetime.datetime(2020, 4, 1)]
 
 
@@ -64,7 +64,6 @@ def do_chart(df_sorted, df, stat='deathIncrease', name='Death Per Million', perc
 
     plt.rc('font', size=22)          # controls default text sizes
     for row in range(0, rows):
-
         item = items[row]
         print(row, item)
         current_value = df_sorted[df_sorted.index == item]['today'][0]
@@ -118,7 +117,7 @@ def do_chart(df_sorted, df, stat='deathIncrease', name='Death Per Million', perc
 # do_chart(df_sorted = do_sort(df=df, stat='hospitalizedIncrease'),df=df,stat='hospitalizedIncrease', name="Hospitalized per Million")
 
 
-df = pd.read_csv("https://api.covidtracking.com/v1/states/daily.csv",
+df = pd.read_csv("covid-tracking.csv",
                  parse_dates=True, index_col='date')
 df = df.sort_index(ascending=True)
 df = df.join(population, on='state')
@@ -130,20 +129,20 @@ df = df.rolling(window=window).mean()
 df['percentage'] = df['positiveIncrease'] / df['totalTestResultsIncrease']
 df['positiveIncrease'] = 1000000 * df['positiveIncrease'] / df['population']
 df['deathIncrease'] = 1000000 * df['deathIncrease'] / df['population']
-df['hospitalizedIncrease'] = 1000000 * \
-    df['hospitalizedIncrease'] / df['population']
+df['hospitalized'] = 1000000 * \
+    df['hospitalized'] / df['population']
 
-df[['positiveIncrease', 'deathIncrease']].to_csv('state_14day.csv')
+df[['positiveIncrease', 'deathIncrease']].to_csv('state_7day.csv')
 N = 256
 vals = np.ones((N, 4))
 vals[0:29, 0] = np.linspace(76/256, 1, 29)
 vals[0:29, 1] = np.linspace(168/256, 253/256, 29)
-vals[0:29, 2] = np.linspace(0/256, 148/256, 29)
+vals[0:29, 2] = np.linspace(0/256, 78/256, 29)
 vals[29:128, 0] = np.linspace(1, 1, 99)
 vals[29:128, 1] = np.linspace(253/256, 0, 99)
-vals[29:128, 2] = np.linspace(148/256, 0, 99)
+vals[29:128, 2] = np.linspace(78/256, 0, 99)
 
-vals[128:256, 0] = np.linspace(1, 147/256, 128)
+vals[128:256, 0] = np.linspace(1, 77/256, 128)
 vals[128:256, 1] = np.linspace(0, 85/256, 128)
 vals[128:256, 2] = np.linspace(0, 1, 128)
 cmap = matplotlib.colors.ListedColormap(vals)
@@ -197,9 +196,9 @@ getmap(df, 'positiveIncrease', 'positive_cases',
        'Positive Cases per Million {:%m/%d}'.format(current_date), 0, 1500)
 
 df['percentage'] = df['positiveIncrease'] / df['totalTestResultsIncrease']
-df['percentage'] = df['percentage'].diff(periods=14)
-df['positiveIncrease'] = df['positiveIncrease'].diff(periods=14)
-df['deathIncrease'] = df['deathIncrease'].diff(periods=14)
+df['percentage'] = df['percentage'].diff(periods=7)
+df['positiveIncrease'] = df['positiveIncrease'].diff(periods=7)
+df['deathIncrease'] = df['deathIncrease'].diff(periods=7)
 
 N = 256
 vals = np.ones((N, 4))
@@ -230,7 +229,7 @@ def getmap_diff(df, stat, statname, title, min, max):
     df = df[stat].drop(
         columns=['Puerto Rico', 'District of Columbia', 'Hawaii', 'Alaska'])
     df = df.iloc[-1]
-    df.to_csv('us_14_day_change_in_'+statname+'.csv')
+    df.to_csv('us_7_day_change_in_'+statname+'.csv')
     norm = plt.Normalize(min, max)
     df = df.transpose()
     print(stat + ' ' + str(df.min()))

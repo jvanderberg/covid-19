@@ -110,16 +110,16 @@ plt.close()
 plt.figure(figsize=(10, 5), dpi=400)
 plt.box(on=None)
 plt.margins(0)
-plt.bar(df.index, df['hospitalizedCurrently'], width=0.75,
+plt.bar(df.index, df['hospitalized'], width=0.75,
         color='#6688cc', label="Hospitalized")
-plt.plot(df.index, df['hospitalizedCurrently_7day'],
+plt.plot(df.index, df['hospitalized_7day'],
          color='#EE3333', label="7 Day Average")
 plt.ylabel("Hospitalized")
 
 plt.legend().get_frame().set_linewidth(0.0)
 
-current_value = df.tail(1)['hospitalizedCurrently_7day'].round()[0]
-current_date = df.tail(1)['hospitalizedCurrently_7day'].index[0]
+current_value = df.tail(1)['hospitalized_7day'].round()[0]
+current_date = df.tail(1)['hospitalized_7day'].index[0]
 
 plt.title('US Number of COVID-19 Patients in Hospital - ' +
           '{:%b %-d} - {:,} Patients'.format(current_date, int(current_value)), fontsize=15)
@@ -130,37 +130,6 @@ plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%m/%d'))
 plt.gca().xaxis.set_major_locator(mdates.MonthLocator(interval=1))
 
 plt.savefig('charts/US Hospitalization.png', bbox_inches='tight')
-plt.close()
-
-######################################################################################
-# US Hospitalization
-#######################################################################################
-plt.figure(figsize=(10, 5), dpi=400)
-plt.box(on=None)
-plt.margins(0)
-plt.bar(df.index, df['hospitalizedIncrease'], width=0.75,
-        color='#6688cc', label="Hospitalized")
-plt.plot(df.index, df['hospitalizedIncrease_7day'],
-         color='#EE3333', label="7 Day Average")
-plt.ylabel("Daily New Hospitalized")
-
-plt.legend().get_frame().set_linewidth(0.0)
-
-current_value = df.tail(1)['hospitalizedIncrease_7day'].round()[0]
-current_date = df.tail(1)['hospitalizedIncrease_7day'].index[0]
-
-try:
-    plt.title('US Daily Number of New Hospitalizations - ' +
-              '{:%b %-d} - {:,} People Avg / day'.format(current_date, int(current_value)), fontsize=15)
-except:
-    1 == 1
-plt.grid(axis='y', linewidth=0.5)
-plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%m/%d'))
-
-# Change the tick interval
-plt.gca().xaxis.set_major_locator(mdates.MonthLocator(interval=1))
-
-plt.savefig('charts/US Hospitalization Change.png', bbox_inches='tight')
 plt.close()
 
 

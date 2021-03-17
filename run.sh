@@ -1,6 +1,7 @@
 python county.py
 python zipcode.py
-python state.py
+python covid-tracking.py
+#python state.py
 python state_rank.py
 python national.py
 python regional_hospitalization.py

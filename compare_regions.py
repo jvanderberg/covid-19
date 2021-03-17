@@ -14,7 +14,7 @@ matplotlib.rcParams['text.color'] = '#555555'
 matplotlib.rcParams['axes.labelcolor'] = '#555555'
 matplotlib.rcParams['xtick.color'] = '#555555'
 matplotlib.rcParams['ytick.color'] = '#555555'
-window = 14
+window = 7
 population = pd.read_csv("population.csv", parse_dates=True)
 population = population.set_index('state')
 population['population'] = population['population'].astype('int32')
@@ -25,9 +25,9 @@ df = df.join(population, on='state')
 df['percentage'] = 0
 df['deathIncrease_pm'] = 0
 states1 = ['CO', 'IL', 'IA', 'MN', 'ND', 'SD', 'WY',
-           'MO', 'MI', 'OH', 'IN', 'NE', 'WY', 'MT', 'MI']
-states2 = ['AR', 'WA', 'OR', 'CA', 'AZ', 'NM', 'NV', 'UT', 'TX', 'OK',
+           'MO', 'MI', 'OH', 'IN', 'NE', 'WY', 'MT', 'MI', 'AR', 'WA', 'OR', 'AZ', 'NM', 'NV', 'UT', 'OK',
            'MS', 'LA', 'AL', 'FL', 'GA', 'SC', 'NC', 'TN', 'KY', 'WV', 'VA', 'NY', 'PA', 'MA', 'RI', 'NJ', 'VT', 'NH', 'ME']
+states2 = ['TX', 'CA']
 df1 = df[df['state'].isin(states1)].groupby(by='date').sum()
 df2 = df[df['state'].isin(states2)].groupby(by='date').sum()
 df1 = df1[df1.index >= startdate]

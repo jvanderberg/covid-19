@@ -128,7 +128,7 @@ plt.close()
 #######################################################################################
 # Positives by age group
 #######################################################################################
-
+df2 = df[df.index > datetime.datetime(2021, 2, 10)]
 age_groups = [{'group': '<20', 'color': 'tab:blue'}, {'group': '20-29', 'color': 'tab:orange'}, {'group': '30-39', 'color': 'tab:green'}, {'group': '40-49', 'color': 'tab:red'},
               {'group': '50-59', 'color': 'tab:purple'}, {'group': '60-69', 'color': 'tab:brown'}, {'group': '70-79', 'color': 'tab:gray'}, {'group': '80+', 'color': 'tab:cyan'}]
 age_groups.reverse()
@@ -136,10 +136,10 @@ age_groups.reverse()
 plt.figure(figsize=(10, 5), dpi=400)
 plt.box(0)
 plt.margins(0)
-x = df.index
+x = df2.index
 y = []
 for age in age_groups:
-    y.append(100*df[age['group']+' count_14day']/df['count_14day'])
+    y.append(100*df2[age['group']+' count_14day']/df2['count_14day'])
 
 plt.stackplot(x, y, labels=[age['group'] for age in age_groups], alpha=0.75)
 
@@ -147,8 +147,8 @@ plt.ylabel("Daily Positive Percentage of Total")
 plt.legend(loc='upper left', bbox_to_anchor=(
     1, 1)).get_frame().set_linewidth(0.0)
 
-current_value = df.tail(1)['count_14day'][0]
-current_date = df.tail(1)['count_14day'].index[0]
+current_value = df2.tail(1)['count_14day'][0]
+current_date = df2.tail(1)['count_14day'].index[0]
 
 plt.title('Oak Park Cases by Age Group - ' +
           '{:%b %-d} - 14 day average'.format(current_date))

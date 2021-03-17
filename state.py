@@ -8,7 +8,7 @@ min_population = 0
 population = pd.read_csv("population.csv", parse_dates=True)
 population = population.set_index('state')
 population['population'] = population['population'].astype('int32')
-df = pd.read_csv("https://api.covidtracking.com/v1/states/daily.csv",
+df = pd.read_csv("covid-tracking.csv",
                  parse_dates=True, index_col='date')
 df = df.sort_index(ascending=True)
 df = df.join(population, on='state')
