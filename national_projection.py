@@ -13,7 +13,7 @@ matplotlib.rcParams['text.color'] = '#555555'
 matplotlib.rcParams['axes.labelcolor'] = '#555555'
 matplotlib.rcParams['xtick.color'] = '#555555'
 matplotlib.rcParams['ytick.color'] = '#555555'
-startdate = datetime.datetime(2020, 8, 15)
+startdate = datetime.datetime(2021, 2, 1)
 df = pd.read_csv('us_daily.csv', index_col=0, parse_dates=True)
 
 pos = df['positiveIncrease_7day']/df['totalTestResultsIncrease_7day']

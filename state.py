@@ -38,7 +38,7 @@ df.to_csv('state_deaths_daily_14day_centered.csv')
 df = pd.read_csv("https://api.covidtracking.com/v1/states/daily.csv",
                  parse_dates=True, index_col='date')
 df = df[['state', 'deathIncrease', 'positiveIncrease',
-         'totalTestResultsIncrease', 'hospitalizedIncrease']]
+         'totalTestResultsIncrease', 'hospitalized']]
 df = df.sort_index(ascending=True)
 df = df.join(population, on='state')
 worst = worst.reset_index()

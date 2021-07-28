@@ -1,49 +1,49 @@
-statename,2021-03-15
-Alabama,
-Arizona,
-Arkansas,
+statename,2021-07-23
+Alabama,0.010348979425059097
+Arizona,0.0026027032397824383
+Arkansas,0.002396019886300789
 California,
-Colorado,
-Connecticut,
-Delaware,
-Florida,
-Georgia,
-Idaho,
-Illinois,
-Indiana,
-Iowa,
-Kansas,
-Kentucky,
-Louisiana,
-Maine,
-Maryland,
-Massachusetts,
-Michigan,
-Minnesota,
-Mississippi,
+Colorado,0.0003538527064824177
+Connecticut,0.0028379520746152635
+Delaware,0.008213172608621876
+Florida,0.0018330014509423762
+Georgia,0.00358003577602388
+Idaho,0.013045914460738856
+Illinois,0.000817050957021516
+Indiana,0.0033856823775504762
+Iowa,0.00028944153583576604
+Kansas,0.005011407575332298
+Kentucky,0.007529516016619362
+Louisiana,0.009372381795650007
+Maine,0.00033884371866175697
+Maryland,0.0009193370909471319
+Massachusetts,0.0005534929362939725
+Michigan,0.0013291003065716406
+Minnesota,0.001411062424773268
+Mississippi,0.014969209536967419
 Missouri,
-Montana,
-Nebraska,
-Nevada,
-New Hampshire,
-New Jersey,
-New Mexico,
-New York,
-North Carolina,
-North Dakota,
-Ohio,
-Oklahoma,
-Oregon,
-Pennsylvania,
-Rhode Island,
-South Carolina,
-South Dakota,
-Tennessee,
-Texas,
-Utah,
-Vermont,
-Virginia,
-Washington,
-West Virginia,
-Wisconsin,
-Wyoming,
+Montana,0.016002446089379736
+Nebraska,0.009346858892441766
+Nevada,0.005530139805477979
+New Hampshire,0.001089182716171571
+New Jersey,0.0012225877989309963
+New Mexico,0.001661165250217412
+New York,0.00034414338614882384
+North Carolina,0.002218543583542657
+North Dakota,0.013474908094771039
+Ohio,0.0011227900518442167
+Oklahoma,-0.0014620510874677473
+Oregon,0.00381997573576131
+Pennsylvania,0.0007047257164311134
+Rhode Island,0.007019058110155503
+South Carolina,0.006665527994919479
+South Dakota,0.014056429748973878
+Tennessee,0.004478901837365209
+Texas,0.0011487589096935195
+Utah,0.0058071032584769665
+Vermont,0.012591959762842744
+Virginia,0.0030390410219984657
+Washington,0.0015147163880195394
+West Virginia,0.005887409039076714
+Wisconsin,0.0029782609041592604
+Wyoming,-0.004767807199754115

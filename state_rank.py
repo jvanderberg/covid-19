@@ -165,7 +165,7 @@ def getmap(df, stat, statname, title, min, max):
 
     df = df[stat].drop(
         columns=['Puerto Rico', 'District of Columbia', 'Hawaii', 'Alaska'])
-    df = df.iloc[-1]
+    df = df.iloc[-3]
     df.to_csv('us_'+statname+'.csv')
     norm = plt.Normalize(min, max)
     df = df.transpose()
@@ -228,7 +228,7 @@ def getmap_diff(df, stat, statname, title, min, max):
 
     df = df[stat].drop(
         columns=['Puerto Rico', 'District of Columbia', 'Hawaii', 'Alaska'])
-    df = df.iloc[-1]
+    df = df.iloc[-3]
     df.to_csv('us_7_day_change_in_'+statname+'.csv')
     norm = plt.Normalize(min, max)
     df = df.transpose()

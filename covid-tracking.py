@@ -21,19 +21,9 @@ Changelog:
 
 HHS_TESTING_URL = "https://beta.healthdata.gov/api/views/j8mb-icvb/rows.csv?accessType=DOWNLOAD"
 HHS_HOSPITALIZATION_URL = "https://beta.healthdata.gov/api/views/g62h-syeh/rows.csv?accessType=DOWNLOAD"
-HHS_HOSPITALIZATION_REVISIONS_URL = "https://beta.healthdata.gov/api/views/4cnb-m4rz/rows.csv?accessType=DOWNLOAD"
 CDC_CASE_DEATH_URL = "https://data.cdc.gov/api/views/9mfq-cb36/rows.csv?accessType=DOWNLOAD"
 
 COMBINE_NY_NYC = True
-
-
-def get_hospitalization_csv_urls():
-    """get a set of recent revisions for the HHS hospitalizations-by-state dataset"""
-    revisions = pd.read_csv(HHS_HOSPITALIZATION_REVISIONS_URL)
-
-    revisions['Update Date'] = pd.to_datetime(
-        revisions['Update Date'], format='%m/%d/%Y %H:%M:%S %p')
-    return revisions.sort_values(by=['Update Date']).tail(n=8)['Archive Link'].tolist()
 
 
 def get_hospitalization_dailies():
@@ -75,13 +65,13 @@ testing['date'] = parse_dates(testing['date'])
 # the HHS hospitalization time series is only updated weekly. To compensate, we download the latest daily data
 # and merge it on top of the weekly data, taking only the most recent values for a given state/date
 hospitalization['date'] = parse_dates(hospitalization['date'])
-hospitalization_dailies = get_hospitalization_dailies()
+# hospitalization_dailies = get_hospitalization_dailies()
 # we want to use the HHS weekly time series up until its last day, then fill in the rest of the data from the daily
 # files. we overwrite the last day of the time series with the dailies because the dailies come out after the weekly
-hospitalization_dailies = hospitalization_dailies[hospitalization_dailies['date']
-                                                  >= hospitalization['date'].max()]
+# hospitalization_dailies = hospitalization_dailies[hospitalization_dailies['date']
+#                                                  >= hospitalization['date'].max()]
 hospitalization.set_index(['state', 'date'])
-hospitalization = hospitalization.merge(hospitalization_dailies, how='outer')
+# hospitalization = hospitalization.merge(hospitalization_dailies, how='outer')
 # the keep='last' here keeps just the daily data when both duplicate weekly and daily data exist
 hospitalization = hospitalization.drop_duplicates(
     subset=['date', 'state'], keep='last', ignore_index=True)

@@ -90,7 +90,8 @@ plt.savefig('charts/Region ICU.png', dpi=400)
 
 df = pd.read_csv('regional_all.csv', header=[0, 1], index_col=0)
 df.index = pd.to_datetime(df.index)
-
+startdate = datetime.datetime(2020, 9, 1)
+df = df[df.index > startdate]
 #######################################################################################
 # Deaths report
 #######################################################################################

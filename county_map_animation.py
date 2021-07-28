@@ -45,7 +45,7 @@ def get_all_county_data(setting, fips, stat):
     df['statename'] = df['Province_State']
 
     date = datetime.datetime(2020, 4, 1)
-
+    print(df.columns)
     cols = []
     while ((datetime.datetime.now() - date).days >= 1):
         try:
@@ -158,7 +158,6 @@ counties_deaths, death_stats = get_all_county_data(
 
 start = sys.argv[1]
 end = sys.argv[2]
-
 start = datetime.datetime.strptime(start, '%Y-%m-%d')
 end = datetime.datetime.strptime(end, '%Y-%m-%d')
 

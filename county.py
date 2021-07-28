@@ -71,7 +71,7 @@ def get_regional_breakdown(region_file):
     while ((datetime.datetime.now() - date).days >= 0):
         datestr = date.strftime('%-m/%-d/%y')
         data = county_data[datestr]
-
+        print(date)
         if (data == 404):
             date = date + datetime.timedelta(days=1)
 
