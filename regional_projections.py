@@ -13,7 +13,7 @@ matplotlib.rcParams['text.color'] = '#555555'
 matplotlib.rcParams['axes.labelcolor'] = '#555555'
 matplotlib.rcParams['xtick.color'] = '#555555'
 matplotlib.rcParams['ytick.color'] = '#555555'
-startdate = datetime.datetime(2021, 2, 1)
+startdate = datetime.datetime(2021, 3, 1)
 df = pd.read_csv('regional_all.csv', header=[
                  0, 1], index_col=0, parse_dates=True)
 

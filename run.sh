@@ -1,5 +1,5 @@
 python county.py
-python zipcode.py
+python newzipcode.py
 python covid-tracking.py
 #python state.py
 python state_rank.py
