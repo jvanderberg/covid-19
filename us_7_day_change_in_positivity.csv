@@ -1,49 +1,49 @@
-statename,2021-09-05
+statename,2021-09-07
 Alabama,
-Arizona,
-Arkansas,
+Arizona,0.008755494637464318
+Arkansas,0.04819360603114606
 California,
-Colorado,
+Colorado,0.001165802843236096
 Connecticut,
-Delaware,
-Florida,
-Georgia,
-Idaho,
-Illinois,
-Indiana,
-Iowa,
-Kansas,
-Kentucky,
-Louisiana,
-Maine,
+Delaware,0.033086286358084735
+Florida,0.00332277688422861
+Georgia,0.009821791408528926
+Idaho,0.037539968599198406
+Illinois,0.00025912861403491836
+Indiana,0.005549613709091877
+Iowa,0.014770058282692053
+Kansas,0.02293876412608828
+Kentucky,0.02063238925921175
+Louisiana,-0.019653869947151632
+Maine,0.019336690246797794
 Maryland,
-Massachusetts,
-Michigan,
-Minnesota,
-Mississippi,
-Missouri,
-Montana,
-Nebraska,
-Nevada,
-New Hampshire,
-New Jersey,
-New Mexico,
-New York,
-North Carolina,
-North Dakota,
-Ohio,
-Oklahoma,
-Oregon,
-Pennsylvania,
-Rhode Island,
-South Carolina,
-South Dakota,
+Massachusetts,0.0005989210078786349
+Michigan,0.00038081421997532457
+Minnesota,0.004097540826361207
+Mississippi,0.07932331910260354
+Missouri,0.0030004952565417554
+Montana,0.06327794075769053
+Nebraska,-0.007875824627429334
+Nevada,0.0067255637387852035
+New Hampshire,0.004870790465313142
+New Jersey,0.0025371394845554174
+New Mexico,0.0002795932063350687
+New York,7.017575621241562e-05
+North Carolina,-0.00216992552169863
+North Dakota,0.06993088975490394
+Ohio,0.004349800847337066
+Oklahoma,0.027787676698124625
+Oregon,0.003150005374785138
+Pennsylvania,0.001581150643071091
+Rhode Island,-0.007667913813832715
+South Carolina,0.008293951273727625
+South Dakota,0.04191414932882215
 Tennessee,
-Texas,
-Utah,
-Vermont,
-Virginia,
+Texas,0.0020062468443925174
+Utah,0.0007636459477505311
+Vermont,0.0003176465934363257
+Virginia,0.007635223974573446
 Washington,
-West Virginia,
-Wisconsin,
-Wyoming,
+West Virginia,0.017575711670061805
+Wisconsin,0.002143253149834365
+Wyoming,0.03135755026291698
