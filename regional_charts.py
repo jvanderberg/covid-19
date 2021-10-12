@@ -42,11 +42,11 @@ for row in range(0, 3):
     for col in range(0, 4):
         item = items[row][col]
         if (item != 'Illinois'):
-            current_value_icu = df.tail(1)[('icu', item)][0]
-            current_value_beds = df.tail(1)[('beds', item)][0]
+            current_value_icu = df.tail(2)[('icu', item)][0]
+            current_value_beds = df.tail(2)[('beds', item)][0]
         else:
-            current_value_icu = df.tail(1)['IL_icu'][0]
-            current_value_beds = df.tail(1)['IL_beds'][0]
+            current_value_icu = df.tail(2)['IL_icu'][0]
+            current_value_beds = df.tail(2)['IL_beds'][0]
 
         if (item != 'Illinois'):
             ax[row][col].plot(june_plus.index, june_plus[('icu', item)],
@@ -75,7 +75,7 @@ f.set_figheight(8)
 f.set_figwidth(16)
 f.tight_layout(pad=4, w_pad=-0.2, h_pad=3)
 # Format the date into months & days
-plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%m/%d'))
+plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%-m'))
 plt.gca().yaxis.set_major_formatter(mtick.PercentFormatter(1.0))
 
 # Change the tick interval
@@ -90,7 +90,7 @@ plt.savefig('charts/Region ICU.png', dpi=400)
 
 df = pd.read_csv('regional_all.csv', header=[0, 1], index_col=0)
 df.index = pd.to_datetime(df.index)
-startdate = datetime.datetime(2020, 9, 1)
+startdate = datetime.datetime(2020, 4, 1)
 df = df[df.index > startdate]
 #######################################################################################
 # Deaths report
@@ -108,7 +108,7 @@ plt.title('Illinois Daily Deaths - ' +
           '{:%b %-d} - {:0.0f} deaths per day'.format(current_date, current_value))
 plt.grid(axis='y', linewidth=0.5)
 # Format the date into months & days
-plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%m/%d'))
+plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%-m'))
 
 # Change the tick interval
 plt.gca().xaxis.set_major_locator(mdates.MonthLocator(interval=1))
@@ -139,7 +139,7 @@ current_value_percentage = df.tail(1)['percentage_7day']['Illinois'][0]
 plt.title('Illinois Daily Positive cases - '+'{:%b %-d} - {:,} cases per day - {:0.1f}% positive'.format(
     current_date, int(current_value), 100 * current_value_percentage))
 plt.grid(axis='y', linewidth=0.5)
-plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%m/%d'))
+plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%-m'))
 
 # Change the tick interval
 plt.gca().xaxis.set_major_locator(mdates.MonthLocator(interval=1))
@@ -169,7 +169,7 @@ plt.ylim(0)
 plt.title('Illinois Daily Positive % - '+'{:%b %-d} - {:,} cases per day - {:0.1f}% positive'.format(
     current_date, int(current_value), 100 * current_value_percentage))
 plt.grid(axis='y', linewidth=0.5)
-plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%m/%d'))
+plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%-m'))
 
 # Change the tick interval
 plt.gca().xaxis.set_major_locator(mdates.MonthLocator(interval=1))
@@ -194,7 +194,7 @@ plt.title('Illinois Tests Completed - ' +
 plt.grid(axis='y', linewidth=0.5)
 plt.ylim(0, 150000)
 # Format the date into months & days
-plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%m/%d'))
+plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%-m'))
 
 # Change the tick interval
 plt.gca().xaxis.set_major_locator(mdates.MonthLocator(interval=1))
@@ -236,7 +236,7 @@ f.set_figheight(8)
 f.set_figwidth(16)
 f.tight_layout(pad=4, w_pad=-0.2, h_pad=3)
 # Format the date into months & days
-plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%m/%d'))
+plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%-m'))
 plt.gca().yaxis.set_major_formatter(mtick.PercentFormatter(1.0))
 
 # Change the tick interval
@@ -282,7 +282,7 @@ f.tight_layout(pad=4, w_pad=-0.2, h_pad=3)
 f.suptitle(
     'Illinois Regional Daily Death Rates Per Million - 7 Day Average', fontsize=20)
 # Format the date into months & days
-plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%m/%d'))
+plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%-m'))
 
 # Change the tick interval
 plt.gca().xaxis.set_major_locator(mdates.MonthLocator(interval=1))
@@ -325,7 +325,7 @@ f.tight_layout(pad=4, w_pad=-0.2, h_pad=3)
 f.suptitle(
     'Illinois Regional Daily Positive Cases Per Million - 7 Day Average', fontsize=20)
 # Format the date into months & days
-plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%m/%d'))
+plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%-m'))
 
 # Change the tick interval
 plt.gca().xaxis.set_major_locator(mdates.MonthLocator(interval=1))
@@ -378,9 +378,9 @@ ax[1].spines["top"].set_visible(False)
 ax[1].spines["right"].set_visible(False)
 ax[1].spines["left"].set_visible(False)
 ax[1].spines["bottom"].set_visible(False)
-ax[0].xaxis.set_major_formatter(mdates.DateFormatter('%m/%d'))
+ax[0].xaxis.set_major_formatter(mdates.DateFormatter('%-m'))
 ax[0].xaxis.set_major_locator(mdates.MonthLocator(interval=1))
-ax[1].xaxis.set_major_formatter(mdates.DateFormatter('%m/%d'))
+ax[1].xaxis.set_major_formatter(mdates.DateFormatter('%-m'))
 ax[1].xaxis.set_major_locator(mdates.MonthLocator(interval=1))
 
 f.set_figheight(10)
@@ -417,14 +417,14 @@ for col in range(0, 3):
     ax[col].spines["left"].set_visible(False)
     ax[col].spines["bottom"].set_visible(False)
     ax[col].yaxis.set_major_formatter(mtick.PercentFormatter(1.0))
-    ax[col].xaxis.set_major_formatter(mdates.DateFormatter('%m/%d'))
+    ax[col].xaxis.set_major_formatter(mdates.DateFormatter('%-m'))
     ax[col].xaxis.set_major_locator(mdates.MonthLocator(interval=1))
 
 f.set_figheight(16)
 f.set_figwidth(8)
 f.tight_layout(pad=6, w_pad=1, h_pad=5)
 # Format the date into months & days
-plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%m/%d'))
+plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%-m'))
 plt.gca().yaxis.set_major_formatter(mtick.PercentFormatter(1.0))
 
 # Change the tick interval
@@ -457,7 +457,7 @@ for col in range(0, 3):
     ax[col].spines["right"].set_visible(False)
     ax[col].spines["left"].set_visible(False)
     ax[col].spines["bottom"].set_visible(False)
-    ax[col].xaxis.set_major_formatter(mdates.DateFormatter('%m/%d'))
+    ax[col].xaxis.set_major_formatter(mdates.DateFormatter('%-m'))
     ax[col].xaxis.set_major_locator(mdates.MonthLocator(interval=1))
 
 

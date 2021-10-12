@@ -99,9 +99,9 @@ hospitalization = hospitalization[hospitalization['date'] >= datetime.date(
     year=2020, month=7, day=15)]
 
 # case/death data: pick a subset of columns and prepare to merge
-case_death = case_death[
-    ['submission_date', 'state', 'tot_cases', 'conf_cases', 'prob_cases', 'new_case', 'pnew_case', 'tot_death',
-     'conf_death', 'prob_death', 'new_death', 'pnew_death']]
+#case_death = case_death[
+#    ['submission_date', 'state', 'tot_cases', 'conf_cases', 'prob_cases', 'new_case', 'pnew_case', 'tot_death',
+#     'conf_death', 'prob_death', 'new_death', 'pnew_death']]
 case_death = case_death.rename(columns={'submission_date': 'date'})
 # sum NY and NYC case/death data into one row
 if COMBINE_NY_NYC:
@@ -122,10 +122,11 @@ combined['date'] = pd.to_datetime(combined['date'], format='%Y-%m-%d')
 combined = combined.merge(case_death, on=['state', 'date'], how='outer')
 
 combined.sort_values(by=['date', 'state'], inplace=True, ignore_index=True)
+combined.to_csv('covid.csv', index=False)
 
 # and output the data
 new_combined = pd.DataFrame(
-    {'date': combined['date'], 'state': combined['state'], 'hospitalized': combined['inpatient_beds_used_covid'], 'deathIncrease': combined['new_death'], 'totalTestResultsIncrease': (combined['new_results_reported_Inconclusive'] + combined['new_results_reported_Negative']+combined['new_results_reported_Positive']), 'positiveIncrease': combined['new_results_reported_Positive']})
+    {'date': combined['date'], 'state': combined['state'], 'hospitalized': combined['inpatient_beds_used_covid'], 'deathIncrease': combined['new_death'], 'totalTestResultsIncrease': (combined['new_results_reported_Inconclusive'] + combined['new_results_reported_Negative']+combined['new_results_reported_Positive']), 'positiveIncrease': combined['new_case']+ combined['pnew_case']})
 new_combined.to_csv('covid-tracking.csv', index=False)
 
 # tell Google Colab to have the user download the output

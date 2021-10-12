@@ -408,6 +408,51 @@ date,region,beds,icu
 2021-07-24,North,0.24,0.2
 2021-07-25,North,0.24,0.19
 2021-07-26,North,0.24,0.19
+2021-07-27,North,0.23,0.19
+2021-07-28,North,0.24,0.18
+2021-07-29,North,0.24,0.17
+2021-07-30,North,0.24,0.16
+2021-07-31,North,0.24,0.15
+2021-08-01,North,0.24,0.16
+2021-08-02,North,0.24,0.16
+2021-08-03,North,0.25,0.17
+2021-08-04,North,0.24,0.18
+2021-08-05,North,0.24,0.19
+2021-08-06,North,0.23,0.19
+2021-08-07,North,0.22,0.18
+2021-08-08,North,0.22,0.17
+2021-08-09,North,0.21,0.17
+2021-08-10,North,0.2,0.16
+2021-08-11,North,0.2,0.16
+2021-08-12,North,0.2,0.16
+2021-08-13,North,0.2,0.16
+2021-08-14,North,0.2,0.17
+2021-08-15,North,0.21,0.17
+2021-08-16,North,0.21,0.17
+2021-08-17,North,0.22,0.17
+2021-08-18,North,0.22,0.16
+2021-08-19,North,0.22,0.15
+2021-08-20,North,0.22,0.15
+2021-08-21,North,0.21,0.13
+2021-08-22,North,0.21,0.14
+2021-08-23,North,0.2,0.13
+2021-08-24,North,0.19,0.13
+2021-08-25,North,0.19,0.13
+2021-08-26,North,0.19,0.13
+2021-08-27,North,0.2,0.14
+2021-08-28,North,0.21,0.15
+2021-08-29,North,0.2,0.15
+2021-08-30,North,0.2,0.15
+2021-08-31,North,0.21,0.15
+2021-09-01,North,0.21,0.16
+2021-09-02,North,0.21,0.16
+2021-09-03,North,0.22,0.17
+2021-09-04,North,0.23,0.17
+2021-09-05,North,0.24,0.18
+2021-09-06,North,0.25,0.19
+2021-09-07,North,0.25,0.19
+2021-09-08,North,0.25,0.19
+2021-09-09,North,0.25,0.19
 2020-06-13,North-Central,0.47,0.49
 2020-06-14,North-Central,0.48,0.49
 2020-06-15,North-Central,0.49,0.52
@@ -817,6 +862,51 @@ date,region,beds,icu
 2021-07-24,North-Central,0.2,0.3
 2021-07-25,North-Central,0.2,0.29
 2021-07-26,North-Central,0.2,0.29
+2021-07-27,North-Central,0.2,0.28
+2021-07-28,North-Central,0.19,0.28
+2021-07-29,North-Central,0.19,0.28
+2021-07-30,North-Central,0.19,0.27
+2021-07-31,North-Central,0.18,0.28
+2021-08-01,North-Central,0.18,0.28
+2021-08-02,North-Central,0.18,0.27
+2021-08-03,North-Central,0.17,0.27
+2021-08-04,North-Central,0.17,0.27
+2021-08-05,North-Central,0.17,0.26
+2021-08-06,North-Central,0.17,0.26
+2021-08-07,North-Central,0.17,0.25
+2021-08-08,North-Central,0.17,0.25
+2021-08-09,North-Central,0.17,0.25
+2021-08-10,North-Central,0.17,0.24
+2021-08-11,North-Central,0.17,0.23
+2021-08-12,North-Central,0.17,0.23
+2021-08-13,North-Central,0.16,0.21
+2021-08-14,North-Central,0.15,0.2
+2021-08-15,North-Central,0.15,0.21
+2021-08-16,North-Central,0.15,0.19
+2021-08-17,North-Central,0.15,0.2
+2021-08-18,North-Central,0.15,0.21
+2021-08-19,North-Central,0.15,0.21
+2021-08-20,North-Central,0.15,0.21
+2021-08-21,North-Central,0.16,0.22
+2021-08-22,North-Central,0.16,0.21
+2021-08-23,North-Central,0.16,0.22
+2021-08-24,North-Central,0.15,0.21
+2021-08-25,North-Central,0.15,0.2
+2021-08-26,North-Central,0.15,0.21
+2021-08-27,North-Central,0.15,0.2
+2021-08-28,North-Central,0.15,0.2
+2021-08-29,North-Central,0.15,0.19
+2021-08-30,North-Central,0.15,0.19
+2021-08-31,North-Central,0.16,0.19
+2021-09-01,North-Central,0.16,0.18
+2021-09-02,North-Central,0.16,0.17
+2021-09-03,North-Central,0.16,0.18
+2021-09-04,North-Central,0.16,0.18
+2021-09-05,North-Central,0.16,0.18
+2021-09-06,North-Central,0.16,0.18
+2021-09-07,North-Central,0.17,0.18
+2021-09-08,North-Central,0.17,0.18
+2021-09-09,North-Central,0.16,0.18
 2020-06-13,West-Central,0.42,0.55
 2020-06-14,West-Central,0.45,0.55
 2020-06-15,West-Central,0.46,0.56
@@ -1226,6 +1316,51 @@ date,region,beds,icu
 2021-07-24,West-Central,0.25,0.29
 2021-07-25,West-Central,0.24,0.29
 2021-07-26,West-Central,0.23,0.28
+2021-07-27,West-Central,0.23,0.27
+2021-07-28,West-Central,0.22,0.27
+2021-07-29,West-Central,0.22,0.27
+2021-07-30,West-Central,0.21,0.27
+2021-07-31,West-Central,0.22,0.27
+2021-08-01,West-Central,0.22,0.27
+2021-08-02,West-Central,0.22,0.26
+2021-08-03,West-Central,0.22,0.26
+2021-08-04,West-Central,0.22,0.26
+2021-08-05,West-Central,0.22,0.25
+2021-08-06,West-Central,0.22,0.25
+2021-08-07,West-Central,0.22,0.23
+2021-08-08,West-Central,0.21,0.21
+2021-08-09,West-Central,0.21,0.21
+2021-08-10,West-Central,0.21,0.21
+2021-08-11,West-Central,0.2,0.21
+2021-08-12,West-Central,0.2,0.21
+2021-08-13,West-Central,0.19,0.2
+2021-08-14,West-Central,0.19,0.2
+2021-08-15,West-Central,0.18,0.2
+2021-08-16,West-Central,0.18,0.2
+2021-08-17,West-Central,0.18,0.2
+2021-08-18,West-Central,0.19,0.19
+2021-08-19,West-Central,0.19,0.18
+2021-08-20,West-Central,0.2,0.18
+2021-08-21,West-Central,0.2,0.17
+2021-08-22,West-Central,0.2,0.16
+2021-08-23,West-Central,0.2,0.15
+2021-08-24,West-Central,0.19,0.15
+2021-08-25,West-Central,0.19,0.15
+2021-08-26,West-Central,0.19,0.14
+2021-08-27,West-Central,0.18,0.15
+2021-08-28,West-Central,0.18,0.16
+2021-08-29,West-Central,0.19,0.17
+2021-08-30,West-Central,0.19,0.18
+2021-08-31,West-Central,0.19,0.18
+2021-09-01,West-Central,0.19,0.18
+2021-09-02,West-Central,0.18,0.17
+2021-09-03,West-Central,0.18,0.16
+2021-09-04,West-Central,0.18,0.16
+2021-09-05,West-Central,0.18,0.16
+2021-09-06,West-Central,0.18,0.16
+2021-09-07,West-Central,0.17,0.18
+2021-09-08,West-Central,0.17,0.18
+2021-09-09,West-Central,0.17,0.2
 2020-06-13,Metro East,0.41,0.48
 2020-06-14,Metro East,0.43,0.51
 2020-06-15,Metro East,0.42,0.49
@@ -1635,6 +1770,51 @@ date,region,beds,icu
 2021-07-24,Metro East,0.13,0.24
 2021-07-25,Metro East,0.12,0.21
 2021-07-26,Metro East,0.12,0.2
+2021-07-27,Metro East,0.12,0.2
+2021-07-28,Metro East,0.11,0.22
+2021-07-29,Metro East,0.12,0.25
+2021-07-30,Metro East,0.12,0.26
+2021-07-31,Metro East,0.11,0.28
+2021-08-01,Metro East,0.12,0.28
+2021-08-02,Metro East,0.12,0.28
+2021-08-03,Metro East,0.12,0.28
+2021-08-04,Metro East,0.12,0.27
+2021-08-05,Metro East,0.11,0.25
+2021-08-06,Metro East,0.11,0.23
+2021-08-07,Metro East,0.11,0.23
+2021-08-08,Metro East,0.11,0.22
+2021-08-09,Metro East,0.11,0.2
+2021-08-10,Metro East,0.11,0.2
+2021-08-11,Metro East,0.11,0.19
+2021-08-12,Metro East,0.11,0.17
+2021-08-13,Metro East,0.11,0.18
+2021-08-14,Metro East,0.11,0.17
+2021-08-15,Metro East,0.12,0.18
+2021-08-16,Metro East,0.11,0.2
+2021-08-17,Metro East,0.11,0.21
+2021-08-18,Metro East,0.12,0.22
+2021-08-19,Metro East,0.12,0.23
+2021-08-20,Metro East,0.13,0.23
+2021-08-21,Metro East,0.13,0.22
+2021-08-22,Metro East,0.13,0.22
+2021-08-23,Metro East,0.13,0.22
+2021-08-24,Metro East,0.14,0.21
+2021-08-25,Metro East,0.14,0.22
+2021-08-26,Metro East,0.15,0.22
+2021-08-27,Metro East,0.16,0.21
+2021-08-28,Metro East,0.17,0.21
+2021-08-29,Metro East,0.18,0.2
+2021-08-30,Metro East,0.18,0.21
+2021-08-31,Metro East,0.18,0.21
+2021-09-01,Metro East,0.18,0.2
+2021-09-02,Metro East,0.18,0.19
+2021-09-03,Metro East,0.17,0.19
+2021-09-04,Metro East,0.16,0.2
+2021-09-05,Metro East,0.16,0.21
+2021-09-06,Metro East,0.16,0.21
+2021-09-07,Metro East,0.16,0.21
+2021-09-08,Metro East,0.16,0.22
+2021-09-09,Metro East,0.15,0.22
 2020-06-13,Southern,0.46,0.59
 2020-06-14,Southern,0.45,0.61
 2020-06-15,Southern,0.48,0.58
@@ -2044,6 +2224,51 @@ date,region,beds,icu
 2021-07-24,Southern,0.27,0.17
 2021-07-25,Southern,0.28,0.16
 2021-07-26,Southern,0.28,0.15
+2021-07-27,Southern,0.27,0.14
+2021-07-28,Southern,0.28,0.14
+2021-07-29,Southern,0.28,0.14
+2021-07-30,Southern,0.28,0.13
+2021-07-31,Southern,0.28,0.13
+2021-08-01,Southern,0.28,0.12
+2021-08-02,Southern,0.27,0.13
+2021-08-03,Southern,0.27,0.14
+2021-08-04,Southern,0.26,0.14
+2021-08-05,Southern,0.26,0.14
+2021-08-06,Southern,0.26,0.14
+2021-08-07,Southern,0.26,0.14
+2021-08-08,Southern,0.26,0.13
+2021-08-09,Southern,0.26,0.12
+2021-08-10,Southern,0.25,0.11
+2021-08-11,Southern,0.26,0.1
+2021-08-12,Southern,0.26,0.09
+2021-08-13,Southern,0.26,0.09
+2021-08-14,Southern,0.26,0.09
+2021-08-15,Southern,0.25,0.09
+2021-08-16,Southern,0.25,0.09
+2021-08-17,Southern,0.25,0.09
+2021-08-18,Southern,0.24,0.09
+2021-08-19,Southern,0.24,0.08
+2021-08-20,Southern,0.24,0.07
+2021-08-21,Southern,0.23,0.06
+2021-08-22,Southern,0.23,0.05
+2021-08-23,Southern,0.23,0.04
+2021-08-24,Southern,0.23,0.03
+2021-08-25,Southern,0.23,0.04
+2021-08-26,Southern,0.23,0.04
+2021-08-27,Southern,0.22,0.04
+2021-08-28,Southern,0.22,0.04
+2021-08-29,Southern,0.23,0.05
+2021-08-30,Southern,0.23,0.06
+2021-08-31,Southern,0.24,0.06
+2021-09-01,Southern,0.24,0.06
+2021-09-02,Southern,0.24,0.05
+2021-09-03,Southern,0.24,0.05
+2021-09-04,Southern,0.25,0.05
+2021-09-05,Southern,0.25,0.05
+2021-09-06,Southern,0.25,0.05
+2021-09-07,Southern,0.25,0.06
+2021-09-08,Southern,0.25,0.06
+2021-09-09,Southern,0.25,0.06
 2020-06-13,East-Central,0.44,0.62
 2020-06-14,East-Central,0.47,0.62
 2020-06-15,East-Central,0.48,0.59
@@ -2453,6 +2678,51 @@ date,region,beds,icu
 2021-07-24,East-Central,0.23,0.31
 2021-07-25,East-Central,0.24,0.31
 2021-07-26,East-Central,0.23,0.3
+2021-07-27,East-Central,0.23,0.31
+2021-07-28,East-Central,0.23,0.3
+2021-07-29,East-Central,0.23,0.31
+2021-07-30,East-Central,0.23,0.32
+2021-07-31,East-Central,0.23,0.32
+2021-08-01,East-Central,0.23,0.31
+2021-08-02,East-Central,0.24,0.31
+2021-08-03,East-Central,0.24,0.31
+2021-08-04,East-Central,0.24,0.3
+2021-08-05,East-Central,0.24,0.3
+2021-08-06,East-Central,0.24,0.28
+2021-08-07,East-Central,0.24,0.27
+2021-08-08,East-Central,0.23,0.26
+2021-08-09,East-Central,0.22,0.26
+2021-08-10,East-Central,0.21,0.24
+2021-08-11,East-Central,0.21,0.23
+2021-08-12,East-Central,0.21,0.23
+2021-08-13,East-Central,0.2,0.22
+2021-08-14,East-Central,0.18,0.21
+2021-08-15,East-Central,0.18,0.2
+2021-08-16,East-Central,0.18,0.2
+2021-08-17,East-Central,0.18,0.21
+2021-08-18,East-Central,0.17,0.22
+2021-08-19,East-Central,0.17,0.21
+2021-08-20,East-Central,0.17,0.22
+2021-08-21,East-Central,0.17,0.22
+2021-08-22,East-Central,0.17,0.23
+2021-08-23,East-Central,0.17,0.22
+2021-08-24,East-Central,0.17,0.21
+2021-08-25,East-Central,0.17,0.21
+2021-08-26,East-Central,0.17,0.2
+2021-08-27,East-Central,0.18,0.19
+2021-08-28,East-Central,0.18,0.19
+2021-08-29,East-Central,0.18,0.18
+2021-08-30,East-Central,0.18,0.19
+2021-08-31,East-Central,0.18,0.18
+2021-09-01,East-Central,0.18,0.18
+2021-09-02,East-Central,0.18,0.19
+2021-09-03,East-Central,0.18,0.19
+2021-09-04,East-Central,0.18,0.19
+2021-09-05,East-Central,0.19,0.19
+2021-09-06,East-Central,0.19,0.2
+2021-09-07,East-Central,0.19,0.21
+2021-09-08,East-Central,0.19,0.2
+2021-09-09,East-Central,0.19,0.18
 2020-06-13,South Suburban,0.36,0.35
 2020-06-14,South Suburban,0.36,0.36
 2020-06-15,South Suburban,0.36,0.37
@@ -2862,6 +3132,51 @@ date,region,beds,icu
 2021-07-24,South Suburban,0.11,0.27
 2021-07-25,South Suburban,0.12,0.28
 2021-07-26,South Suburban,0.13,0.28
+2021-07-27,South Suburban,0.14,0.28
+2021-07-28,South Suburban,0.14,0.28
+2021-07-29,South Suburban,0.14,0.28
+2021-07-30,South Suburban,0.14,0.27
+2021-07-31,South Suburban,0.14,0.26
+2021-08-01,South Suburban,0.14,0.25
+2021-08-02,South Suburban,0.14,0.26
+2021-08-03,South Suburban,0.13,0.25
+2021-08-04,South Suburban,0.13,0.23
+2021-08-05,South Suburban,0.13,0.24
+2021-08-06,South Suburban,0.13,0.25
+2021-08-07,South Suburban,0.13,0.24
+2021-08-08,South Suburban,0.13,0.24
+2021-08-09,South Suburban,0.13,0.23
+2021-08-10,South Suburban,0.14,0.23
+2021-08-11,South Suburban,0.13,0.23
+2021-08-12,South Suburban,0.13,0.23
+2021-08-13,South Suburban,0.13,0.22
+2021-08-14,South Suburban,0.12,0.22
+2021-08-15,South Suburban,0.11,0.22
+2021-08-16,South Suburban,0.09,0.21
+2021-08-17,South Suburban,0.09,0.21
+2021-08-18,South Suburban,0.09,0.21
+2021-08-19,South Suburban,0.1,0.22
+2021-08-20,South Suburban,0.09,0.23
+2021-08-21,South Suburban,0.09,0.23
+2021-08-22,South Suburban,0.09,0.23
+2021-08-23,South Suburban,0.1,0.24
+2021-08-24,South Suburban,0.1,0.24
+2021-08-25,South Suburban,0.1,0.24
+2021-08-26,South Suburban,0.1,0.24
+2021-08-27,South Suburban,0.1,0.24
+2021-08-28,South Suburban,0.11,0.25
+2021-08-29,South Suburban,0.11,0.25
+2021-08-30,South Suburban,0.11,0.25
+2021-08-31,South Suburban,0.11,0.25
+2021-09-01,South Suburban,0.1,0.26
+2021-09-02,South Suburban,0.1,0.25
+2021-09-03,South Suburban,0.1,0.25
+2021-09-04,South Suburban,0.1,0.25
+2021-09-05,South Suburban,0.11,0.24
+2021-09-06,South Suburban,0.12,0.25
+2021-09-07,South Suburban,0.13,0.24
+2021-09-08,South Suburban,0.13,0.24
+2021-09-09,South Suburban,0.14,0.24
 2020-06-13,West Suburban,0.32,0.43
 2020-06-14,West Suburban,0.34,0.45
 2020-06-15,West Suburban,0.36,0.48
@@ -3271,6 +3586,51 @@ date,region,beds,icu
 2021-07-24,West Suburban,0.16,0.26
 2021-07-25,West Suburban,0.16,0.27
 2021-07-26,West Suburban,0.16,0.27
+2021-07-27,West Suburban,0.16,0.28
+2021-07-28,West Suburban,0.15,0.27
+2021-07-29,West Suburban,0.15,0.27
+2021-07-30,West Suburban,0.15,0.27
+2021-07-31,West Suburban,0.15,0.26
+2021-08-01,West Suburban,0.15,0.26
+2021-08-02,West Suburban,0.16,0.25
+2021-08-03,West Suburban,0.16,0.25
+2021-08-04,West Suburban,0.16,0.26
+2021-08-05,West Suburban,0.17,0.26
+2021-08-06,West Suburban,0.17,0.27
+2021-08-07,West Suburban,0.17,0.27
+2021-08-08,West Suburban,0.17,0.27
+2021-08-09,West Suburban,0.16,0.29
+2021-08-10,West Suburban,0.16,0.29
+2021-08-11,West Suburban,0.16,0.28
+2021-08-12,West Suburban,0.16,0.27
+2021-08-13,West Suburban,0.16,0.26
+2021-08-14,West Suburban,0.15,0.25
+2021-08-15,West Suburban,0.15,0.24
+2021-08-16,West Suburban,0.15,0.22
+2021-08-17,West Suburban,0.15,0.22
+2021-08-18,West Suburban,0.15,0.22
+2021-08-19,West Suburban,0.15,0.22
+2021-08-20,West Suburban,0.15,0.22
+2021-08-21,West Suburban,0.15,0.22
+2021-08-22,West Suburban,0.15,0.21
+2021-08-23,West Suburban,0.14,0.22
+2021-08-24,West Suburban,0.14,0.22
+2021-08-25,West Suburban,0.14,0.22
+2021-08-26,West Suburban,0.15,0.22
+2021-08-27,West Suburban,0.15,0.22
+2021-08-28,West Suburban,0.16,0.22
+2021-08-29,West Suburban,0.16,0.22
+2021-08-30,West Suburban,0.16,0.21
+2021-08-31,West Suburban,0.17,0.21
+2021-09-01,West Suburban,0.18,0.21
+2021-09-02,West Suburban,0.18,0.22
+2021-09-03,West Suburban,0.19,0.23
+2021-09-04,West Suburban,0.2,0.24
+2021-09-05,West Suburban,0.21,0.25
+2021-09-06,West Suburban,0.22,0.26
+2021-09-07,West Suburban,0.23,0.27
+2021-09-08,West Suburban,0.23,0.26
+2021-09-09,West Suburban,0.22,0.25
 2020-06-13,North Suburban,0.39,0.52
 2020-06-14,North Suburban,0.42,0.55
 2020-06-15,North Suburban,0.43,0.57
@@ -3680,6 +4040,51 @@ date,region,beds,icu
 2021-07-24,North Suburban,0.17,0.31
 2021-07-25,North Suburban,0.17,0.33
 2021-07-26,North Suburban,0.18,0.34
+2021-07-27,North Suburban,0.18,0.34
+2021-07-28,North Suburban,0.18,0.34
+2021-07-29,North Suburban,0.18,0.34
+2021-07-30,North Suburban,0.18,0.33
+2021-07-31,North Suburban,0.17,0.32
+2021-08-01,North Suburban,0.17,0.31
+2021-08-02,North Suburban,0.16,0.3
+2021-08-03,North Suburban,0.16,0.29
+2021-08-04,North Suburban,0.16,0.29
+2021-08-05,North Suburban,0.15,0.29
+2021-08-06,North Suburban,0.15,0.28
+2021-08-07,North Suburban,0.16,0.26
+2021-08-08,North Suburban,0.16,0.26
+2021-08-09,North Suburban,0.16,0.25
+2021-08-10,North Suburban,0.16,0.25
+2021-08-11,North Suburban,0.15,0.24
+2021-08-12,North Suburban,0.15,0.23
+2021-08-13,North Suburban,0.14,0.22
+2021-08-14,North Suburban,0.13,0.22
+2021-08-15,North Suburban,0.12,0.22
+2021-08-16,North Suburban,0.12,0.21
+2021-08-17,North Suburban,0.12,0.21
+2021-08-18,North Suburban,0.11,0.19
+2021-08-19,North Suburban,0.11,0.19
+2021-08-20,North Suburban,0.11,0.18
+2021-08-21,North Suburban,0.11,0.17
+2021-08-22,North Suburban,0.1,0.17
+2021-08-23,North Suburban,0.1,0.15
+2021-08-24,North Suburban,0.09,0.15
+2021-08-25,North Suburban,0.09,0.15
+2021-08-26,North Suburban,0.08,0.15
+2021-08-27,North Suburban,0.09,0.16
+2021-08-28,North Suburban,0.09,0.16
+2021-08-29,North Suburban,0.09,0.17
+2021-08-30,North Suburban,0.1,0.17
+2021-08-31,North Suburban,0.11,0.18
+2021-09-01,North Suburban,0.11,0.18
+2021-09-02,North Suburban,0.12,0.19
+2021-09-03,North Suburban,0.13,0.19
+2021-09-04,North Suburban,0.14,0.2
+2021-09-05,North Suburban,0.15,0.21
+2021-09-06,North Suburban,0.16,0.22
+2021-09-07,North Suburban,0.15,0.22
+2021-09-08,North Suburban,0.16,0.22
+2021-09-09,North Suburban,0.15,0.21
 2020-06-13,Suburban Cook,0.27,0.36
 2020-06-14,Suburban Cook,0.31,0.38
 2020-06-15,Suburban Cook,0.33,0.41
@@ -4089,6 +4494,51 @@ date,region,beds,icu
 2021-07-24,Suburban Cook,0.14,0.21
 2021-07-25,Suburban Cook,0.15,0.21
 2021-07-26,Suburban Cook,0.15,0.22
+2021-07-27,Suburban Cook,0.15,0.22
+2021-07-28,Suburban Cook,0.15,0.23
+2021-07-29,Suburban Cook,0.15,0.23
+2021-07-30,Suburban Cook,0.15,0.23
+2021-07-31,Suburban Cook,0.15,0.22
+2021-08-01,Suburban Cook,0.15,0.22
+2021-08-02,Suburban Cook,0.15,0.22
+2021-08-03,Suburban Cook,0.15,0.22
+2021-08-04,Suburban Cook,0.15,0.22
+2021-08-05,Suburban Cook,0.16,0.22
+2021-08-06,Suburban Cook,0.16,0.22
+2021-08-07,Suburban Cook,0.16,0.22
+2021-08-08,Suburban Cook,0.15,0.21
+2021-08-09,Suburban Cook,0.15,0.21
+2021-08-10,Suburban Cook,0.15,0.21
+2021-08-11,Suburban Cook,0.14,0.2
+2021-08-12,Suburban Cook,0.14,0.2
+2021-08-13,Suburban Cook,0.14,0.19
+2021-08-14,Suburban Cook,0.13,0.19
+2021-08-15,Suburban Cook,0.13,0.19
+2021-08-16,Suburban Cook,0.13,0.19
+2021-08-17,Suburban Cook,0.13,0.19
+2021-08-18,Suburban Cook,0.13,0.19
+2021-08-19,Suburban Cook,0.13,0.19
+2021-08-20,Suburban Cook,0.13,0.18
+2021-08-21,Suburban Cook,0.13,0.19
+2021-08-22,Suburban Cook,0.13,0.18
+2021-08-23,Suburban Cook,0.13,0.18
+2021-08-24,Suburban Cook,0.13,0.17
+2021-08-25,Suburban Cook,0.13,0.17
+2021-08-26,Suburban Cook,0.14,0.17
+2021-08-27,Suburban Cook,0.14,0.17
+2021-08-28,Suburban Cook,0.15,0.17
+2021-08-29,Suburban Cook,0.16,0.17
+2021-08-30,Suburban Cook,0.16,0.17
+2021-08-31,Suburban Cook,0.17,0.17
+2021-09-01,Suburban Cook,0.17,0.16
+2021-09-02,Suburban Cook,0.17,0.17
+2021-09-03,Suburban Cook,0.18,0.17
+2021-09-04,Suburban Cook,0.18,0.17
+2021-09-05,Suburban Cook,0.18,0.16
+2021-09-06,Suburban Cook,0.19,0.17
+2021-09-07,Suburban Cook,0.19,0.18
+2021-09-08,Suburban Cook,0.19,0.18
+2021-09-09,Suburban Cook,0.18,0.17
 2020-06-13,Chicago,0.34,0.41
 2020-06-14,Chicago,0.36,0.42
 2020-06-15,Chicago,0.37,0.44
@@ -4498,3 +4948,48 @@ date,region,beds,icu
 2021-07-24,Chicago,0.12,0.21
 2021-07-25,Chicago,0.12,0.2
 2021-07-26,Chicago,0.13,0.2
+2021-07-27,Chicago,0.13,0.2
+2021-07-28,Chicago,0.13,0.2
+2021-07-29,Chicago,0.13,0.2
+2021-07-30,Chicago,0.13,0.2
+2021-07-31,Chicago,0.13,0.21
+2021-08-01,Chicago,0.13,0.21
+2021-08-02,Chicago,0.12,0.21
+2021-08-03,Chicago,0.12,0.21
+2021-08-04,Chicago,0.12,0.21
+2021-08-05,Chicago,0.12,0.21
+2021-08-06,Chicago,0.12,0.21
+2021-08-07,Chicago,0.12,0.2
+2021-08-08,Chicago,0.12,0.19
+2021-08-09,Chicago,0.12,0.19
+2021-08-10,Chicago,0.12,0.18
+2021-08-11,Chicago,0.12,0.18
+2021-08-12,Chicago,0.12,0.17
+2021-08-13,Chicago,0.12,0.17
+2021-08-14,Chicago,0.12,0.17
+2021-08-15,Chicago,0.12,0.17
+2021-08-16,Chicago,0.12,0.18
+2021-08-17,Chicago,0.11,0.18
+2021-08-18,Chicago,0.11,0.19
+2021-08-19,Chicago,0.11,0.19
+2021-08-20,Chicago,0.11,0.19
+2021-08-21,Chicago,0.11,0.19
+2021-08-22,Chicago,0.11,0.19
+2021-08-23,Chicago,0.11,0.18
+2021-08-24,Chicago,0.11,0.18
+2021-08-25,Chicago,0.11,0.17
+2021-08-26,Chicago,0.11,0.17
+2021-08-27,Chicago,0.11,0.16
+2021-08-28,Chicago,0.11,0.15
+2021-08-29,Chicago,0.11,0.15
+2021-08-30,Chicago,0.11,0.15
+2021-08-31,Chicago,0.11,0.15
+2021-09-01,Chicago,0.11,0.16
+2021-09-02,Chicago,0.11,0.16
+2021-09-03,Chicago,0.12,0.18
+2021-09-04,Chicago,0.12,0.18
+2021-09-05,Chicago,0.12,0.19
+2021-09-06,Chicago,0.13,0.19
+2021-09-07,Chicago,0.13,0.19
+2021-09-08,Chicago,0.13,0.19
+2021-09-09,Chicago,0.13,0.19

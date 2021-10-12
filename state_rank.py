@@ -31,6 +31,7 @@ df = df.join(population, on='state')
 df['percentage'] = 0
 df = df.pivot(columns='state')
 df = df.rolling(window=window).mean()
+df = df[:-1] #last row in usually zero
 current_date = df.tail(1)['deathIncrease']['TX'].index[0]
 df['percentage'] = df['positiveIncrease'] / df['totalTestResultsIncrease']
 df['positiveIncrease'] = 1000000 * df['positiveIncrease'] / df['population']
@@ -124,6 +125,7 @@ df = df.join(population, on='state')
 df = df[~df['statename'].isnull()]
 df['percentage'] = 0
 df = df.pivot(columns='statename')
+df = df[:-1] #last row in usually zero
 df = df.rolling(window=window).mean()
 
 df['percentage'] = df['positiveIncrease'] / df['totalTestResultsIncrease']
@@ -189,11 +191,11 @@ def getmap(df, stat, statname, title, min, max):
 
 from_date = current_date - datetime.timedelta(days=window)
 getmap(df, 'percentage', 'positivity',
-       'Positive Testing % {:%m/%d}'.format(current_date), 0, .30)
+       'Positive Testing % {:%m/%d} 7 day average'.format(current_date), 0, .30)
 getmap(df, 'deathIncrease', 'deaths',
-       'Deaths per Million {:%m/%d}'.format(current_date), 0, 30)
+       'Deaths per Million {:%m/%d} 7 day average'.format(current_date), 0, 15)
 getmap(df, 'positiveIncrease', 'positive_cases',
-       'Positive Cases per Million {:%m/%d}'.format(current_date), 0, 1500)
+       'Positive Cases per Million {:%m/%d} 7 day average'.format(current_date), 0, 1500)
 
 df['percentage'] = df['positiveIncrease'] / df['totalTestResultsIncrease']
 df['percentage'] = df['percentage'].diff(periods=7)

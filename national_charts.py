@@ -8,6 +8,8 @@ import matplotlib.dates as mdates
 import matplotlib.ticker as mtick
 import matplotlib
 df = pd.read_csv('us_daily.csv', index_col=0, parse_dates=True)
+df = df[:-1] #remove last row, often zero
+
 matplotlib.rcParams['text.color'] = '#555555'
 matplotlib.rcParams['axes.labelcolor'] = '#555555'
 matplotlib.rcParams['xtick.color'] = '#555555'
@@ -132,7 +134,7 @@ plt.gca().xaxis.set_major_locator(mdates.MonthLocator(interval=1))
 plt.savefig('charts/US Hospitalization.png', bbox_inches='tight')
 plt.close()
 
-
+df = df[:-3]  #remote last two rows because often zero
 ######################################################################################
 # US Positive %
 #######################################################################################
