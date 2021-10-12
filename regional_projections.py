@@ -25,7 +25,7 @@ cfr = cfr.rolling(window=7, center=True).mean()
 cfr['percentage'] = cfr['cases'] / cfr['tests']
 print(cfr)
 lag_correlations = np.zeros(80)
-for i in range(0, 30):
+for i in range(0, 45):
     shifted = cfr['percentage'].shift(periods=i)
     corr = cfr['deaths'].corr(shifted)
     print(str(i) + ' ' + str(corr))

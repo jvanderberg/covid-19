@@ -14,6 +14,9 @@ import shapely.geometry as sgeom
 
 import cartopy.crs as ccrs
 import cartopy.io.shapereader as shpreader
+from cartopy.io.shapereader import Reader
+from cartopy.feature import ShapelyFeature
+
 
 matplotlib.rcParams['text.color'] = '#555555'
 matplotlib.rcParams['axes.labelcolor'] = '#555555'
@@ -148,6 +151,7 @@ vals[128:256, 0] = np.linspace(1, 77/256, 128)
 vals[128:256, 1] = np.linspace(0, 85/256, 128)
 vals[128:256, 2] = np.linspace(0, 1, 128)
 cmap = matplotlib.colors.ListedColormap(vals)
+shapename = './shapefiles/natural_earth/cultural/ne_110m_admin_1_states_provinces_lakes'
 
 
 def getmap(df, stat, statname, title, min, max):
@@ -157,9 +161,14 @@ def getmap(df, stat, statname, title, min, max):
 
     ax.set_extent([-122, -73.5, 22, 50], ccrs.Geodetic())
 
-    shapename = 'admin_1_states_provinces_lakes_shp'
-    states_shp = shpreader.natural_earth(resolution='110m',
-                                         category='cultural', name=shapename)
+
+
+#fname = '50m_glaciated_areas.shp'
+
+    ax = plt.axes(projection=ccrs.Robinson())
+    #states_shp = Reader(shapename)
+    #states_shp = shpreader.natural_earth(resolution='110m',
+    #                                     category='cultural', name=shapename)
 
     ax.background_patch.set_visible(False)
     ax.outline_patch.set_visible(False)
@@ -174,7 +183,7 @@ def getmap(df, stat, statname, title, min, max):
     sm = plt.cm.ScalarMappable(cmap=cmap, norm=norm)
     sm._A = []
     plt.colorbar(sm, ax=ax, shrink=0.6)
-    for astate in shpreader.Reader(states_shp).records():
+    for astate in shpreader.Reader(shapename).records():
         edgecolor = 'gray'
 
         try:
@@ -220,9 +229,9 @@ def getmap_diff(df, stat, statname, title, min, max):
 
     ax.set_extent([-122, -73.5, 22, 50], ccrs.Geodetic())
 
-    shapename = 'admin_1_states_provinces_lakes_shp'
-    states_shp = shpreader.natural_earth(resolution='110m',
-                                         category='cultural', name=shapename)
+    #shapename = 'admin_0_states_provinces_lakes_shp'
+    #states_shp = shpreader.natural_earth(resolution='110m',
+    #                                     category='cultural', name=shapename)
 
     ax.background_patch.set_visible(False)
     ax.outline_patch.set_visible(False)
@@ -240,7 +249,7 @@ def getmap_diff(df, stat, statname, title, min, max):
     sm = plt.cm.ScalarMappable(cmap=cmap, norm=norm)
     sm._A = []
     plt.colorbar(sm, ax=ax, shrink=0.6)
-    for astate in shpreader.Reader(states_shp).records():
+    for astate in shpreader.Reader(shapename).records():
         edgecolor = 'gray'
 
         try:
