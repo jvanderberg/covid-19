@@ -15,7 +15,7 @@ matplotlib.rcParams['ytick.color'] = '#555555'
 
 df = pd.read_csv('regional_hospitalization.csv', header=[
                  0, 1], index_col=0, parse_dates=True)
-df2 = pd.read_csv('state_hospitalization.csv', index_col=1, parse_dates=True)
+df2 = pd.read_csv('state_hospitalization.csv', index_col=0, parse_dates=True)
 df = df[df.index > datetime.datetime(2020, 6, 12)]
 df['icu'] = df['icu'].rolling(window=7).mean()
 df['beds'] = df['beds'].rolling(window=7).mean()
@@ -192,7 +192,7 @@ current_date = df.tail(1)['tested_7day']['Illinois'].index[0]
 plt.title('Illinois Tests Completed - ' +
           '{:%b %-d} - {:,} test per day'.format(current_date, int(current_value)))
 plt.grid(axis='y', linewidth=0.5)
-plt.ylim(0, 120000)
+plt.ylim(0, 150000)
 # Format the date into months & days
 plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%m/%d'))
 
@@ -338,17 +338,17 @@ plt.savefig('charts/Region Cases per Million.png', dpi=400)
 # State Hospitalization
 #######################################################################################
 
-df = pd.read_csv('state_hospitalization.csv', index_col=1, parse_dates=True)
-df = df[df.index > datetime.datetime(2020, 3, 1)]
+df = pd.read_csv('state_hospitalization.csv', index_col=0, parse_dates=True)
+df = df[df.index > datetime.datetime(2020,11, 1)]
 plt.figure()
 f, ax = plt.subplots(2)
 plt.box(on=None)
 ax[0].plot(df.index, df['VentilatorInUseCOVID_7day'],
-           color='#6688cc', label="Ventilator 7day", linewidth=3)
+           color='#6688cc', label="Ventilator 7day", linewidth=2)
 ax[0].plot(df.index, df['ICUInUseBedsCOVID_7day'],
-           color='#EE3333', label="ICU 7day", linewidth=3)
+           color='#EE3333', label="ICU 7day", linewidth=2)
 ax[1].plot(df.index, df['TotalInUseBedsCOVID_7day'],
-           color='#cca80a', label="COVID Patients 7day", linewidth=3)
+           color='#cca80a', label="COVID Patients 7day", linewidth=2)
 
 ax[0].set_ylim(0)
 ax[1].set_ylim(0)

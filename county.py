@@ -208,5 +208,6 @@ for column in cols:
     df[column+'_14day'] = df[column].rolling(window=14).mean()
     df[column+'_change_7day'] = df[column+'_change'].rolling(window=7).mean()
     df[column+'_change_14day'] = df[column+'_change'].rolling(window=14).mean()
-
+df = df.set_index('date')
+df = df[~df.index.duplicated(keep='first')]
 df.to_csv('state_hospitalization.csv')
