@@ -84,10 +84,9 @@ def getmap(setting, fips, df, statname, title, min, max, date):
     ax.background_patch.set_visible(False)
     ax.outline_patch.set_visible(False)
     ax.set_title(title, fontsize=setting['title_font'])
-    shapename = 'admin_1_states_provinces_lakes_shp'
-    states_shp = shpreader.natural_earth(resolution='110m',
-                                         category='cultural', name=shapename)
+    shapename = './shapefiles/natural_earth/cultural/ne_110m_admin_1_states_provinces_lakes'
 
+    
     N = 256
     vals = np.ones((N, 4))
     vals[0:29, 0] = np.linspace(76/256, 1, 29)
@@ -130,7 +129,7 @@ def getmap(setting, fips, df, statname, title, min, max, date):
         ax.add_geometries([astate.geometry], ccrs.PlateCarree(),
                           facecolor=facecolor, edgecolor=edgecolor, linewidth=0.2)
 
-    for astate in shpreader.Reader(states_shp).records():
+    for astate in shpreader.Reader(shapename).records():
 
         edgecolor = .2, .2, .2
 
@@ -164,9 +163,9 @@ end = datetime.datetime.strptime(end, '%Y-%m-%d')
 date = start
 while ((end - date).days >= 0):
     print('Starting: '+str(date))
-    getmap(setting, state_fips, counties_deaths, 'deaths',
-           'Daily Deaths per Million', 0, 40, date)
-    print('    Deaths done')
+    # getmap(setting, state_fips, counties_deaths, 'deaths',
+    #        'Daily Deaths per Million', 0, 40, date)
+    # print('    Deaths done')
     getmap(setting, state_fips, counties_confirmed, 'positive_cases',
            'Daily Positive Cases per Million', 0, 2000, date)
     print('    Cases done')

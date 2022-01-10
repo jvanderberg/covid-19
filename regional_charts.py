@@ -192,7 +192,7 @@ current_date = df.tail(1)['tested_7day']['Illinois'].index[0]
 plt.title('Illinois Tests Completed - ' +
           '{:%b %-d} - {:,} test per day'.format(current_date, int(current_value)))
 plt.grid(axis='y', linewidth=0.5)
-plt.ylim(0, 150000)
+# plt.ylim(0, 150000)
 # Format the date into months & days
 plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%-m'))
 

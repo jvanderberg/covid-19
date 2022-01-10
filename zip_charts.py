@@ -116,7 +116,7 @@ plt.ylim(0)
 plt.title('Oak Park Daily Positive cases - ' +
           '{:%b %-d} - {:0.1f} cases per day'.format(current_date, current_value))
 plt.grid(axis='y', linewidth=0.5)
-plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%m/%d'))
+plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%m'))
 
 # Change the tick interval
 plt.gca().xaxis.set_major_locator(mdates.MonthLocator(interval=1))
@@ -217,7 +217,7 @@ current_value_percentage = df.tail(1)['percentage_14day'][0]
 plt.title('Oak Park Daily Positive % - ' +
           '{:%b %-d} - {:0.1f}% positive'.format(current_date, 100 * current_value_percentage))
 plt.grid(axis='y', linewidth=0.5)
-plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%m/%d'))
+plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%m'))
 
 # Change the tick interval
 plt.gca().xaxis.set_major_locator(mdates.MonthLocator(interval=1))
@@ -242,7 +242,7 @@ plt.title('Oak Park Tests Completed - ' +
 plt.grid(axis='y', linewidth=0.5)
 plt.ylim(0)
 # Format the date into months & days
-plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%m/%d'))
+plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%m'))
 
 # Change the tick interval
 plt.gca().xaxis.set_major_locator(mdates.MonthLocator(interval=1))
@@ -280,7 +280,7 @@ current_value_60304 = df.tail(1)['percentage_14day']['60304'][0]
 plt.title('Oak Park Daily Positive % - '+'{:%b %-d} - 60301: {:0.1f}%  60302: {:0.1f}%  60304: {:0.1f}%'.format(
     current_date, 100 * current_value_60301, 100 * current_value_60302, 100 * current_value_60304))
 plt.grid(axis='y', linewidth=0.5)
-plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%m/%d'))
+plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%m'))
 
 # Change the tick interval
 plt.gca().xaxis.set_major_locator(mdates.MonthLocator(interval=1))

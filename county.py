@@ -71,18 +71,19 @@ def get_regional_breakdown(region_file):
     while ((datetime.datetime.now() - date).days >= 0):
         datestr = date.strftime('%-m/%-d/%y')
         data = county_data[datestr]
-        print(date)
         if (data == 404):
             date = date + datetime.timedelta(days=1)
 
             continue
         # pd_date = pd.to_datetime(date)
-        # print(date)
+        print(datestr)
         # if ((pd_date - datetime.datetime(2020, 3, 1)).days < 0):
         #     new_date = datetime.datetime(2021, pd_date.month, pd_date.day)
         #     date = new_date.strftime('%-m/%-d/%Y')
         #     print('BAD '+str(date))
-
+        if (datestr=='4/11/20' or datestr=="4/12/20" or datestr=="10/11/20"):
+            date = date + datetime.timedelta(days=1)
+            continue
         for county in data['characteristics_by_county']:
             table['date'].append(date)
             table['county'].append(county['CountyName'])
@@ -104,6 +105,8 @@ def get_regional_breakdown(region_file):
             table['percentage_14day'].append(0)
             table['deaths_per_million_14day'].append(0)
             table['count_per_million_14day'].append(0)
+        
+
         date = date + datetime.timedelta(days=1)
 
     df = pd.DataFrame(table)
@@ -119,11 +122,11 @@ def get_regional_breakdown(region_file):
     df2['tested'] = df2['tested'].diff(periods=1)
     df2.dropna(inplace=True)
     # Remove outliers and interpolate
-    df2.loc[abs(stats.zscore(df2['deaths']['Illinois'])) > 3] = np.nan
-    df2 = df2.interpolate().round()
-    df2.loc[abs(stats.zscore(df2['count']['Illinois'])) > 5] = np.nan
-    df2 = df2.interpolate().round()
-    df2.loc[abs(stats.zscore(df2['tested']['Illinois'])) > 5] = np.nan
+    #df2.loc[abs(stats.zscore(df2['deaths']['Illinois'])) > 8] = np.nan
+    #df2 = df2.interpolate().round()
+    #df2.loc[abs(stats.zscore(df2['count']['Illinois'])) > 8] = np.nan
+    #df2 = df2.interpolate().round()
+    #df2.loc[abs(stats.zscore(df2['tested']['Illinois'])) > 8] = np.nan
     df2 = df2.interpolate().round()
     df2['percentage'] = df2['count'] / df2['tested']
     df2['deaths_per_million'] = 1000000 * df2['deaths'] / df2['population']
@@ -153,6 +156,7 @@ get_regional_breakdown('regions.csv').to_csv('regional_all.csv')
 get_regional_breakdown('regions_north_south.csv').to_csv(
     'regional_north_south.csv')
 state = get_regional_breakdown('regions_state.csv')
+state.to_csv('state_all.csv')
 state = pd.DataFrame({'positives': state['count_7day']['Illinois'], 'deaths': state['deaths_7day']['Illinois'],
                       'tested': state['tested_7day']['Illinois'], 'percent': state['percentage_7day']['Illinois']})
 lastweek = state.tail(8)

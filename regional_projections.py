@@ -22,7 +22,7 @@ cfr = pd.DataFrame({'deaths': df['deaths']['Illinois'],
 
 cfr = cfr[cfr.index > startdate]
 cfr = cfr.rolling(window=7, center=True).mean()
-cfr['percentage'] = cfr['cases'] / cfr['tests']
+cfr['percentage'] = cfr['cases'] #/ cfr['tests']
 print(cfr)
 lag_correlations = np.zeros(80)
 for i in range(0, 45):
